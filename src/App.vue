@@ -1,19 +1,19 @@
 <template>
   <v-app>
-    <header/>
+    <Header />
     <v-content>
-      <router-view/>
+      <router-view />
     </v-content>
   </v-app>
 </template>
 
 <script>
-import header from "./components/header.vue";
+import Header from "./components/header.vue";
 
 export default {
   name: "App",
   components: {
-    header
+    Header
   },
   data() {
     return {

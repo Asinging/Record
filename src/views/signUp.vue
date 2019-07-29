@@ -1,7 +1,7 @@
 <template>
   <v-layout justify-center>
     <v-flex xs12 sm10 md8 lg6>
-      <v-card ref="form">
+      <v-card ref="form" class="mt-3">
         <v-card-text>
           <v-text-field
             ref="fname"
@@ -51,7 +51,7 @@
         </v-card-text>
         <v-divider class="mt-12"></v-divider>
         <v-card-actions>
-          <v-btn text>Cancel</v-btn>
+          <v-btn text @click="resetForm">Cancel</v-btn>
           <v-spacer></v-spacer>
           <v-slide-x-reverse-transition>
             <v-tooltip v-if="formHasErrors" bottom>
@@ -63,9 +63,7 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <v-btn color="primary" text="true">
-            <router-link to="./login">Submit</router-link>
-          </v-btn>
+          <v-btn color="secondary" text="true" @click="submit">Submit</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -114,10 +112,18 @@ export default {
     },
     submit() {
       this.formHasErrors = false;
-
       Object.keys(this.form).forEach(f => {
         if (!this.form[f]) {
           this.formHasErrors = true;
+        } else {
+          (async () => {
+            const response = await axios({
+              url: "https://dog.ceo/api/breeds/list/all",
+              method: "get"
+            });
+
+            console.log(response);
+          })();
         }
 
         this.$refs[f].validate(true);

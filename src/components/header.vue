@@ -1,52 +1,51 @@
 <template>
   <div id="inspire">
-    <v-navigation-drawer v-model="drawer" dark fixed app class="indigo lighten-4" width="270px">
-      <v-list dense>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon color="blue" class="ma-0">home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="black--text">Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action ripple>
-            <v-icon color="blue">home</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="black--text">Home</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
-        <v-list-tile>
-          <v-list-tile-action>
-            <v-icon color="blue">contact_mail</v-icon>
-          </v-list-tile-action>
-          <v-list-tile-content>
-            <v-list-tile-title class="black--text">Contact</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+    <v-navigation-drawer v-model="drawer" fixed app width="250px">
+      <v-sheet height="70px">
+        <v-img :src="`./img/devImages/bible1.jpg`" height="70"></v-img>
+      </v-sheet>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item-group v-model="model">
+          <v-list-item v-for="(item, i) in items" :key="i">
+            <v-list-item-icon>
+              <v-icon v-text="item.icon"></v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title v-text="item.text"></v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
-    <v-toolbar dark color="indigo  " fixed app height="70px">
-      <v-toolbar-side-icon @click="drawer =!drawer"></v-toolbar-side-icon>
-      <v-toolbar-title>HOWORDOG</v-toolbar-title>
+    <v-toolbar dark color="indigo" fixed app>
+      <v-navigation-drawer-icon @click="drawer =!drawer">
+        <v-icon class="mr-3 mt-0" dark>menu</v-icon>
+      </v-navigation-drawer-icon>
+      <v-toolbar-title class="mt-1 right">HOWORDOG</v-toolbar-title>
       <v-spacer></v-spacer>
-      <router-link to: = "./signUp" ripple>
-      <v-sheet color="indigo" >
-        <v-icon class="pr-2" medium>person</v-icon>
-        <v-tile class="mt-0 login">LOGIN</v-tile>
+      <v-sheet color="indigo" ripple>
+        <router-link to="./login">
+          <v-icon class="pr-2 mt-0" medium>person</v-icon>
+          <span class="mt-5 login" style="font-size:16px" mt-2>LOGIN</span>
+        </router-link>
       </v-sheet>
-      </router-link>
     </v-toolbar>
   </div>
 </template>
-
  <script>
 export default {
-  data: () => ({
-    drawer: null
-  }),
+  data() {
+    return {
+      drawer: null,
+      model: 1,
+      items: [
+        { icon: "home", text: "Churches" },
+        { icon: "person", text: "MOG" },
+        { icon: "book", text: "Messages" }
+      ]
+    };
+  },
   props: {
     source: String
   }
@@ -56,9 +55,5 @@ export default {
 .customIconsDesign {
   color: red;
   background: blue;
-}
-.login {
-  font-family:rockell-condense;
-  font-size: 20px;
 }
 </style>

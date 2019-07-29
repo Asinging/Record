@@ -12,6 +12,7 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import '@fortawesome/fontawesome-free/css/all.css'
 import Footer from "./components/footer.vue";
 Vue.config.productionTip = false
+import vuetify from "@/plugins/vuetify"
 // Vue.use(Vuetify, {
 //   iconfont: 'md'
 
@@ -21,6 +22,7 @@ Vue.config.productionTip = false
 new Vue({
   router,
   store,
+  vuetify,
   components: {
     Footer
   },

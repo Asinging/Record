@@ -33,6 +33,11 @@ export default new Router({
       path: "/test",
       name: "test",
       components: () => import('./views/test.vue')
+    },
+    {
+      path: "/test1",
+      name: "test1",
+      components: () => import('./views/test.json')
     }
   ]
 });

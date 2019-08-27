@@ -2,7 +2,7 @@
   <div id="inspire">
     <v-navigation-drawer v-model="drawer" fixed app width="250px">
       <v-sheet height="70px">
-        <v-img :src="`./img/devImages/bible1.jpg`" height="70"></v-img>
+        <v-img :src="`./img/devImages/kmiP.jpg`" height="70"></v-img>
       </v-sheet>
       <v-divider></v-divider>
       <v-list>

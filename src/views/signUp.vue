@@ -63,7 +63,7 @@
               <span>Refresh form</span>
             </v-tooltip>
           </v-slide-x-reverse-transition>
-          <v-btn color="secondary" text="true" @click="submit">Submit</v-btn>
+          <v-btn color="secondary" @click="submit">Submit</v-btn>
         </v-card-actions>
       </v-card>
     </v-flex>
@@ -73,12 +73,12 @@
 export default {
   data: () => ({
     errorMessages: "",
-    fname: null,
-    lname: null,
-    email: null,
-    password: null,
-    repassword: null,
-    formHasErrors: false
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    repassword: "",
+    formHasErrors: ""
   }),
 
   computed: {
@@ -111,23 +111,36 @@ export default {
       });
     },
     submit() {
+      var firstName = this.fname;
+      var signUpDetails = {
+        firstName: this.fname,
+        lastName: this.lname,
+        email: this.email,
+        password: this.password,
+        rePassword: this.repassword
+      };
+      console.log(firstName);
       this.formHasErrors = false;
+
       Object.keys(this.form).forEach(f => {
         if (!this.form[f]) {
           this.formHasErrors = true;
         } else {
-          (async () => {
-            const response = await axios({
-              url: "https://dog.ceo/api/breeds/list/all",
-              method: "get"
-            });
-
-            console.log(response);
-          })();
+          this.$refs[f].validate(true);
         }
-
-        this.$refs[f].validate(true);
       });
+      async function axiosInAction() {
+        try {
+          const response = await axios.get("http://localhost:1337/insertdb", {
+            params: signUpDetails
+          });
+          console.log("this is the response" + " " + response);
+        } catch (error) {
+          console.log(error);
+        }
+        console.log(signUpDetails.firstName);
+      }
+      axiosInAction();
     }
   }
 };

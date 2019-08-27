@@ -33,10 +33,11 @@ export default {};
 </script> 
 
  
-<style scopte>
+<style scope>
 .control_cards {
   font-size: 20px;
   color: white;
   font-family: rockwell-condense;
 }
 </style>
+u

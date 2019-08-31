@@ -1,17 +1,23 @@
 import Vue from 'vue'
-import Vuetify from 'vuetify'
+import Vuetify from 'vuetify/'
 import 'vuetify/dist/vuetify.min.css'
+import 'material-design-icons-iconfont/dist/material-design-icons.css'
+//import '@mdi/font/css/materialdesignicons.css'
 
 
 Vue.use(Vuetify)
 
-export default new Vuetify()
+export default new Vuetify({
 
-Vue.use(Vuetify, {
+  iconfont: ' fa',
+
+
+
+
   theme: {
     themes: {
       light: {
-        primary: '#1E88E5',
+        primary: '#F8A300',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',
@@ -20,8 +26,8 @@ Vue.use(Vuetify, {
         warning: '#FFC107'
 
       },
-      dark :{
-        primary: '#1E88E5',
+      dark: {
+        primary: '#F8A300',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',
@@ -32,5 +38,10 @@ Vue.use(Vuetify, {
     }
 
   },
-  iconfont: 'fa',
+
+
+
+  theme: {
+    light: true
+  }
 })

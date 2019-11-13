@@ -9,7 +9,7 @@ Vue.use(Vuetify)
 
 export default new Vuetify({
 
-  iconfont: ' fa',
+  iconfont: ' mdi',
 
 
 
@@ -17,7 +17,7 @@ export default new Vuetify({
   theme: {
     themes: {
       light: {
-        primary: '#F8A300',
+        primary: '#4CAF50',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',
@@ -27,7 +27,7 @@ export default new Vuetify({
 
       },
       dark: {
-        primary: '#F8A300',
+        primary: '#4CAF50',
         secondary: '#424242',
         accent: '#82B1FF',
         error: '#FF5252',

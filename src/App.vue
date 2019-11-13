@@ -1,26 +1,22 @@
 <template>
-  <v-app light>
+  <v-app>
     <Header />
-    <v-content>
-      <router-view />
+    <v-content transition="slide-x-transition">
+      <router-view></router-view>
     </v-content>
   </v-app>
 </template>
 <script>
 import Header from "./components/header.vue";
-import Home from "/Home.vue";
 
 export default {
   name: "App",
   components: {
-    Header,
-    Home
+    Header
   },
   data() {
-    return {
-      message: ""
-      //
-    };
+    return {};
   }
 };
 </script>
+

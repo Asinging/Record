@@ -65,12 +65,12 @@
       <v-layout>
         <v-flex xs12>
           <v-Button :clickFnc="cancel">
-            <template #btn="slotProps">cancel</template>
+            <template #btn>cancel</template>
           </v-Button>
         </v-flex>
         <v-flex xs5 offset-lg8 offset-xs1>
           <v-Button :clickFnc="submit">
-            <template #btn="slotProps">sumbit</template>
+            <template #btn>sumbit</template>
           </v-Button>
         </v-flex>
       </v-layout>
@@ -85,6 +85,7 @@ export default {
   },
   data() {
     return {
+      slotProps: "",
       offering: "",
       tithe: "",
       thanksGiving: "",
@@ -117,7 +118,7 @@ export default {
     cancel() {
       this.$router.push({
         //path: `${this.$store.getters.getFromRoute}`
-        name: "FinancialRecords"
+        name: `${localStorage.getItem("htmlNodeText")}`
       });
     },
     submit() {

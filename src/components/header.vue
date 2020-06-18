@@ -1,6 +1,6 @@
 <template>
   <div id="inpired">
-    <v-navigation-drawer app v-model="drawer" temporary width="340">
+    <v-navigation-drawer app v-model="drawer" temporary width="317">
       <template v-slot:prepend>
         <v-layout>
           <v-flex offset-xs1></v-flex>
@@ -9,7 +9,7 @@
           </div>
 
           <!-- <v-spacer></v-spacer> -->
-          <v-list-item class="ma-12 mb-4">
+          <v-list-item class="ma-12 mb-4 pr-3">
             <v-list-item-content>
               <v-list-item-title class="side_bar_title">RECORD'S HANDY</v-list-item-title>
             </v-list-item-content>
@@ -20,54 +20,88 @@
       <v-divider></v-divider>
 
       <v-list dense shaped>
-        <v-list-item @click>
+        <v-list-item @click="drawer = !drawer">
           <v-list-item-icon>
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title class="subtitle-1 side_bar_item" @click="drawer = !drawer">
-            <router-link to="./" class="anchors" >Home</router-link>
-          </v-list-item-title>
+          <v-list-item-title class="subtitle-1 side_bar_item" @click="routerLink($event)">Home</v-list-item-title>
         </v-list-item>
 
         <!-- the leadership column starts here -->
 
-        <v-list-group prepend-icon="person" value="first" v-model="lead">
-          <template v-slot:activator>
-            <v-list-item-title class="subtitle-1 side_bar_item" @click="runFnc(lead)">Leadership</v-list-item-title>
-          </template>
-          <!-- <divider></divider> -->
-          <v-list-item v-for="(item, index) in leadership" :key="index" @click>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.leader }}</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon color="green">{{ item.icon }}</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-        </v-list-group>
-        <template v-if="lead">
-          <v-divider></v-divider>
-        </template>
-
-        <!-- the records column starts here -->
-
-        <v-list-group prepend-icon="mdi mdi-animation-outline" value="test" v-model="rec">
+        <v-list-group prepend-icon="person" value="first" v-model="leadership">
           <template v-slot:activator>
             <v-list-item-title
               class="subtitle-1 side_bar_item"
-              ghgfdsdfgv
-              @click="runFnc(rec)"
-            >Records</v-list-item-title>
+              @click="runFnc(leadership)"
+            >Leadership</v-list-item-title>
+          </template>
+          <!-- <divider></divider> -->
+
+          <!-- <v-list-item v-for="(item, pastor) in leadershipRecords" :key="pastor" @click="routerLink($event)">
+            <v-list-item-content>
+              <v-list-item-title @click="routerLink($event)" >item.leader</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="green">item.icon</v-icon>
+            </v-list-item-icon>
+          </v-list-item>-->
+          <v-list-item
+            v-for="(item, pastor) in leadershipRecords"
+            :key="pastor"
+            @click="routerLink($event)"
+          >
+            <v-list-item-content>
+              <v-list-item-title color="green" ref="item">{{item.leader}}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="green">{{item.icon}}</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+          <!-- <v-list-item @click>
+            <v-list-item-content>
+              <v-list-item-title @click="routerLink($event)" ref="Ministers">Ministers</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="green">mdi mdi-account-child</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+          <v-list-item @click>
+            <v-list-item-content>
+              <v-list-item-title
+                @click="routerLink($event)"
+                ref="headOfDepartments"
+              >head of Departments</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="green">mdi mdi-account-group</v-icon>
+            </v-list-item-icon>
+          </v-list-item>-->
+        </v-list-group>
+        <template v-if="leadership">
+          <v-divider></v-divider>
+        </template>
+        <!-- the leadership column starts here -->
+
+        <!-- the records column starts here -->
+
+        <v-list-group prepend-icon="mdi mdi-animation-outline" value="test" v-model="records">
+          <template v-slot:activator>
+            <v-list-item-title class="subtitle-1 side_bar_item" @click="runFnc(records)">Records</v-list-item-title>
           </template>
 
-          <v-list-group sub-group value="true" v-model="fin">
+          <v-list-group sub-group value="true" v-model="finances">
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runfnc=(fin)">Financial record</v-list-item-title>
+                <v-list-item-title @click="runfnc=(finances)">Financial record</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(item, kk) in finRec" :key="kk" @click>
+            <v-list-item
+              v-for="(item, kk) in financialRecords"
+              :key="kk"
+              @click="routerLink($event)"
+            >
               <v-list-item-content>
                 <v-list-item-title color="green">{{ item.giving }}</v-list-item-title>
               </v-list-item-content>
@@ -76,17 +110,21 @@
               </v-list-item-icon>
             </v-list-item>
           </v-list-group>
-          <template v-if="fin">
+          <template v-if="finances">
             <v-divider></v-divider>
           </template>
 
-          <v-list-group sub-group value="test" v-model="att">
+          <v-list-group sub-group value="tet" v-model="attendance">
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runFnc(att)">Attendance Record</v-list-item-title>
+                <v-list-item-title @click="runFnc(attendance)">Attendance Record</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(item, kk) in attenRec" :key="kk">
+            <v-list-item
+              v-for="(item, kk) in attendanceRecords"
+              :key="kk"
+              @click="routerLink($event)"
+            >
               <v-list-item-content>
                 <v-list-item-title color="green">{{item.timers}}</v-list-item-title>
               </v-list-item-content>
@@ -96,17 +134,17 @@
               </v-list-item-icon>
             </v-list-item>
           </v-list-group>
-          <template v-if="att">
+          <template v-if="attendance">
             <v-divider></v-divider>
           </template>
 
-          <v-list-group sub-group value="test" v-model="me">
+          <v-list-group sub-group value="test" v-model="members">
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runFnc(me)">Members</v-list-item-title>
+                <v-list-item-title @click="runFnc(members)">Members</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(item, kk) in memb" :key="kk" @click>
+            <v-list-item v-for="(item, kk) in membership" :key="kk" @click>
               <v-list-item-content>
                 <v-list-item-title color="green">{{item.comers}}</v-list-item-title>
               </v-list-item-content>
@@ -116,10 +154,11 @@
             </v-list-item>
           </v-list-group>
         </v-list-group>
-        <template v-if="rec">
+        <template v-if="records">
           <v-divider></v-divider>
         </template>
-
+        <!-- the records column stop here -->
+        <!-- the calender column start here -->
         <v-list-item @click>
           <v-list-item-icon>
             <v-icon>mdi-calendar-month</v-icon>
@@ -127,10 +166,11 @@
 
           <v-list-item-title class="subtitle-1">Calendar</v-list-item-title>
         </v-list-item>
-
-        <v-list-group prepend-icon="mdi mdi-animation" color="yellow" value="true" v-model="ev">
+        <!-- the calender column stops -->
+        <!-- the events column stops here -->
+        <v-list-group prepend-icon="mdi mdi-animation" color="yellow" value="true" v-model="events">
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1" @click="runFnc(ev)">Events</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(events)">Events</v-list-item-title>
           </template>
           <v-list-item @click>
             <v-list-item-icon>
@@ -139,12 +179,13 @@
             <v-list-item-title>Birthdays</v-list-item-title>
           </v-list-item>
         </v-list-group>
+        <!-- the events column stops here -->
       </v-list>
     </v-navigation-drawer>
 
     <!-- toolbar -->
     <v-card>
-      <v-toolbar color="orange" text dense height="85" flat outlined>
+      <v-toolbar color="orange" text dense height="85" flat fixed>
         <v-app-bar-nav-icon @click.stop="drawer =!drawer" color="white"></v-app-bar-nav-icon>
         <!-- ? <template v-slot:prepend></template> -->
         <v-toolbar-title class="white-=text text-center">
@@ -154,7 +195,7 @@
 
         <!-- sign up  -->
 
-        <v-flex xs2 sm2 lg2>
+        <v-flex xs2 sm2 lg1>
           <v-layout>
             <v-row>
               <v-icon class color="white" ripple="6">person</v-icon>
@@ -171,26 +212,25 @@
 
     <v-layout>
       <v-flex xs12 md12 lg12>
-        <v-sheet class="align-content-center mt-0 pt-2" height="100">
+        <v-sheet class="align-content-center mt-0 pt-5" height="100">
           <v-layout>
             <v-flex xs6 md4 lg6>
-              <i class="mt-3" width="10">
+              <i class="mt-3 pa-2" width="10" color="orange">
                 <img src="img/devImages/newKmiP.jpg" height="55" width="50" />
               </i>
             </v-flex>
 
-            <v-flex xs12 md4 lg12>
+            <v-flex xs12 md4 lg8>
               <span
                 class="pa-0 mb-1"
                 color="orange--text"
                 style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
-              >KINGDOM MOVEMENT</span>
-              <v-flex offset-xs1>
-                <span
-                  class="mt-0"
-                  style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
-                >INTERNATIONAL</span>
-              </v-flex>
+              >
+                KINGDOM MOVEMENT
+                <p
+                  style="color:#436609; font-family:verdana;  font-weight:bold; font-size:15px; padding-left:20px"
+                >INTERNATIONAL</p>
+              </span>
             </v-flex>
           </v-layout>
         </v-sheet>
@@ -239,26 +279,31 @@
 
 <script>
 //import HomePage from "./homePage.vue";
+import { concatInnerHtml } from "../helper.js";
 export default {
   components: {
     //HomePage
   },
   data() {
     return {
-      drawer: false,
+      rout: "",
+      drawer: true,
       listGroup: 0,
       // test1: true,
-      lead: false,
-      rec: false,
-      att: false,
-      ev: false,
-      me: false,
-      fin: false,
+      leadership: false,
+      records: false,
+      attendance: false,
+      events: false,
+      members: false,
+      finances: false,
+      home: false,
+      NODEName: "",
+      htmlElement: "",
 
-      leadership: [
+      leadershipRecords: [
         { icon: "mdi mdi-account-tie", leader: "Pastors" },
-        { icon: "mdi mdi-account-child", leader: "ministers" },
-        { icon: "mdi mdi-account-group", leader: "Head of Departments" }
+        { icon: "mdi mdi-account-child", leader: "Ministers" },
+        { icon: "mdi mdi-account-group", leader: "Head Of Departments" }
       ],
 
       medRecords: [
@@ -266,26 +311,101 @@ export default {
         { icon: "group", record: "Attendance Record" },
         { icon: "group", record: "membership Record" }
       ],
-      attenRec: [
+      attendanceRecords: [
         { icon: "mdi-walk", timers: "First Timers" },
         { icon: "mdi-human-handsup", timers: "Second Timers" }
       ],
-      finRec: [
-        { icon: "mdi-currency-ngn", giving: "Offering" },
-        { icon: "mdi-coffee", giving: "Tithe" },
-        { icon: "mdi-gift", giving: "thanks Giving" },
-        { icon: "mdi-wallet-giftcard", giving: "special honor" }
+      financialRecords: [
+        { icon: "mdi-currency-ngn", giving: "Financial Records" }
+        // { icon: "mdi-coffee", giving: "Tithe" },
+        // { icon: "mdi-gift", giving: "thanks Giving" },
+        // { icon: "mdi-wallet-giftcard", giving: "special honor" }
       ],
-      memb: [
+      membership: [
         { icon: "mdi-account-check", comers: "Regular members" },
         { icon: "mdi-transit-transfer", comers: "Irregular members" }
       ]
     };
   },
+  mounted() {
+    this.$store.dispatch("removeBranchCode");
+    //console.log(`this is branchCode ${this.$store.getters.getCode}`);
+    //localStorage.removeItem("branchCode");kmlklk
+  },
   methods: {
+    // setCharAt(str, index, charToReplace) {
+    //   return str.substring(0, index) + charToReplace + str.substring(index + 1);
+    // },
     runFnc(param) {
-      return !param, console.log(param);
-      //console.log(param);
+      return !param;
+    },
+    routerLink() {
+      function setCharAt(str, index, charToReplace) {
+        return (
+          str.substring(0, index) + charToReplace + str.substring(index + 1)
+        );
+      }
+      //dynamic router name assigned
+
+      this.htmlElement = event.target.innerText;
+      let htmlElement = this.htmlElement;
+      //dispatching this innerHtml value to store
+      htmlElement = htmlElement.toLowerCase();
+      htmlElement.trim();
+      //console.log(htmlElement);
+      //searches for a space in the string
+
+      let extractedText = ""; // to extract first word from the html element if too long
+      if (htmlElement.indexOf(" ") >= 0) {
+        //this.$store.dispatch("htmlNodeText", "heads");
+        let counter = 0;
+        for (let i = 1; i <= htmlElement.length; i++) {
+          counter++;
+          if (htmlElement.charAt(i) == " ") {
+            console.log(i);
+            if (extractedText == "") {
+              extractedText = htmlElement.substr(0, counter);
+              localStorage.setItem("extractedText", extractedText);
+              //console.log(htmlElement, extractedText, counter)
+            }
+            i++;
+
+            let replaceText = htmlElement.charAt(i).toUpperCase();
+            // console.log(replaceText)
+            htmlElement = setCharAt(htmlElement, i, replaceText);
+            // console.log(replaceText)
+            //   htmlElement = htmlElement.replace(
+            //     `${htmlElement.charAt(i)}`,
+            //     `${replaceText}`
+            //   );
+            //  ;
+            //    console.log(i)
+            i--;
+          }
+        }
+
+        // replace the innerHTML string with string that has no space
+        htmlElement = htmlElement.replace(/ /g, "");
+        console.log(htmlElement);
+        localStorage.setItem("htmlNodeText", htmlElement);
+      } else {
+        //console.log(htmlElement);
+        //htmlElement = htmlElement.toLocaleLowerCase();
+        localStorage.setItem("htmlNodeText", htmlElement);
+        // this.$store.dispatch("htmlNodeText", htmlElement);
+      }
+      // using store for my htmlElement
+
+      // this.NODEName = this.$store.getters.getHtmlElement;
+      // console.log(this.NODEName);
+      // Object.keys(this.$refs).forEach(ele => {
+      // if (Array.isArray(this.$refs)) {
+      // }
+      console.log(htmlElement);
+      this.$router.push({
+        name: `${htmlElement}`
+      });
+      // });
     }
   }
 };

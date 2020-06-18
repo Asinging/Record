@@ -59,27 +59,17 @@
           ></v-text-field>
         </v-card-text>
         <v-divider class="mt-12"></v-divider>
-        <v-card-actions>
-          <v-btn @click="cancel()" class="btn" color="orange" text>Cancel</v-btn>
-          <v-spacer></v-spacer>
-          <v-slide-x-reverse-transition>
-            <v-tooltip v-if="formHasErrors" bottom>
-              <template v-slot:activator="{ on }">
-                <v-btn icon class="my-0" color="orange" @click="resetForm" v-on="on">
-                  <v-icon>refresh</v-icon>
-                </v-btn>
-              </template>
-              <span>Refresh form</span>
-            </v-tooltip>
-          </v-slide-x-reverse-transition>
-          <v-btn class="btn" color="orange" text @click="submit">Submit</v-btn>
-        </v-card-actions>
+        <SubmitButtons />
       </v-card>
     </v-flex>
   </v-layout>
 </template>
 <script>
+import SubmitButtons from "../../components/submissionButtons.vue";
 export default {
+  components: {
+    SubmitButtons
+  },
   data() {
     return {
       formHasErrors: "",
@@ -88,7 +78,8 @@ export default {
       lname: "",
       email: "",
       password: "",
-      repassword: ""
+      repassword: "",
+      loadingEffect: false
     };
   },
 
@@ -130,19 +121,20 @@ export default {
       });
 
       // axios request
-
-      async function axiosInAction() {
-        try {
-          const res = await axios.post("http://localhost:1337/insertdb", {
-            params: signUpDetails
-          });
-          console.log("this is the response" + " " + res);
-        } catch (error) {
-          console.log(error);
+      if (!this.formHasErrors) {
+        this.loadingEffect = true;
+        async function axiosInAction() {
+          try {
+            const res = await axios.get("http://localhost:1337/insertdb", {
+              params: signUpDetails
+            });
+            console.log("this is the response" + " " + res);
+          } catch (error) {
+            console.log(error);
+          }
         }
-    
+        axiosInAction();
       }
-      axiosInAction();
     }
   }
 };

@@ -1,20 +1,13 @@
+
+
+
+
 <template>
   <v-content>
-    <v-container>
-      <v-sheet class="pa-3" height="200">
-        <div class="branchField">
-          <v-text-field label="Branch code"></v-text-field>
-        </div>
-
-        <div id="branchIcon">
-          <v-icon>vpn_key</v-icon>
-        </div>
-
-        <v-sheet ripple="10" class="proceedDiv" color="orange">
-          proceed
-          <v-icon color="white" class="proceedIcon">trending_flat</v-icon>
-        </v-sheet>
-      </v-sheet>
+    <v-container fluid>
+      <v-card height="300">
+        <p>THE DATA YOU REQUESTED FOR SEAMS EMPTY TRY ADD TO RECORD OR REFRESH TO MAKE A FRESH REQUEST</p>
+      </v-card>
     </v-container>
   </v-content>
 </template>
@@ -22,7 +15,9 @@
 export default {
   data() {
     return {};
-  }
+  },
+
+  methods: {}
 };
 </script>
 <style scoped>
@@ -57,5 +52,10 @@ export default {
   text-align: right;
   margin-bottom: 30px;
   margin-right: 20px;
+}
+.holder {
+  text-align: center;
+  align-content: center;
+  margin-left: 30px;
 }
 </style>

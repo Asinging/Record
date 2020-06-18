@@ -16,9 +16,10 @@
           <v-text-field
             color="green"
             ref="department"
+            :disabled="validated"
             v-model="department"
             :rules="[
-            () => !!department || 'department field must nto be empty']"
+            () => !!department || 'department field must not be empty']"
             label="department"
             required
             class="mb-5"
@@ -28,7 +29,7 @@
             ref="phone"
             v-model="phone"
             :rules="[
-            () => !!phone || 'phone field must nto be empty']"
+            () => !!phone || 'phone field must not be empty']"
             label="phone"
             type="number"
             required
@@ -39,7 +40,7 @@
             ref="dateOfBirth"
             v-model="dateOfBirth"
             :rules="[
-            () => !!dateOfBirth || 'Date of Birth field must nto be empty']"
+            () => !!dateOfBirth || 'Date of Birth field must not be empty']"
             label="Date of Birth"
             required
             class="mb-5"
@@ -50,14 +51,12 @@
             <v-layout>
               <v-flex xs10>
                 <span>
-                  <router-link to="./pastors">
-                    <v-btn class="mt-2" color="orange" text>cancel</v-btn>
-                  </router-link>
+                  <v-btn class="mt-2" color="orange" text @click="cancel">cancel</v-btn>
                 </span>
               </v-flex>
               <v-flex xs1>
                 <span>
-                  <v-btn class="mt-2" color="orange" text @click="submit">Submit</v-btn>
+                  <v-btn class="mt-2" color="orange" text @click=" submit">Submit</v-btn>.
                 </span>
               </v-flex>
             </v-layout>
@@ -71,13 +70,32 @@
 export default {
   data() {
     return {
+      validated: false,
       fullName: "",
       department: "",
       phone: "",
       dateOfBirth: "",
-
-      formHasError: false
+      prevRoute: "this the previous route",
+      formHasError: false,
+      url: "",
+      leader: ""
     };
+  },
+  beforeRouteEnter(to, from, next) {
+    next(vm => {
+      from;
+      vm.prevRoute = from;
+
+      vm.$store.dispatch("route", { route: vm.prevRoute.name });
+    });
+  },
+  watch: {
+    department() {
+      if (this.leader == "ministers") {
+        this.department = "Ministry";
+        this.validated = true;
+      }
+    }
   },
 
   computed: {
@@ -90,8 +108,31 @@ export default {
       };
     }
   },
+  mounted() {
+    //console.log(this.$prevRoute.path);
+    // if (this.prevRoute.name == "ministers") {
+    //   console.log(this);
+    //   this.department = "minister";
+    // }
+    // this.leader = this.$store.getters.getHtmlElementClicked;
+    this.leader = localStorage.getItem("htmlNODEText");
+  },
   methods: {
+    cancel() {
+      //just incase the value in the store does not holds
+      // if (this.$store.getters.getFromRoute) {
+      this.$router.push({
+        path: `${this.$store.getters.getFromRoute}`
+      });
+      // } else {
+      //   this.$router.push({
+      //     path: `${localStorage.getItem("prevRoute")}`
+      //   });
+      // }
+    },
     submit() {
+      this.prevRoute.name;
+      // console.log(this.prevRoute.name);
       let fullName = this.fullName;
       let department = this.department;
       let phone = this.phone;
@@ -101,16 +142,26 @@ export default {
 
       Object.keys(this.form).forEach(f => {
         if (!this.form[f]) {
-          alert("this form has gbegeh");
+          this.$swal({
+            text: `${f} field must not be exmpty`
+          });
           this.formHasError = true;
         }
         this.$refs[f].validate(true);
       });
 
       if (!this.formHasError) {
+        // let element = this.prevRoute.name.toLowerCase().slice(0, -1);
+        let element = this.leader.toLowerCase();
+        let combinUrl = `add${element}`;
+        //console.log(this.leader, combinUrl);
+        // this.url = combinUrl;
+        // let requestUrl = this.url;
+
         axios
           .get(
-            "http://localhost:1337/membersInsert",
+            "http://localhost:1337/" + combinUrl,
+
             {
               params: {
                 fullName: fullName,
@@ -127,10 +178,8 @@ export default {
             }
           )
           .then(response => {
-            console.log(response.data);
             if (response !== undefined) {
-              alert("i don bring d stuff");
-              this.$router.push("./pastors");
+              this.$router.push(`./${this.prevRoute.name}`);
               //this.$router.push("/addpastor.vue");
               //els;
             }

@@ -1,0 +1,61 @@
+p {
+    /* It doesn't matter what this is set to, it just matters that it
+     * IS SET, so it can be accessed in JS. This is the standard browser
+     * value, at least for Firefox.
+     */
+    line-height: 1.2;
+}
+
+.footnote {
+    text-decoration: none;
+    color: black;
+}
+
+.footnote-block {
+    position: absolute;
+    /* Long footnotes tend to overflow out of the page. This tells them to kindly not. */
+    margin-right: inherit;
+    /* bottom position will be figured out via some dynamic JS wizardry. */
+}
+
+.footnote-hr {
+    width: 300px;
+    margin-left: 0;
+}
+
+.header-table {
+    width: 100%;
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+.page {
+    border: 1px solid black;
+    margin: auto;
+    margin-top: 10px;
+    position: relative;
+}
+
+.page-content {
+    padding-bottom: 2.5rem;
+}
+
+#footer, #first-page-footer {
+
+    position: absolute;
+    bottom: 0;
+    right: inherit;
+    height: 2.5rem;
+}
+
+@page {
+    margin: 0px;
+}
+
+@media print {
+    .page {
+        border: 1px solid transparent;
+        page-break-after: always;
+    }
+}

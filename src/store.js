@@ -85,7 +85,7 @@ export default new Vuex.Store({
     // leaderName(state) {
     //   return state.NODEName
     // },
-    searchedResult(state) {
+    serverResponse(state) {
       return state.searchedServerResponse
     }
   }

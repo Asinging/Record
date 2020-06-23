@@ -6,7 +6,7 @@
     <v-layout>
       <v-flex offset-xs7>
         <v-Button :clickFnc="addRecord">
-          <template #btn="slotProps">add to record</template>
+          <template #btn>add to record</template>
         </v-Button>
       </v-flex>
     </v-layout>

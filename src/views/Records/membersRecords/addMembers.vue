@@ -9,7 +9,7 @@
             ref="fullName"
             v-model="fullName"
             :rules="[
-            () => !!fullName|| 'name is empty']"
+            () => !!fullName|| 'E-mail must be valid']"
             label="Full Name"
             required
           ></v-text-field>
@@ -45,37 +45,7 @@
             required
             class="mb-5"
           ></v-text-field>
-          <!-- <v-text-field
-            v-if="caders"
-            color="green"
-            ref="timelyComing"
-            v-model="timelyComing"
-            label="are you a firstTimer, secondTimer, indicate pls"
-            class="mb-5"
-     
-          <!-- </v-text-field>-->
-          <v-text-field
-            color="green"
-            ref="address"
-            v-model="address"
-            label="Where do you reside"
-            class="mb-5"
-          ></v-text-field>
-          <v-text-field
-            v-if="caders"
-            color="green"
-            ref="dateOfService"
-            v-model="dateOfService"
-            label="Date of Service"
-            class="mb-5"
-          ></v-text-field>
-          <span v-if="caders">
-            <v-p color="gray">pls ignore if you are member</v-p>
-            <v-radio-group v-model="timelyComing" row>
-              <v-radio label="First Timer" color="orange" value="first"></v-radio>
-              <v-radio label="Second Timer" color="orange" value="second"></v-radio>
-            </v-radio-group>
-          </span>
+
           <v-divider height="100"></v-divider>
           <div>
             <v-layout>
@@ -101,19 +71,14 @@ export default {
   data() {
     return {
       validated: false,
-      timelyComing: "",
-      dateOfService: "",
       fullName: "",
       department: "",
       phone: "",
       dateOfBirth: "",
-      address: "",
       prevRoute: "this the previous route",
       formHasError: false,
       url: "",
-      caders: false,
-      serverResponse: [],
-      serverRequest: {}
+      leader: ""
     };
   },
   beforeRouteEnter(to, from, next) {
@@ -139,66 +104,71 @@ export default {
         fullName: this.fullName,
         department: this.department,
         phone: this.phone,
-        dateOfBirth: this.dateOfBirth,
-        timelyComing: this.timelyComing,
-        dateOfService: this.dateOfService,
-        address: this.address
+        dateOfBirth: this.dateOfBirth
       };
     }
   },
   mounted() {
-    this.prevRoute = this.$store.getters.getFromRoute;
-    console.log(this.prevRoute);
-    //this.cader = localStorage.getItem("extractedText");
-    this.leader = localStorage.getItem("htmlNodeText");
-
-    if (this.leader.trim() == "members") {
-      this.caders = true;
-    }
+    //console.log(this.$prevRoute.path);
+    // if (this.prevRoute.name == "ministers") {
+    //   console.log(this);
+    //   this.department = "minister";
+    // }
+    // this.leader = this.$store.getters.getHtmlElementClicked;
+    this.leader = localStorage.getItem("htmlNODEText");
   },
   methods: {
     cancel() {
       //just incase the value in the store does not holds
       // if (this.$store.getters.getFromRoute) {
       this.$router.push({
-        name: `${this.prevRoute.name}`
+        path: `${this.$store.getters.getFromRoute}`
       });
+      // } else {
+      //   this.$router.push({
+      //     path: `${localStorage.getItem("prevRoute")}`
+      //   });
+      // }
     },
     submit() {
+      this.prevRoute.name;
+      // console.log(this.prevRoute.name);
       let fullName = this.fullName;
       let department = this.department;
       let phone = this.phone;
       let dateOfBirth = this.dateOfBirth;
-      if (this.caders) {
-        var timelyComing = this.timelyComing;
-        var dateOfService = this.dateOfService;
-        var address = this.address;
-      }
+
+      this.formHasError = false;
 
       Object.keys(this.form).forEach(f => {
-        this.serverRequest[f] = this.form[f];
-        //console.log(this.form[f], f);
-        if (this.caders) {
-          if (!this.form[f] && this.form[f] == "dateOfService") {
-            this.$swal({
-              text: `${f} field must not be exmpty`
-            });
-            this.formHasError = true;
-          }
+        if (!this.form[f]) {
+          this.$swal({
+            text: `${f} field must not be exmpty`
+          });
+          this.formHasError = true;
         }
+        this.$refs[f].validate(true);
       });
 
       if (!this.formHasError) {
         // let element = this.prevRoute.name.toLowerCase().slice(0, -1);
         let element = this.leader.toLowerCase();
         let combinUrl = `add${element}`;
-        console.log(this.serverRequest);
-        let dis = this;
+        //console.log(this.leader, combinUrl);
+        // this.url = combinUrl;
+        // let requestUrl = this.url;
+
         axios
           .get(
             "http://localhost:1337/" + combinUrl,
+
             {
-              params: dis.serverRequest
+              params: {
+                fullName: fullName,
+                department: department,
+                phone: phone,
+                dateOfBirth: dateOfBirth
+              }
             },
             {
               headers: {
@@ -208,18 +178,14 @@ export default {
             }
           )
           .then(response => {
-            if (response.data.lenght !== 0) {
+            if (response !== undefined) {
+              this.$router.push(`./${this.prevRoute.name}`);
               //this.$router.push("/addpastor.vue");
-              //console.log(response.data);
-              this.$store.dispatch(" searchedServerResponse", response.data);
-
-              this.$router.push({
-                name: `${this.prevRoute.name}`
-              });
+              //els;
             }
           })
           .catch(err => {
-            console.error(err);
+            console.log(err);
           });
       }
     }

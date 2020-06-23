@@ -8,7 +8,7 @@
 
 
 
-export const remove = {
+export const principalMixin = {
     data() {
         return {
             currentRouteName: "",
@@ -26,14 +26,14 @@ export const remove = {
 
 
     methods: {
-        add: function () {
-            alert(this.leader)
+        add() {
+
             this.$router.push({
                 path: "./addLeader"
             });
         },
         //arrow function does not work here
-        deleteLeader: function () {
+        deleteLeader() {
 
 
             //check if the component has a designated name if does not 
@@ -150,9 +150,8 @@ export const remove = {
                 });
                 // this.selected.length = [];
             }
-        }
+        },
+
     }
-
-
 
 }

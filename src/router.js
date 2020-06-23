@@ -63,8 +63,34 @@ const routes = [{
   {
     path: '/attendanceRecord/firstTimers',
     name: 'firstTimers',
-    component: () => import('./views/Records/attendanceRecords/firstTimers.vue'),
+    component: () => import('./views/Records/attendanceRecords/firstTimers.vue')
+  },
+  {
+    path: '/attendanceRecord/secondTimers',
+    name: 'secondTimers',
+    component: () => import('./views/Records/attendanceRecords/secondTimers.vue'),
+  },
 
+  //members REcords
+
+  {
+    path: '/membership/members',
+    name: 'members',
+    component: () => import('./views/Records/membersRecords/members.vue'),
+  },
+  {
+    path: '/membership/regularMembers',
+    name: 'regularMembers',
+    component: () => import('./views/Records/membersRecords/regularMembers.vue'),
+  }, {
+    path: '/membership/irregularMembers',
+    name: 'irregularMembers',
+    component: () => import('./views/Records/membersRecords/irregularMembers.vue'),
+  },
+  {
+    path: '/membership/displayMembers',
+    name: 'displayMembers',
+    component: () => import('./components/members/displayMembers.vue'),
   },
   {
     path: '/Auth/signUp',

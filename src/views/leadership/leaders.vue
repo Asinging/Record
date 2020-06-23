@@ -69,14 +69,14 @@
 </template>
 <script>
 import AddDeleteCustomButton from "../../components/customSlots.vue";
-import { remove } from "../../deletefnc.js";
+import { principalMixin } from "../../add_delete_leaders.js";
 
 export default {
   name: "",
   components: {
     AddDeleteCustomButton
   },
-  mixins: [remove],
+  mixins: [principalMixin],
   data() {
     return {
       nameOfComponents: "",
@@ -86,6 +86,7 @@ export default {
       deleted: [],
       serverData: [],
       selected: [],
+      htmlNodeText: "", // this is use instead  my leader for space string e.g "head of departments"
       loadingMessage: `Record is empty add to`,
 
       headers: [
@@ -103,25 +104,28 @@ export default {
   },
 
   mounted() {
+    console.log(this);
     // this.leader = this.$store.getters.getHtmlElementClicked;
+    // if (localStorage.getItem("h"))
+    this.htmlNodeText = localStorage.getItem("htmlNodeText");
     this.leader = localStorage.getItem("extractedText");
     console.log(this.leader);
     axios
-      .get("http://localhost:1337/" + this.leader)
-      .then(response => {
-        let res = response.data;
+      .get("http://localhost:1337/" + this.htmlNodeText)
+      .then(resp => {
+        console.log(resp);
+        let response = resp.data;
         var dis = this;
 
-        if (res.length == []) {
+        if (response.length == []) {
           this.loading = true;
           this.loadingMessage = "the record is empty ";
-          F;
-        } else if (res.length) {
+        } else if (response.length) {
           this.loading = false;
         }
 
-        console.log(res);
-        res.forEach(element => {
+        console.log(response);
+        response.forEach(element => {
           dis.dataSets.push(element);
         });
       })

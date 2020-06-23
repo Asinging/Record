@@ -1,6 +1,6 @@
 <template>
   <div id="inpired">
-    <v-navigation-drawer app v-model="drawer" temporary width="317">
+    <v-navigation-drawer app v-model="drawer" temporary width="280">
       <template v-slot:prepend>
         <v-layout>
           <v-flex offset-xs1></v-flex>
@@ -141,10 +141,10 @@
           <v-list-group sub-group value="test" v-model="members">
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runFnc(members)">Members</v-list-item-title>
+                <v-list-item-title @click="runFnc(members)">Members Records</v-list-item-title>
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(item, kk) in membership" :key="kk" @click>
+            <v-list-item v-for="(item, kk) in membership" :key="kk" @click="routerLink($event)">
               <v-list-item-content>
                 <v-list-item-title color="green">{{item.comers}}</v-list-item-title>
               </v-list-item-content>
@@ -159,7 +159,7 @@
         </template>
         <!-- the records column stop here -->
         <!-- the calender column start here -->
-        <v-list-item @click>
+        <v-list-item @click="false">
           <v-list-item-icon>
             <v-icon>mdi-calendar-month</v-icon>
           </v-list-item-icon>
@@ -172,7 +172,7 @@
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(events)">Events</v-list-item-title>
           </template>
-          <v-list-item @click>
+          <v-list-item @click="false">
             <v-list-item-icon>
               <v-icon color="green">event</v-icon>
             </v-list-item-icon>
@@ -280,7 +280,9 @@
 <script>
 //import HomePage from "./homePage.vue";
 import { concatInnerHtml } from "../helper.js";
+import { stringManipulation } from "../string_manipulation.js";
 export default {
+  mixins: [stringManipulation],
   components: {
     //HomePage
   },
@@ -297,7 +299,7 @@ export default {
       members: false,
       finances: false,
       home: false,
-      NODEName: "",
+
       htmlElement: "",
 
       leadershipRecords: [
@@ -322,8 +324,9 @@ export default {
         // { icon: "mdi-wallet-giftcard", giving: "special honor" }
       ],
       membership: [
-        { icon: "mdi-account-check", comers: "Regular members" },
-        { icon: "mdi-transit-transfer", comers: "Irregular members" }
+        { icon: "mdi-transit-transfer", comers: "Members" },
+        { icon: "mdi-account-check", comers: "Regular Members" },
+        { icon: "mdi-transit-transfer", comers: "Irregular Members" }
       ]
     };
   },
@@ -340,68 +343,27 @@ export default {
       return !param;
     },
     routerLink() {
-      function setCharAt(str, index, charToReplace) {
-        return (
-          str.substring(0, index) + charToReplace + str.substring(index + 1)
-        );
-      }
       //dynamic router name assigned
 
       this.htmlElement = event.target.innerText;
-      let htmlElement = this.htmlElement;
-      //dispatching this innerHtml value to store
-      htmlElement = htmlElement.toLowerCase();
-      htmlElement.trim();
-      //console.log(htmlElement);
-      //searches for a space in the string
 
+      localStorage.setItem("formattedHtmlNodeText", this.htmlElement); // this is to differentiate it with htmlNodeelement
+      var htmlElement = this.htmlElement.toLowerCase();
+
+      //htmlElement.trim();
       let extractedText = ""; // to extract first word from the html element if too long
+      //searches for a space in the string
       if (htmlElement.indexOf(" ") >= 0) {
-        //this.$store.dispatch("htmlNodeText", "heads");
-        let counter = 0;
-        for (let i = 1; i <= htmlElement.length; i++) {
-          counter++;
-          if (htmlElement.charAt(i) == " ") {
-            console.log(i);
-            if (extractedText == "") {
-              extractedText = htmlElement.substr(0, counter);
-              localStorage.setItem("extractedText", extractedText);
-              //console.log(htmlElement, extractedText, counter)
-            }
-            i++;
+        htmlElement = this.stringWithSpace(htmlElement, extractedText);
 
-            let replaceText = htmlElement.charAt(i).toUpperCase();
-            // console.log(replaceText)
-            htmlElement = setCharAt(htmlElement, i, replaceText);
-            // console.log(replaceText)
-            //   htmlElement = htmlElement.replace(
-            //     `${htmlElement.charAt(i)}`,
-            //     `${replaceText}`
-            //   );
-            //  ;
-            //    console.log(i)
-            i--;
-          }
-        }
-
-        // replace the innerHTML string with string that has no space
-        htmlElement = htmlElement.replace(/ /g, "");
-        console.log(htmlElement);
         localStorage.setItem("htmlNodeText", htmlElement);
       } else {
-        //console.log(htmlElement);
-        //htmlElement = htmlElement.toLocaleLowerCase();
+        extractedText = htmlElement;
         localStorage.setItem("htmlNodeText", htmlElement);
+        localStorage.setItem("extractedText", extractedText);
         // this.$store.dispatch("htmlNodeText", htmlElement);
       }
-      // using store for my htmlElement
 
-      // this.NODEName = this.$store.getters.getHtmlElement;
-      // console.log(this.NODEName);
-      // Object.keys(this.$refs).forEach(ele => {
-      // if (Array.isArray(this.$refs)) {
-      // }
-      console.log(htmlElement);
       this.$router.push({
         name: `${htmlElement}`
       });

@@ -1,150 +1,151 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-flex>
-        <v-row dense>
-          <!-- calender Start here -->
+  <v-layout>
+    <v-flex>
+      <v-row dense>
+        <!-- calender Start here -->
 
-          <v-col cols="12" v-if="calender">
-            <v-col cols="12" sm="6">
-              <v-date-picker v-model="dates" multiple color="orange">
-                <v-btn text color="orange" @click="cancel">Cancel</v-btn>
-                <v-btn text color="orange" class="justify-end" @click="sumbitDates">Sumbit</v-btn>
-              </v-date-picker>
-            </v-col>
-            <v-col cols="12" sm="6">
-              <v-menu
-                ref="menu"
-                v-model="menu"
-                :close-on-content-click="false"
-                :return-value.sync="dates"
-                transition="scale-transition"
-                offset-y
-                min-width="290px"
-              >
-                <template v-slot:activator="{ on, attrs }">
-                  <v-combobox
-                    v-model="dates"
-                    multiple
-                    chips
-                    small-chips
-                    label="Selected Dates"
-                    readonly
-                    v-bind="attrs"
-                    v-on="on"
-                  ></v-combobox>
-                </template>
-              </v-menu>
-            </v-col>
+        <v-col cols="12" v-if="calender">
+          <v-col cols="12" sm="6" lg="12" md="1">
+            <v-date-picker v-model="dates" multiple color="orange">
+              <v-btn text color="orange" @click="cancel">Cancel</v-btn>
+              <v-btn text color="orange" class="justify-end" @click="sumbitDates">Sumbit</v-btn>
+            </v-date-picker>
           </v-col>
-          <!-- spnner loader card starts from here -->
-          <v-col cols="12" v-else-if="spinnerLoader">
-            <v-card
-              height="120"
-              v-bind:style="{backgroundColor:color[
+          <v-col cols="12" sm="6">
+            <v-menu
+              ref="menu"
+              v-model="menu"
+              :close-on-content-click="false"
+              :return-value.sync="dates"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-combobox
+                  v-model="dates"
+                  multiple
+                  chips
+                  small-chips
+                  label="Selected Dates"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-combobox>
+              </template>
+            </v-menu>
+          </v-col>
+        </v-col>
+        <!-- spnner loader card starts from here -->
+        <v-col cols="12" v-else-if="spinnerLoader">
+          <v-card
+            height="120"
+            v-bind:style="{backgroundColor:color[
               Math.floor(Math.random() *color.length)]}"
-            >
-              <v-p class="ma-5 white--text justify-center">
-                please wait
-                <v-progress-circular
-                  :size="40"
-                  class="white--text ma-5 justify-center"
-                  color="white"
-                  indeterminate
-                ></v-progress-circular>
-              </v-p>
-            </v-card>
-          </v-col>
+          >
+            <v-p class="ma-5 white--text justify-center">
+              please wait
+              <v-progress-circular
+                :size="40"
+                class="white--text ma-5 justify-center"
+                color="white"
+                indeterminate
+              ></v-progress-circular>
+            </v-p>
+          </v-card>
+        </v-col>
 
-          <!-- custom search start here -->
+        <!-- custom search start here -->
 
-          <v-col cols="12" v-else>
-            <v-card
-              v-bind:style="{backgroundColor:color[
+        <v-col cols="12" v-else>
+          <v-card
+            v-bind:style="{backgroundColor:color[
              Math.floor(Math.random() *color.length)]}"
-            >
-              <v-card-title class="white--text pd-4">Custom Search</v-card-title>
+          >
+            <v-card-title class="white--text pd-4">Custom Search</v-card-title>
 
-              <v-card-subtitle class="white--text ma-5">This Allows You search for a desire dates</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5">This Allows You search for a desire dates</v-card-subtitle>
 
-              <v-card-actions class="justify-end">
-                <v-btn
-                  text
-                  class="white--text pd-3"
-                  id="custom_search"
-                  @click="requestData($event)"
-                >details</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                class="white--text pd-3"
+                id="custom_search"
+                @click="requestData($event)"
+              >details</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
 
-          <!-- this Week search -->
+        <!-- this Week search -->
 
-          <v-col cols="12">
-            <v-card
-              v-bind:style="{backgroundColor:color[
+        <v-col cols="12">
+          <v-card
+            v-bind:style="{backgroundColor:color[
       Math.floor(Math.random() *color.length)]}"
-            >
-              <v-card-title class="headline white--text">This Week</v-card-title>
+          >
+            <v-card-title class="headline white--text">This Week</v-card-title>
 
-              <v-card-subtitle class="white--text ma-5">You Can Pull Entry Just For This Week</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5">You Can Pull Entry Just For This Week</v-card-subtitle>
 
-              <v-card-actions class="justify-end">
-                <v-btn
-                  text
-                  class="white--text pd-3"
-                  id="this_week"
-                  @click="requestData($event)"
-                >details</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                class="white--text pd-3"
+                id="this_week"
+                @click="requestData($event)"
+              >details</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
 
-          <!-- this month Start here -->
+        <!-- this month Start here -->
 
-          <v-col cols="12">
-            <v-card
-              v-bind:style="{backgroundColor:color[
+        <v-col cols="12" md="12">
+          <v-card
+            v-bind:style="{backgroundColor:color[
       Math.floor(Math.random() *color.length)]}"
-              class="white--text pd-3"
-            >
-              <v-card-title class="headline">This Month</v-card-title>
+            class="white--text pd-3"
+          >
+            <v-card-title class="headline">
+              This Month {{color[
+              Math.floor(Math.random() *color.length)]}}
+            </v-card-title>
 
-              <v-card-subtitle class="white--text ma-5">The Month Entries Can Be Requsted</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5">The Month Entries Can Be Requsted</v-card-subtitle>
 
-              <v-card-actions class="justify-end">
-                <v-btn
-                  text
-                  class="white--text pd-3"
-                  id="this_month"
-                  @click="requestData($event)"
-                >details</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                class="white--text pd-3"
+                id="this_month"
+                @click="requestData($event)"
+              >details</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
 
-          <!-- this year start -->
+        <!-- this year start -->
 
-          <v-col cols="12">
-            <v-card color="orange">
-              <v-card-title class="white--text pd-3">This Year</v-card-title>
+        <v-col cols="12">
+          <v-card color="orange">
+            <v-card-title class="white--text pd-3">This Year</v-card-title>
 
-              <v-card-subtitle class="white--text ma-5">The Entire Year Entries Can also Be Search</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5">The Entire Year Entries Can also Be Search</v-card-subtitle>
 
-              <v-card-actions class="justify-end">
-                <v-btn
-                  text
-                  class="white--text pd-3"
-                  id="this_year"
-                  @click="requestData($event)"
-                >see more</v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
-      </v-flex>
-    </v-layout>
-  </v-container>
+            <v-card-actions class="justify-end">
+              <v-btn
+                text
+                class="white--text pd-3"
+                id="this_year"
+                @click="requestData($event)"
+              >see more</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-flex>
+  </v-layout>
 </template>
 <style scoped>
 </style><script>
@@ -164,11 +165,9 @@ export default {
       color: [
         "#FF4500",
         "#FFD700",
-        "#FFA500",
         "#FF8C00",
         "#FF6347",
-        "#E6B428",
-        "#F9AC48",
+
         "#F29215",
         "#B56F15",
         "#FFAE09",

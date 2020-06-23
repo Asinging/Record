@@ -2,7 +2,7 @@
 <template >
   <v-layout>
     <v-flex xs12>
-      <v-sheet class="ma3 justify-center align-content-center">Records for {{htmlElement}}</v-sheet>
+      <v-sheet>Records for {{htmlElement}}</v-sheet>
       <v-data-table
         id="printSection"
         v-model="selected"
@@ -18,12 +18,12 @@
       <v-layout>
         <v-flex xs12>
           <v-Button :clickFnc="cancel">
-            <template #btn="slotProps">cancel</template>
+            <template #btn>cancel</template>
           </v-Button>
         </v-flex>
         <v-flex xs5 offset-lg8 offset-xs1>
           <v-Button :clickFnc="print">
-            <template #btn="slotProps">Print</template>
+            <template #btn>Print</template>
           </v-Button>
         </v-flex>
       </v-layout>
@@ -91,10 +91,7 @@ export default {
         let obj = {}; // this holds a formattted object property value created dynamically
         // let entryTotal = 0; //this is an object property for total of an entry
         Object.entries(value).forEach((val, key) => {
-          // dynamically creating an object property
-          // if (val[0] != "id" && !isNaN(val[1])) {
-          //   entryTotal += val[1];
-          // }
+         
           if (val[0] === "id") {
             totalEntriesObject.id = "TOTAL";
           } else if (val[0] === "offering") {
@@ -107,10 +104,7 @@ export default {
             // totalById += val[1];
           }
 
-          // value.totalById = entryTotal; //create totalById as object property
-          // if (val[0].totalById) {
-          //   debugger;
-          // }
+          
           obj[val[0]] = numberWithCommas(val[1]); // a new object that has its properties value formatted with comma
 
           //}

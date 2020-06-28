@@ -172,7 +172,7 @@
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(events)">Events</v-list-item-title>
           </template>
-          <v-list-item @click="false">
+          <v-list-item @click="routerLink($event)">
             <v-list-item-icon>
               <v-icon color="green">event</v-icon>
             </v-list-item-icon>
@@ -357,6 +357,7 @@ export default {
         htmlElement = this.stringWithSpace(htmlElement, extractedText);
 
         localStorage.setItem("htmlNodeText", htmlElement);
+        // console.log(htmlElemllent);
       } else {
         extractedText = htmlElement;
         localStorage.setItem("htmlNodeText", htmlElement);

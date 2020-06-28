@@ -2,7 +2,7 @@
 <template >
   <v-layout>
     <v-flex xs12>
-      <!-- <v-sheet>Records for {{htmlElement}}</v-sheet> -->
+       <v-sheet>{{htmlElement}}</v-sheet> 
       <v-data-table
         id="printSection"
         v-model="selected"
@@ -63,7 +63,7 @@ export default {
   },
   mounted() {
     this.prevRoute = this.$store.getters.getFromRoute;
-    this.htmlElement = this.$store.getters.geHtmlElementClicked;
+    this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
 
     this.serverResponse = this.$store.getters.searchedResult;
     console.log(this.serverResponse);

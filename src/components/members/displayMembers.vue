@@ -42,9 +42,12 @@ export default {
       htmlElement: "record",
       prevRoute: "",
       DOMDisplayContent: [],
-      loading: true,
+
       selected: [],
+      regularMembers: [],
+      irregularMembers: [],
       serverResponse: [],
+      htmlElementFromPreviousClick: "",
 
       loadingMessage: `Record is empty add to`,
 
@@ -54,7 +57,7 @@ export default {
           text: "Full name",
           value: "full_name"
         },
-        { text: "Department", value: "department" },
+        { text: "Unit In Church", value: "department" },
         { text: "phone", value: "phone" },
         { text: "Date Of Birth", value: "date_of_birth" },
         { text: "Address", value: "address" }
@@ -62,32 +65,101 @@ export default {
     };
   },
   mounted() {
+    this.DOMDisplayContent = [];
+    function getAve(object) {
+      return Object.keys(object).filter(key => {
+        let maximum = Math.max.apply(null, Object.values(object));
+        let minimum = Math.min.apply(null, Object.values(object));
+        let ave = Math.floor((maximum + minimum) / 2);
+
+        return object[key] >= ave;
+      });
+    }
     this.prevRoute = this.$store.getters.getFromRoute;
     this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
+    this.htmlElementFromPreviousClick = localStorage.getItem("htmlNodeText");
+    console.log(this.htmlElementFromPreviousClick);
     this.serverResponse = this.$store.getters.serverResponse;
     //console.log(this.serverResponse);
-    let container = new Object();
-    var n = [];
-    if (this.serverResponse != "") {
-      for (let x of this.serverResponse) {
-        Object.entries(x).map((value, key) => {
-          // console.log(value);
+    //console.log("this must work");
 
-          if (typeof container[value[0]] === "undefined") {
-            //console.log(value[1]);
-            container[value[0]] = [value[1]]q
-            //console.log(value[0]);
-            //container.push(new Array(value[0]));
-            //   valued = value[0];
-            //   container.push(new Array(valued));
+    if (
+      this.htmlElementFromPreviousClick != "firstTimers" ||
+      this.htmlElementFromPreviousClick != "secondTimers"
+    ) {
+      // console.log("this must work");
+      if (this.serverResponse != "") {
+        var irregularMembers = [];
+        var regularMembers = [];
+
+        let count = {};
+        let regular = [];
+        let irregular = [];
+        let nameContainer = this.serverResponse.map(input => {
+          return input.full_name;
+        });
+
+        nameContainer.forEach(function(a) {
+          //  counting the numbers of times a persons appears in church
+          count[a] = (count[a] || 0) + 1;
+        });
+
+        console.log(getAve(count));
+        //getAve returns the full_name object key >= the average of the highest number a person was in the church for that
+        //particular requst
+
+        nameContainer.forEach(element => {
+          if (getAve(count).includes(element)) {
+            //
+            regularMembers.includes(element)
+              ? false
+              : regularMembers.push(element);
+          } else {
+            irregularMembers.includes(element)
+              ? false
+              : irregularMembers.push(element);
           }
         });
-      }
-        console.log(container);
 
-      this.DOMDisplayContent = this.serverResponse;
+        this.serverResponse.map(members => {
+          if (
+            regularMembers.includes(members.full_name) &&
+            !regular.includes(members.full_name) // filtering the object push into the regular
+            // so we dont have duplicate
+          ) {
+            regular.push(members.full_name);
+
+            if (this.regularMembers.length != 0) {
+              this.regularMembers.push(members);
+            } else {
+              this.regularMembers.push(members);
+            }
+          } else if (
+            // push into irreguler array
+            !irregular.includes(members.full_name) &&
+            !regularMembers.includes(members.full_name)
+          ) {
+            irregular.push(members.full_name);
+            this.irregularMembers.push(members);
+          }
+        });
+        console.log(this.regularMembers);
+        console.log(this.irregularMembers);
+        //debugger;
+        if (this.htmlElementFromPreviousClick == "irregularMembers") {
+          this.DOMDisplayContent = this.irregularMembers;
+          console.log("yes i enter the here take it");
+        }
+       else if (this.htmlElementFromPreviousClick == "regularMember") {
+          this.DOMDisplayContent = this.regularMembers;
+        } else {
+          this.DOMDisplayContent = this.serverResponse;
+        }
+      } else {
+        this.loading = "";
+      }
     } else {
-      this.loading = "";
+      //this.DOMDisplayContent = this.serverResponse;
     }
     if (this.DOMDisplayContent) {
       this.loading = false;
@@ -109,10 +181,19 @@ export default {
     },
 
     cancel() {
-      this.$router.push({
-        // name: this.prevRoute.name
-        name: "members"
-      });
+      console.log(this.htmlElementFromPreviousClick);
+      if (
+        this.htmlElementFromPreviousClick == "firstTimers" ||
+        this.htmlElementFromPreviousClick == "secondTimers"
+      ) {
+        this.$router.push({
+          name: this.htmlElementFromPreviousClick
+        });
+      } else {
+        this.$router.push({
+          name: "members"
+        });
+      }
     }
   }
 };
@@ -121,4 +202,4 @@ export default {
 .addpastordelete {
   text-decoration: none;
 }
-</styles>
+</style>

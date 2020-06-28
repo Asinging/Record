@@ -7,7 +7,7 @@
   </v-container>
 </template> 
    <script>
-import SearchContentParams from "../recordSearchTool.vue";
+import SearchContentParams from "../Records/recordSearchTool.vue";
 //import Button from "../../../components/customSlots.vue";
 export default {
   components: {

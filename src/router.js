@@ -39,7 +39,7 @@ const routes = [{
   },
   {
     path: `/records/${htmlNodeText}`,
-    name: 'displaySearch',
+    name: 'displayFinancialSearch',
     component: () => import('./views/Records/financialRecords/displayFinancialSearch.vue'),
 
   },
@@ -93,6 +93,11 @@ const routes = [{
     component: () => import('./components/members/displayMembers.vue'),
   },
   {
+    path: '/Events/displayBirthday',
+    name: 'displayBirthdays',
+    component: () => import('./views/Events/displayBirthdays.vue'),
+  },
+  {
     path: '/Auth/signUp',
     name: 'signUp',
     component: () => import('./views/authentication/signUp.vue')
@@ -143,6 +148,14 @@ const routes = [{
     path: '/Auth/auth',
     name: 'auth',
     component: () => import('./views/authentication/secure.vue'),
+    // meta: {
+    //   requiresAuth: true
+    // }
+  },
+  {
+    path: '/Events/birthdays',
+    name: 'birthdays',
+    component: () => import('./views/Events/birthdays.vue'),
     // meta: {
     //   requiresAuth: true
     // }

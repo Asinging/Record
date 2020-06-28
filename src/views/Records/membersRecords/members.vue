@@ -80,8 +80,8 @@ export default {
   mixins: [stringManipulation],
   data() {
     return {
-      loadingMessage: "eje is graced",
-      eje: "eje is still God son",
+      selected: false,
+
       serverResponse: [],
       DOMDisplayContent: [],
       htmlNodeText: "",

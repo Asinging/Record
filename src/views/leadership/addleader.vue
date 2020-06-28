@@ -150,7 +150,11 @@ export default {
     this.prevRoute = this.$store.getters.getFromRoute;
     console.log(this.prevRoute);
     //this.cader = localStorage.getItem("extractedText");
-    this.leader = localStorage.getItem("htmlNodeText");
+    if (this.prevRoute == "members") {
+      this.leader = "members";
+    } else {
+      this.leader = localStorage.getItem("htmlNodeText");
+    }
 
     if (this.leader.trim() == "members") {
       this.caders = true;
@@ -165,18 +169,33 @@ export default {
       });
     },
     submit() {
-      let fullName = this.fullName;
-      let department = this.department;
-      let phone = this.phone;
-      let dateOfBirth = this.dateOfBirth;
-      if (this.caders) {
-        var timelyComing = this.timelyComing;
-        var dateOfService = this.dateOfService;
-        var address = this.address;
+      function removingTrailingZeros(params) {
+        let param = params.split("/");
+        let rr = [];
+        for (let x of param) {
+          rr.push(parseInt(x));
+        }
+        rr = rr.join("/");
+
+        return rr;
       }
+      // let fullName = this.fullName;
+      // let department = this.department;
+      // let phone = this.phone;
+      // let dateOfBirth = this.dateOfBirth;
+      // if (this.caders) {
+      //   var timelyComing = this.timelyComing;
+      //   var dateOfService = this.dateOfService;
+      //   var address = this.address;
+      // }
 
       Object.keys(this.form).forEach(f => {
-        this.serverRequest[f] = this.form[f];
+        if (f == "dateOfService" || f == "dateOfBirth") {
+          this.serverRequest[f] = removingTrailingZeros(this.form[f]); // remove any trailing zeros
+        } else {
+          this.serverRequest[f] = this.form[f];
+        }
+
         //console.log(this.form[f], f);
         if (this.caders) {
           if (!this.form[f] && this.form[f] == "dateOfService") {
@@ -211,7 +230,7 @@ export default {
             if (response.data.lenght !== 0) {
               //this.$router.push("/addpastor.vue");
               //console.log(response.data);
-              this.$store.dispatch(" searchedServerResponse", response.data);
+              this.$store.dispatch("searchedServerResponse", response.data);
 
               this.$router.push({
                 name: `${this.prevRoute.name}`

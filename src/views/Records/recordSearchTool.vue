@@ -1,6 +1,7 @@
 <template>
   <v-layout>
     <v-flex>
+      <span>{{formattedHtmlNodeText}}</span>
       <v-row dense>
         <!-- calender Start here -->
 
@@ -55,6 +56,8 @@
           </v-card>
         </v-col>
 
+        <!-- today's search start here -->
+
         <!-- custom search start here -->
 
         <v-col cols="12" v-else>
@@ -62,7 +65,8 @@
             v-bind:style="{backgroundColor:color[
              Math.floor(Math.random() *color.length)]}"
           >
-            <v-card-title class="white--text pd-4">Custom Search</v-card-title>
+            <v-card-title v-if="flag" class="white--text pd-4">See Birthday range</v-card-title>
+            <v-card-title v-else class="white--text pd-4">Custom Search</v-card-title>
 
             <v-card-subtitle class="white--text ma-5">This Allows You search for a desire dates</v-card-subtitle>
 
@@ -128,7 +132,7 @@
         <!-- this year start -->
 
         <v-col cols="12">
-          <v-card color="orange">
+          <v-card color="orange" v-if="!flag">
             <v-card-title class="white--text pd-3">This Year</v-card-title>
 
             <v-card-subtitle class="white--text ma-5">The Entire Year Entries Can also Be Search</v-card-subtitle>
@@ -152,11 +156,12 @@
 export default {
   data() {
     return {
+      flag: false,
       calender: false,
       menu: false,
       dates: [],
       spinnerLoader: false,
-      htmlNodeText: "",
+      formattedHtmlNodeText: "",
       htmlElementFromPreviousClick: "",
       serverResponse: [],
       calender: false,
@@ -177,6 +182,10 @@ export default {
   },
   mounted() {
     this.htmlElementFromPreviousClick = localStorage.getItem("htmlNodeText");
+    this.formattedHtmlNodeText = localStorage.getItem("formattedHtmlNodeText"); // differentiates it from the htmlNOdeText string with no space
+    if (this.formattedHtmlNodeText == "Birthdays") {
+      this.flag = true;
+    }
   },
   watch: {
     dates() {
@@ -189,14 +198,14 @@ export default {
       this.spinnerLoader = false;
     },
     sumbitDates() {
-      console.log(this.htmlNodeText);
+      // console.log(this.htmlNodeText);
       this.calender = true;
       // let htmlElementFromPreviousClick = this.htmlElementFromPreviousClick;
 
       if (this.dates.length != 2) {
         this.$swal("pls select two different Date");
       } else {
-        let htmlNodeText = this.htmlNodeText;
+        let innerHtmlClicked = this.innerHtmlClicked;
         this.calender = false;
         this.spinnerLoader = true;
 
@@ -205,7 +214,7 @@ export default {
           let spltI = i.split("-").reverse();
 
           spltI = spltI.join("/");
-          console.log(spltI);
+
           newDates.push(spltI);
         }
         let [date_1, date_2] = newDates;
@@ -214,7 +223,7 @@ export default {
         axios
           .get("http://localhost:1337/" + dis.htmlElementFromPreviousClick, {
             params: {
-              record: htmlNodeText,
+              record: innerHtmlClicked,
               date_1: date_1,
               date_2: date_2
             }
@@ -225,24 +234,41 @@ export default {
             if (response.length == []) {
               this.spinnerLoader = true;
             } else if (response.length) {
-              for (let j of response) {
-                let total = 0;
-                Object.values(j).forEach(val => {
-                  if (!isNaN(val)) {
-                    total += val;
-                  }
-                  ``;
+              if (
+                this.htmlElementFromPreviousClick == "secondTimers" ||
+                this.htmlElementFromPreviousClick == "secondTimers"
+              ) {
+                this.$store.dispatch("searchedServerResponse", response);
+
+                this.$router.push({
+                  name: "displayMembers"
                 });
-                j.totalById = total;
-                dis.serverResponse.push(j);
+              } else if (this.htmlElementFromPreviousClick) {
+                this.$store.dispatch("searchedServerResponse", response);
+
+                this.$router.push({
+                  name: "displayBirthdays"
+                });
+              } else {
+                for (let j of response) {
+                  let total = 0;
+                  Object.values(j).forEach(val => {
+                    if (!isNaN(val)) {
+                      // id is also getting appended
+                      total += val;
+                    }
+                  });
+
+                  j.totalById = total;
+                  dis.serverResponse.push(j);
+                }
+                //console.log(dis.serverResponse);
+                this.$store.dispatch("searchedServerResponse", response);
+                this.loading = false;
+                this.$router.push({
+                  name: "displayFinancialSearch"
+                });
               }
-              //console.log(dis.serverResponse);
-              this.$store.dispatch("searchedServerResponse", response);
-              // console.log(this.$store.getters.searchedResult);
-              this.spinnerLoading = false;
-              this.$router.push({
-                name: "displaySearch"
-              });
             }
           })
           .catch(error => {
@@ -251,15 +277,17 @@ export default {
       }
     },
     requestData() {
+      this.spinnerLoader = false;
       if (this.htmlElementFromPreviousClick == "financialRecords") {
         this.htmlElementFromPreviousClick = `financialRecords/select`;
       }
 
-      this.htmlNodeText = event.target.parentElement.id;
-      console.log(this.htmlNodeText);
-      let htmlNodeText = this.htmlNodeText;
+      this.innerHtmlClicked = event.target.parentElement.id;
 
-      if (htmlNodeText == "custom_search") {
+      let innerHtmlClicked = this.innerHtmlClicked;
+      localStorage.setItem("innerHtmlClicked", innerHtmlClicked);
+
+      if (innerHtmlClicked == "custom_search") {
         this.calender = true;
       } else {
         this.calender = false;
@@ -267,37 +295,61 @@ export default {
         axios
           .get("http://localhost:1337/" + dis.htmlElementFromPreviousClick, {
             params: {
-              record: htmlNodeText
+              record: innerHtmlClicked
             }
           })
           .then(resp => {
             let response = resp.data;
 
             if (response.length == []) {
-            } else if (response.length) {
-              for (let j of response) {
-                let total = 0;
-                Object.values(j).forEach(val => {
-                  if (!isNaN(val)) {
-                    // id is also getting appended
-                    total += val;
-                    console.log(total);
-                  }
-                });
-
-                j.totalById = total;
-                dis.serverResponse.push(j);
-              }
-              //console.log(dis.serverResponse);
-              this.$store.dispatch("searchedServerResponse", response);
-              for (let j of response) this.loading = false;
               this.$router.push({
-                name: "displaySearch"
+                name: "networkError"
               });
+            } else if (response.length) {
+              //   if (
+              //     this.htmlElementFromPreviousClick == "firstTimers" ||
+              //     this.htmlElementFromPreviousClick == "secondTimers"
+              //   ) {
+              //     console.log(this.formattedHtmlNodeText);
+              //     this.$store.dispatch("searchedServerResponse", response);
+
+              //     this.$router.push({
+              //       name: "displayMembers"
+              //     });
+              //   }
+
+              if (this.formattedHtmlNodeText) {
+                console.log("this is it");
+                this.$router.push({
+                  name: "displayBirthdays"
+                });
+                this.$store.dispatch("searchedServerResponse", response);
+              } else {
+                console.log(this.formattedHtmlNodeText);
+                console.log("this is it");
+                for (let j of response) {
+                  let total = 0;
+                  Object.values(j).forEach(val => {
+                    if (!isNaN(val)) {
+                      // id is also getting appended
+                      total += val;
+                    }
+                  });
+
+                  j.totalById = total;
+                  dis.serverResponse.push(j);
+                }
+                //console.log(dis.serverResponse);
+                this.$store.dispatch("searchedServerResponse", response);
+
+                this.$router.push({
+                  name: "displaySearch"
+                });
+              }
             }
           })
           .catch(error => {
-            console.error(e);
+            console.error(error);
           });
       }
     }

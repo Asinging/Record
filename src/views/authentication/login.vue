@@ -1,8 +1,8 @@
 <template>
   <v-layout>
     <v-flex align-center>
-      <v-card class="ma-1" ref="form">
-        <v-container>
+      <form @submit.prevent="login" class="vld-parent" ref="formContainer">
+        <v-card class="ma-1" ref="form">
           <v-text-field
             color="green"
             ref="email"
@@ -27,41 +27,67 @@
             class="mb-5"
           ></v-text-field>
           <v-divider height="100"></v-divider>
-          <div>
-            <v-layout>
-              <v-flex xs12>
-                <span>
-                  <v-btn class="mt-2" color="orange" text @click="signUp">Sign Up</v-btn>
-                </span>
-              </v-flex>
-              <v-flex xs3 justify-space-around>
-                <span>
-                  <v-btn
-                    class="mt-3 text-right login pr-3"
-                    color="orange"
-                    id="login"
-                    tile
-                    text
-                    @click="login"
-                  >Login</v-btn>
-                </span>
-              </v-flex>
-            </v-layout>
-          </div>
-        </v-container>
-      </v-card>
+          <v-layout>
+            <v-flex xs12>
+              <Buttons :clickFnc="signUp">
+                <template #btn>signUP</template>
+              </Buttons>
+            </v-flex>
+            <v-flex xs5 offset-lg8 offset-xs1>
+              <Buttons :clickFnc="login">
+                <template #btn>Login</template>
+              </Buttons>
+              <!-- /</submitButtons> -->
+            </v-flex>
+          </v-layout>
+        </v-card>
+      </form>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
+import { eventBus } from "../../events.js";
+import Buttons from "../../components/customSlots.vue";
+// import Loading from "vue-loading-overlay";
+// import Vue from "vue";
+//Vue.use(Loading);
+
 export default {
+  components: {
+    Buttons
+  },
+
   data() {
     return {
+      loginResponse: false,
+      loginResponseMessage: true,
       email: "",
       password: "",
-      formHasError: false
+      formHasError: false,
+      loader: "",
+      prevRoute: " this the previous route"
     };
+  },
+  watch: {
+    loginResponse() {
+      if (this.loginResponse) {
+        let res = this.loginResponseMessage;
+        $("body").overhang({
+          type: "error",
+          custom: true,
+          customconfirm: "overhang-overides",
+          message: res,
+          accent: "green",
+          primary: "green",
+          customClass: "",
+
+          duration: 5,
+          speed: 500,
+          easing: "easeOutBounce"
+        });
+      }
+    }
   },
   computed: {
     form() {
@@ -72,6 +98,9 @@ export default {
     }
   },
 
+  mounted() {
+    //this.loader.hide()
+  },
   methods: {
     signUp() {
       this.$router.push({
@@ -79,10 +108,11 @@ export default {
       });
     },
     login() {
+      // console.log($);
+
       this.formHasError = false;
       var email = this.email;
       var password = this.password;
-      this.serverResponse = [];
 
       //            _ _     _       _   _                __                         __ _      _     _
       // __   ____ _| (_) __| | __ _| |_(_)_ __   __ _   / _| ___  _ __ _ __ ___    / _(_) ___| | __| |
@@ -98,48 +128,83 @@ export default {
       });
 
       if (this.formHasError !== true) {
-        // this.$store
-        //   .dispatch("login", { email, password })
-        //   .then(response => {
-        //     this.$router.push("/");
-        //   })
-        //   .catch(err => {
-        //     console.log(err);
-        //   });
-        var loginD = {
+        var userLogin = {
           email: this.email,
           password: this.password
         };
-        var axiosRequest = axios
-          .get("http://localhost:1337/login", {
-            params: loginD
-          })
+        this.loader = this.$loading.show({
+          canCancel: true,
+          onCancel: this.onCancel,
+          color: "green",
+          loader: "spinner",
+          height: 20,
+          width: 200,
+          //duration;3
+
+          opacity: 0.5
+        });
+        let loader = this.loader;
+        axios
+          .get(
+            "http://localhost:1337/login",
+            {
+              params: userLogin
+            }
+            // {
+            //   header: {
+            //     "Access-Control-Allow-Orign": "*",
+            //     "content-type": "application/json",
+            //     Authorization: "XSRF-TOKEN",
+            //     withCredentials: true
+            //   }
+            // }
+          )
           .catch(err => {
-            console.log(err);
+            if (err) {
+              this.loginResponse = true;
+              this.loginResponseMessage = err.response.data;
+              console.log(err);
+            }
           })
           .then(response => {
             console.log(response);
 
-            let res = response.data.data;
-            let token = response.data.token;
-            localStorage = setItem("set-token", token);
+            let userName = response.data.data.full_name;
+            let userId = response.data.data.id;
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("userId", userId);
+            //eventBus.$emit("userName", userName);
+
+            // this.loginResponse = true;
+            //this.loginResponseMessage = response.data.msg;
+            // console.log(this.loginResponseMessage);
+            // let res = response.data.data;
+            $("body").overhang({
+              type: "error",
+              custom: true,
+              customconfirm: "overhang-overides",
+              message: "you have succesfully login",
+              accent: "green",
+              primary: "green",
+              customClass: "",
+
+              duration: 1,
+              speed: 500,
+              easing: "easeOutBounce"
+            });
+
+            //localStorage = setItem("set-token", );
             //resolve(response);
 
-            res.forEach(items => {
-              //Sres1;
-              //console.log(items);
-              this.serverResponse.push(items);
-              //console.log(`this is the r1 ${serverResponse[counter]}`);
-              Object.entries(items).forEach(initems => {
-                let key = initems[0];
-                let value = initems[1];
-              });
+            this.$router.push({
+              name: "home"
             });
-            alert("you have successfully login");
-            this.$router.push("./");
+
+            loader.hide();
             //}
           });
-        console.log(this.serverResponse);
+
+        //console.log(this.serverResponse);
       }
     }
   }

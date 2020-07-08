@@ -2,10 +2,8 @@
   <v-btn
     @click="clickFnc"
     text
-    large
     depressed
-    tile
-    class="ml-1 mb-0 pt-2 pb-2 pl-1 pr-1 white--text addpastordelete"
+    class="ma-2 ml-1 mb-0 pt-2 pb-2 pl-1 pr-1 white--text"
     color="orange"
   >
     <slot name="btn" v-bind:btnName="btnName">sumbit</slot>

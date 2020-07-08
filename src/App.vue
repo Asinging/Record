@@ -1,21 +1,23 @@
 <template>
   <v-app>
     <Header />
-    <!-- //// <Toolbar /> -->
+    <!-- <Toolbar /> -->
     <v-content transition="slide-x-transition">
-      <router-view></router-view>
+      <v-card>
+        <router-view></router-view>
+      </v-card>
     </v-content>
   </v-app>
 </template>
 <script>
 import Header from "./components/header.vue";
-import Toolbar from "./components/toolbar.vue";
+// import Toolbar from "./components/toolbar.vue";
 
 export default {
   name: "App",
   components: {
-    Header,
-    Toolbar
+    Header
+    // Toolbar
   },
   data() {
     return {};

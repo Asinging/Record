@@ -181,7 +181,7 @@ export default {
     },
 
     cancel() {
-      console.log(this.htmlElementFromPreviousClick);
+     // console.log(this.htmlElementFromPreviousClick);
       if (
         this.htmlElementFromPreviousClick == "firstTimers" ||
         this.htmlElementFromPreviousClick == "secondTimers"

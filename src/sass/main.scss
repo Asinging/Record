@@ -1,12 +1,22 @@
-// @import '~vuetify/src/styles/main.sass';
+// src/sass/variables.scss
 
-// $body-font-family: 'tahoma',
-// cursive;
+// Globals
+$body-font-family: 'Work Sans',
+serif;
+$border-radius-root: 6px;
+$font-size-root: 14px;
 
-// $heading-font-family: $body-font-family,
-// cursive;
+// Variables must come before the import
+$btn-letter-spacing: 0;
+$btn-font-weight: 400;
+$list-item-title-font-size: 0.929rem;
+$list-item-dense-title-font-size: 0.929rem;
+$list-item-dense-title-font-weight: initial;
+$fab-icon-sizes: ('small': 20);
+$btn-sizes: ('default': 100,
+    'large': 150);
 
-// @each $heading,
-// $style in $headings {
-//     $headings: map-merge($headings, ($heading: map-merge($style, ('font-family': $heading-font-family))));
-// }
+$headings: ('h1': ('size': 3.3125rem,
+        'line-height': 1.15em),
+    'h2': ('size': 2.25rem,
+        'line-height': 1.5em));

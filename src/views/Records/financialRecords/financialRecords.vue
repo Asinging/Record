@@ -4,7 +4,8 @@
       <SearchContentParams />
     </v-layout>
     <v-layout>
-      <v-flex offset-xs7>
+      <div class="flex-grow-1"></div>
+      <v-flex md1 sm1 xs1 lg1>
         <v-Button :clickFnc="addRecord">
           <template #btn>add to record</template>
         </v-Button>

@@ -11,7 +11,7 @@
           <!-- <v-spacer></v-spacer> -->
           <v-list-item class="ma-12 mb-4 pr-3">
             <v-list-item-content>
-              <v-list-item-title class="side_bar_title">RECORD'S HANDY</v-list-item-title>
+              <v-list-item-title class="side_bar_title">DASHBOARD</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-layout>
@@ -25,28 +25,15 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title class="subtitle-1 side_bar_item" @click="routerLink($event)">Home</v-list-item-title>
+          <v-list-item-title class="subtitle-1" @click="routerLink($event)">Home</v-list-item-title>
         </v-list-item>
 
         <!-- the leadership column starts here -->
 
-        <v-list-group prepend-icon="person" value="first" v-model="leadership">
+        <v-list-group prepend-icon="person" value="true" v-model="leadership">
           <template v-slot:activator>
-            <v-list-item-title
-              class="subtitle-1 side_bar_item"
-              @click="runFnc(leadership)"
-            >Leadership</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(leadership)">Leadership</v-list-item-title>
           </template>
-          <!-- <divider></divider> -->
-
-          <!-- <v-list-item v-for="(item, pastor) in leadershipRecords" :key="pastor" @click="routerLink($event)">
-            <v-list-item-content>
-              <v-list-item-title @click="routerLink($event)" >item.leader</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon color="green">item.icon</v-icon>
-            </v-list-item-icon>
-          </v-list-item>-->
           <v-list-item
             v-for="(item, pastor) in leadershipRecords"
             :key="pastor"
@@ -59,25 +46,6 @@
               <v-icon color="green">{{item.icon}}</v-icon>
             </v-list-item-icon>
           </v-list-item>
-          <!-- <v-list-item @click>
-            <v-list-item-content>
-              <v-list-item-title @click="routerLink($event)" ref="Ministers">Ministers</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon color="green">mdi mdi-account-child</v-icon>
-            </v-list-item-icon>
-          </v-list-item>
-          <v-list-item @click>
-            <v-list-item-content>
-              <v-list-item-title
-                @click="routerLink($event)"
-                ref="headOfDepartments"
-              >head of Departments</v-list-item-title>
-            </v-list-item-content>
-            <v-list-item-icon>
-              <v-icon color="green">mdi mdi-account-group</v-icon>
-            </v-list-item-icon>
-          </v-list-item>-->
         </v-list-group>
         <template v-if="leadership">
           <v-divider></v-divider>
@@ -86,12 +54,12 @@
 
         <!-- the records column starts here -->
 
-        <v-list-group prepend-icon="mdi mdi-animation-outline" value="test" v-model="records">
+        <v-list-group prepend-icon=" mdi-animation" value="true" v-model="records">
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1 side_bar_item" @click="runFnc(records)">Records</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(records)">Records</v-list-item-title>
           </template>
 
-          <v-list-group sub-group value="true" v-model="finances">
+          <v-list-group sub-group value="true" v-model="finances" prepend-icon="mdi-cash-100">
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title @click="runfnc=(finances)">Financial record</v-list-item-title>
@@ -114,7 +82,12 @@
             <v-divider></v-divider>
           </template>
 
-          <v-list-group sub-group value="tet" v-model="attendance">
+          <v-list-group
+            sub-group
+            value="tet"
+            v-model="attendance"
+            prepend-icon="mdi-account-switch"
+          >
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title @click="runFnc(attendance)">Attendance Record</v-list-item-title>
@@ -138,7 +111,7 @@
             <v-divider></v-divider>
           </template>
 
-          <v-list-group sub-group value="test" v-model="members">
+          <v-list-group sub-group value="test" v-model="members" prepend-icon="mdi-account-heart">
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title @click="runFnc(members)">Members Records</v-list-item-title>
@@ -168,7 +141,12 @@
         </v-list-item>
         <!-- the calender column stops -->
         <!-- the events column stops here -->
-        <v-list-group prepend-icon="mdi mdi-animation" color="yellow" value="true" v-model="events">
+        <v-list-group
+          prepend-icon="mdi-calendar-multiple"
+          color="yellow"
+          value="true"
+          v-model="events"
+        >
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(events)">Events</v-list-item-title>
           </template>
@@ -184,26 +162,38 @@
     </v-navigation-drawer>
 
     <!-- toolbar -->
+
     <v-card>
-      <v-toolbar color="orange" text dense height="85" flat fixed>
-        <v-app-bar-nav-icon @click.stop="drawer =!drawer" color="white"></v-app-bar-nav-icon>
-        <!-- ? <template v-slot:prepend></template> -->
+      <v-toolbar color="orange" text dense height="85" flat dark>
+        <v-app-bar-nav-icon @click.stop="drawer =!drawer" color="white">
+          <v-icon>mdi-view-headline</v-icon>
+        </v-app-bar-nav-icon>
+
+        <template v-slot:prepend></template>
+
         <v-toolbar-title class="white-=text text-center">
-          <span class="white--text header" bold>KMI UNICAL</span>
+          <span class="white--text header" bold v-if="admin">{{admin.toUpperCase()}}</span>
+          <span class="white--text header" bold v-else>RECORDS MANAGEMENT</span>
         </v-toolbar-title>
         <div class="flex-grow-1"></div>
 
         <!-- sign up  -->
 
-        <v-flex xs2 sm2 lg1>
-          <v-layout>
-            <v-row>
-              <v-icon class color="white" ripple="6">person</v-icon>
-              <router-link to="/login" id="login">
-                <v-card class="white--text ml-2" outlined id="login" color="orange" ripple>login</v-card>
-              </router-link>
-            </v-row>
-          </v-layout>
+        <v-flex xs2 sm2 lg1 md1>
+          <!-- <v-layout> -->
+          <v-row>
+            <v-icon class color="white" ripple="6">person</v-icon>
+
+            <v-card
+              class="white--text ml-2"
+              outlined
+              id="login"
+              @click="userStatusSend($event)"
+              color="orange"
+              ripple
+            >{{userStatusBtn}}</v-card> 
+          </v-row>
+          <!-- // </v-layout> -->
         </v-flex>
       </v-toolbar>
     </v-card>
@@ -241,7 +231,7 @@
   <!-- body of the wepbage define here -->
 </template>
 <style scoped>
-.card_title {
+/* .card_title {
   font-size: 20px;
   font-weight: bold;
   font-family: helvetica;
@@ -274,12 +264,13 @@
 .anchors {
   text-decoration: none;
   color: black;
-}
+} */
 </style>
 
 <script>
 //import HomePage from "./homePage.vue";
 import { concatInnerHtml } from "../helper.js";
+import { eventBus } from "../events.js";
 import { stringManipulation } from "../string_manipulation.js";
 export default {
   mixins: [stringManipulation],
@@ -288,6 +279,9 @@ export default {
   },
   data() {
     return {
+      userStatus: false, //  user not login display login button
+      userStatusBtn: "LOGIN", // BTN displays login if the the userStatus is false and LOGOUT if not
+      admin: localStorage.getItem("userName"),
       rout: "",
       drawer: true,
       listGroup: 0,
@@ -309,8 +303,8 @@ export default {
       ],
 
       medRecords: [
-        { icon: "person", record: "Financial Records" },
-        { icon: "group", record: "Attendance Record" },
+        { icon: "mdi mdi-account-tie", record: "Financial Records" },
+        { icon: "person-details-outline", record: "Attendance Record" },
         { icon: "group", record: "membership Record" }
       ],
       attendanceRecords: [
@@ -330,15 +324,43 @@ export default {
       ]
     };
   },
+  watch: {
+    admin() {
+      //  if (userStatus)
+      console.log(this.admin);
+      //  {}
+      // if (userName) {
+      //   this.admin = userName;
+      //   this.userStatus = "LOGOUT";
+      //   console.log(this.admin);
+      // } else {
+      //   this.userStatus = "LOGIN";
+      // }
+    }
+  },
   mounted() {
-    this.$store.dispatch("removeBranchCode");
-    //console.log(`this is branchCode ${this.$store.getters.getCode}`);
-    //localStorage.removeItem("branchCode");kmlklk
+    // get user logged in stored in the localstorage
+    // let userName = localStorage.getItem("userName");
+    // if (userName){
+    //   this.Admin = userName
+    //   this.userStatus = true
+    // }
   },
   methods: {
-    // setCharAt(str, index, charToReplace) {
-    //   return str.substring(0, index) + charToReplace + str.substring(index + 1);
-    // },
+    userStatusSend() {
+      ///let userStatus = event.target.innerText
+      if (!this.userStatus) {
+        this.$router.push({
+          path: "Auth/login"
+        });
+      } else if (this.userStatus) {
+        this.userStatusBtn = "LOGOUT";
+        localStorage.setItem("userName", "") && localStorage.setItem("id", "");
+        this.$router.push({
+          path: "Auth/login"
+        });
+      }
+    },
     runFnc(param) {
       return !param;
     },

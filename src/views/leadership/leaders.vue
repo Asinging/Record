@@ -2,52 +2,21 @@
 <template>
   <v-layout>
     <v-flex xs12>
-      <v-card>
-        <!-- <v-layout>
-          <v-flex xs12>
-            <AddDeleteCustomButton>
-              <template v-slot:button>
-                <v-btn
-                  text
-                  large
-                  depressed
-                  tile
-                  class="ml-1 mb-0 pt-2 pb-2 pl-1 pr-1 white--text addpastordelete"
-                  color="orange"
-                  @click="add"
-                >Add pastors</v-btn>
-              </template>
-            </AddDeleteCustomButton>
-          </v-flex>
-          <v-flex xs5 offset-lg8 offset-xs1>
-            <AddDeleteCustomButton>
-              <template v-slot:button>
-                <v-btn
-                  text
-                  large
-                  depressed
-                  tile
-                  class="white--text pr-1 pl-1"
-                  color="orange"
-                  @click="deleteLeader"
-                >Remove Pastor</v-btn>
-              </template>
-            </AddDeleteCustomButton>
-          </v-flex>
-        </v-layout>-->
-        <v-layout>
-          <v-flex xs12>
-            <AddDeleteCustomButton :clickFnc="add">
-              <template #btn="slotProps">add {{slotProps.btnName=leader}}</template>
-            </AddDeleteCustomButton>
-          </v-flex>
-          <v-flex xs5 offset-lg8 offset-xs1>
-            <AddDeleteCustomButton :clickFnc="deleteLeader">
-              <template #btn="slotProps">Delete {{slotProps.btnName=leader}}</template>
-            </AddDeleteCustomButton>
-          </v-flex>
-        </v-layout>
-      </v-card>
+      <v-layout>
+        <v-flex xs12>
+          <AddDeleteCustomButton :clickFnc="add">
+            <template #btn="slotProps">add {{slotProps.btnName=leader}}</template>
+          </AddDeleteCustomButton>
+        </v-flex>
+        <v-flex xs5 offset-lg8 offset-xs1 offset-md9>
+          <AddDeleteCustomButton :clickFnc="deleteLeader">
+            <template #btn="slotProps">Delete {{slotProps.btnName=leader}}</template>
+          </AddDeleteCustomButton>
+        </v-flex>
+      </v-layout>
+      <span color="green">
+        <marquee>RECORDS FOR {{leader.toUpperCase()}}</marquee>
+      </span>
       <v-data-table
         fixed-header
         v-model="selected"
@@ -58,7 +27,7 @@
         item-key="id"
         :loading-text="loadingMessage"
         show-select
-        class="elevation-1"
+        class="elevation-0"
       >
         <template v-slot:top>
           <v-switch v-model="singleSelect" label="Single select" class="pa-5"></v-switch>
@@ -111,7 +80,19 @@ export default {
     this.leader = localStorage.getItem("extractedText");
     console.log(this.leader);
     axios
-      .get("http://localhost:1337/" + this.htmlNodeText)
+      .get(
+        "http://localhost:1337/" + this.htmlNodeText,
+        {},
+        {
+          //   header: {
+          //     "Access-Control-Allow-Orign": "*",
+          //     "content-type": "application/json",
+          //     Authorization: "XSRF-TOKEN",
+          withCredentials: true
+          //   }
+          // }
+        }
+      )
       .then(resp => {
         console.log(resp);
         let response = resp.data;

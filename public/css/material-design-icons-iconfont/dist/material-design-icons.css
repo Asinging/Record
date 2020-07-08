@@ -8,11 +8,7 @@
     url("./fonts/MaterialIcons-Regular.woff2") format("woff2"),
     url("./fonts/MaterialIcons-Regular.woff") format("woff"),
     url("./fonts/MaterialIcons-Regular.ttf") format("truetype");
-  /* src: url("./css/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular");
-  src: local("Material Icons"), local("MaterialIcons-Regular"),
-    url("./css/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff2") format("woff2"),
-    url("./css/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.woff") format("woff"),
-    url("./css/material-design-icons-iconfont/dist/fonts/MaterialIcons-Regular.ttf") format("truetype"); */
+
 }
 
 .material-icons {

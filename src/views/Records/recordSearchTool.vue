@@ -2,14 +2,15 @@
   <v-layout>
     <v-flex>
       <span>{{formattedHtmlNodeText}}</span>
-      <v-row dense>
+      <v-row>
         <!-- calender Start here -->
 
         <v-col cols="12" v-if="calender">
           <v-col cols="12" sm="6" lg="12" md="1">
-            <v-date-picker v-model="dates" multiple color="orange">
+            <v-date-picker v-model="dates" multiple color="orange" class="flat" elevation-0>
               <v-btn text color="orange" @click="cancel">Cancel</v-btn>
-              <v-btn text color="orange" class="justify-end" @click="sumbitDates">Sumbit</v-btn>
+              <div class="flex-grow-1"></div>
+              <v-btn text color="orange" @click="sumbitDates">Sumbit</v-btn>
             </v-date-picker>
           </v-col>
           <v-col cols="12" sm="6">
@@ -39,6 +40,7 @@
         </v-col>
         <!-- spnner loader card starts from here -->
         <v-col cols="12" v-else-if="spinnerLoader">
+          <div class="flex-grow-1"></div>
           <v-card
             height="120"
             v-bind:style="{backgroundColor:color[
@@ -46,6 +48,7 @@
           >
             <v-p class="ma-5 white--text justify-center">
               please wait
+              
               <v-progress-circular
                 :size="40"
                 class="white--text ma-5 justify-center"
@@ -169,7 +172,6 @@ export default {
 
       color: [
         "#FF4500",
-        "#FFD700",
         "#FF8C00",
         "#FF6347",
 

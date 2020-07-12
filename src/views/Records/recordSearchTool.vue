@@ -308,18 +308,7 @@ export default {
                 name: "networkError"
               });
             } else if (response.length) {
-              //   if (
-              //     this.htmlElementFromPreviousClick == "firstTimers" ||
-              //     this.htmlElementFromPreviousClick == "secondTimers"
-              //   ) {
-              //     console.log(this.formattedHtmlNodeText);
-              //     this.$store.dispatch("searchedServerResponse", response);
-
-              //     this.$router.push({
-              //       name: "displayMembers"
-              //     });
-              //   }
-
+              
               if (this.formattedHtmlNodeText) {
                 console.log("this is it");
                 this.$router.push({

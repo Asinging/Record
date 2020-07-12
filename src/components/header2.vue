@@ -1,32 +1,31 @@
-<template>
+<template >
   <v-container class="pa-2">
-    <v-flex xs12 md12 lg12>
-      <v-sheet class="align-content-center mt-0 pt-2" height="100">
-        <v-layout>
-          <v-flex xs6 md4 lg6>
-            <i class="mt-3" width="10">
-              <img src="img/devImages/newKmiP.jpg" height="55" width="50" />
-            </i>
-          </v-flex>
-
-          <v-flex xs12 md4 lg12>
-            <span
-              class="pa-0 mb-1"
-              color="orange--text"
-              style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
-            >KINGDOM MOVEMENT</span>
-            <v-flex offset-xs1>
-              <span
-                class="mt-0"
-                style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
-              >INTERNATIONAL</span>
+    <v-layout>
+      <v-flex xs12 md12 lg12>
+        <v-sheet height="80">
+          <v-layout>
+            <v-flex xs6 md4 lg6 flat>
+              <i class="mt-3 pa-2" width="10" color="orange">
+                <img src="img/devImages/newKmiP.jpg" height="55" width="50" />
+              </i>
             </v-flex>
-          </v-flex>
-        </v-layout>
-      </v-sheet>
 
-      <!-- <router-view></router-view> -->
-    </v-flex>
+            <v-flex xs12 md4 lg8>
+              <span
+                class="pa-0 mb-1"
+                color="orange--text"
+                style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
+              >
+                KINGDOM MOVEMENT
+                <p
+                  style="color:#436609; font-family:verdana;  font-weight:bold; font-size:15px; padding-left:20px"
+                >INTERNATIONAL</p>
+              </span>
+            </v-flex>
+          </v-layout>
+        </v-sheet>
+      </v-flex>
+    </v-layout>
   </v-container>
 </template>
 <script >
@@ -62,7 +61,6 @@ export default {
       // ]
     };
   }
- 
 };
 </script>
 <style scoped>

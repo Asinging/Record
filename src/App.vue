@@ -1,35 +1,34 @@
 <template>
-  <v-app>
+  <div>
+    <v-app>
     <Header />
-    <!-- <Toolbar /> -->
-    <v-content transition="slide-x-transition">
-      <v-card>
-        <router-view></router-view>
-      </v-card>
-    </v-content>
-  </v-app>
+    <v-main>
+      <v-content transition="slide-x-transition">
+        <v-card flat color="white" class="main_view">
+          <Header2 />
+          <router-view></router-view>
+        </v-card>
+      </v-content>
+    </v-main>
+     </v-app> 
+  </div>
+  <!-- </v-app> -->
 </template>
 <script>
 import Header from "./components/header.vue";
-// import Toolbar from "./components/toolbar.vue";
+import Header2 from "./components/header2.vue";
 
 export default {
   name: "App",
   components: {
-    Header
-    // Toolbar
+    Header,
+    Header2
   },
   data() {
     return {};
   }
-  // beforeMount() {
-  //   if (
-  //     localStorage.getItem("branchCode") == null &&
-  //     this.$store.getters.getCode == ""
-  //   ) {
-  //     this.$router.push("/auth");
-  //   }
-  // }
 };
 </script>
+<style>
+</style>
 

@@ -1,49 +1,53 @@
 <template>
-  <v-layout>
-    <v-flex align-center>
-      <form @submit.prevent="login" class="vld-parent" ref="formContainer">
-        <v-card class="ma-1" ref="form">
-          <v-text-field
-            color="green"
-            ref="email"
-            v-model="email"
-            :rules="[
+  <v-container>
+    <v-layout>
+      <v-flex>
+        <form @submit.prevent="login" class="vld-parent" ref="formContainer">
+          <v-card class="ml-8 mr-8 elevation-0" ref="form">
+            <v-text-field
+              dense
+              color="green"
+              ref="email"
+              v-model="email"
+              :rules="[
             () => !!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || 'E-mail must be valid'
             ]"
-            label="Email"
-            placeholder="You@gmail.com"
-            type="email"
-            required
-          ></v-text-field>
-          <v-text-field
-            color="green"
-            ref="password"
-            v-model="password"
-            :rules="[
+              label="Email"
+              placeholder="You@gmail.com"
+              type="email"
+              required
+            ></v-text-field>
+            <v-text-field
+              dense
+              color="green"
+              ref="password"
+              v-model="password"
+              :rules="[
             () => !!password || 'password field must nto be empty']"
-            label="password"
-            type="password"
-            required
-            class="mb-5"
-          ></v-text-field>
-          <v-divider height="100"></v-divider>
-          <v-layout>
-            <v-flex xs12>
-              <Buttons :clickFnc="signUp">
-                <template #btn>signUP</template>
-              </Buttons>
-            </v-flex>
-            <v-flex xs5 offset-lg8 offset-xs1>
-              <Buttons :clickFnc="login">
-                <template #btn>Login</template>
-              </Buttons>
-              <!-- /</submitButtons> -->
-            </v-flex>
-          </v-layout>
-        </v-card>
-      </form>
-    </v-flex>
-  </v-layout>
+              label="password"
+              type="password"
+              required
+              class="mb-5"
+            ></v-text-field>
+            <v-divider></v-divider>
+            <v-layout>
+              <v-flex xs12>
+                <Buttons :clickFnc="signUp">
+                  <template #btn>signUP</template>
+                </Buttons>
+              </v-flex>
+              <v-flex xs5 offset-lg8 offset-xs1>
+                <Buttons :clickFnc="login">
+                  <template #btn>Login</template>
+                </Buttons>
+                <!-- /</submitButtons> -->
+              </v-flex>
+            </v-layout>
+          </v-card>
+        </form>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>

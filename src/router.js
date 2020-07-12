@@ -195,6 +195,25 @@ const routes = [{
       requiresAuth: true
     }
   },
+  // misc from here
+
+  {
+    path: '/Misc/mandate',
+    name: 'mandate',
+    component: () => import('./views/misc/mandate.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/Misc/calendar',
+    name: 'calendar',
+    component: () => import('./views/misc/mandate.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+
 ];
 const router = new Router({
   routes,

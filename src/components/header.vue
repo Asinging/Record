@@ -1,15 +1,51 @@
 <template>
   <div id="inpired">
-    <v-navigation-drawer app v-model="drawer" temporary width="280">
+    <!-- <v-app> -->
+    <v-card dark>
+      <v-toolbar text dense height="90" flat>
+        <v-app-bar-nav-icon @click.stop="drawer =!drawer" color="secondary">
+          <v-icon>mdi-view-headline</v-icon>
+        </v-app-bar-nav-icon>
+
+        <template v-slot:prepend></template>
+
+        <v-toolbar-title class="white-=text text-center">
+          <span class="white--text header" bold v-if="admin">{{admin.toUpperCase()}}</span>
+          <span class="white--text header" bold v-else>RECORDS MANAGEMENT</span>
+        </v-toolbar-title>
+        <div class="flex-grow-1"></div>
+
+        <!-- sign up  -->
+
+        <v-flex xs3 sm2 lg1 md1>
+          <!-- <v-layout> -->
+          <v-row>
+            <v-icon class color="primary" ripple="6">person</v-icon>
+
+            <v-card
+              class="white--text ml-2"
+              outlined
+              id="login"
+              @click="userStatusSend($event)"
+              color="orange"
+              ripple
+            >{{userStatusBtn}}</v-card>
+          </v-row>
+          <!-- // </v-layout> -->
+        </v-flex>
+      </v-toolbar>
+    </v-card>
+
+    <v-navigation-drawer app v-model="drawer" absolute and width="280" dark>
       <template v-slot:prepend>
         <v-layout>
           <v-flex offset-xs1></v-flex>
-          <div class="mt-3">
+          <div class="mt-3 mb-5">
             <img src="img/devImages/newKmiP.jpg" height="90" width="80" />
           </div>
 
           <!-- <v-spacer></v-spacer> -->
-          <v-list-item class="ma-12 mb-4 pr-3">
+          <v-list-item class="ma-5 mb-4 pr-3">
             <v-list-item-content>
               <v-list-item-title class="side_bar_title">DASHBOARD</v-list-item-title>
             </v-list-item-content>
@@ -30,7 +66,7 @@
 
         <!-- the leadership column starts here -->
 
-        <v-list-group prepend-icon="person" value="true" v-model="leadership">
+        <v-list-group prepend-icon="person" value="true" v-model="leadership" color="green">
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(leadership)">Leadership</v-list-item-title>
           </template>
@@ -54,7 +90,7 @@
 
         <!-- the records column starts here -->
 
-        <v-list-group prepend-icon=" mdi-animation" value="true" v-model="records">
+        <v-list-group prepend-icon=" mdi-animation" value="true" v-model="records" color="green">
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(records)">Records</v-list-item-title>
           </template>
@@ -87,6 +123,7 @@
             value="tet"
             v-model="attendance"
             prepend-icon="mdi-account-switch"
+            color="green"
           >
             <template v-slot:activator>
               <v-list-item-content>
@@ -111,7 +148,13 @@
             <v-divider></v-divider>
           </template>
 
-          <v-list-group sub-group value="test" v-model="members" prepend-icon="mdi-account-heart">
+          <v-list-group
+            sub-group
+            value="test"
+            v-model="members"
+            color="green"
+            prepend-icon="mdi-account-heart"
+          >
             <template v-slot:activator>
               <v-list-item-content>
                 <v-list-item-title @click="runFnc(members)">Members Records</v-list-item-title>
@@ -131,19 +174,11 @@
           <v-divider></v-divider>
         </template>
         <!-- the records column stop here -->
-        <!-- the calender column start here -->
-        <v-list-item @click="false">
-          <v-list-item-icon>
-            <v-icon>mdi-calendar-month</v-icon>
-          </v-list-item-icon>
 
-          <v-list-item-title class="subtitle-1">Calendar</v-list-item-title>
-        </v-list-item>
-        <!-- the calender column stops -->
         <!-- the events column stops here -->
         <v-list-group
           prepend-icon="mdi-calendar-multiple"
-          color="yellow"
+          color="green"
           value="true"
           v-model="events"
         >
@@ -152,80 +187,39 @@
           </template>
           <v-list-item @click="routerLink($event)">
             <v-list-item-icon>
-              <v-icon color="green">event</v-icon>
+              <v-icon color="secondary">event</v-icon>
             </v-list-item-icon>
             <v-list-item-title>Birthdays</v-list-item-title>
           </v-list-item>
         </v-list-group>
         <!-- the events column stops here -->
+        <!-- the calender column start here -->
+        <v-list-group prepend-icon="person" value="true" v-model="misc" color="green">
+          <template v-slot:activator>
+            <v-list-item-title class="subtitle-1" @click="runFnc(misc)">Misc</v-list-item-title>
+          </template>
+          <v-list-item
+            v-for="(item, calender) in miscellaneous"
+            :key="calender"
+            @click="routerLink($event)"
+          >
+            <v-list-item-content>
+              <v-list-item-title color="green" ref="item">{{item.data}}</v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="green">{{item.icon}}</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+
+        <!-- the calender column stops -->
       </v-list>
     </v-navigation-drawer>
 
     <!-- toolbar -->
 
-    <v-card>
-      <v-toolbar color="orange" text dense height="85" flat dark>
-        <v-app-bar-nav-icon @click.stop="drawer =!drawer" color="white">
-          <v-icon>mdi-view-headline</v-icon>
-        </v-app-bar-nav-icon>
-
-        <template v-slot:prepend></template>
-
-        <v-toolbar-title class="white-=text text-center">
-          <span class="white--text header" bold v-if="admin">{{admin.toUpperCase()}}</span>
-          <span class="white--text header" bold v-else>RECORDS MANAGEMENT</span>
-        </v-toolbar-title>
-        <div class="flex-grow-1"></div>
-
-        <!-- sign up  -->
-
-        <v-flex xs2 sm2 lg1 md1>
-          <!-- <v-layout> -->
-          <v-row>
-            <v-icon class color="white" ripple="6">person</v-icon>
-
-            <v-card
-              class="white--text ml-2"
-              outlined
-              id="login"
-              @click="userStatusSend($event)"
-              color="orange"
-              ripple
-            >{{userStatusBtn}}</v-card> 
-          </v-row>
-          <!-- // </v-layout> -->
-        </v-flex>
-      </v-toolbar>
-    </v-card>
-
     <!-- header 2  -->
-
-    <v-layout>
-      <v-flex xs12 md12 lg12>
-        <v-sheet class="align-content-center mt-0 pt-5" height="100">
-          <v-layout>
-            <v-flex xs6 md4 lg6>
-              <i class="mt-3 pa-2" width="10" color="orange">
-                <img src="img/devImages/newKmiP.jpg" height="55" width="50" />
-              </i>
-            </v-flex>
-
-            <v-flex xs12 md4 lg8>
-              <span
-                class="pa-0 mb-1"
-                color="orange--text"
-                style="color:#436609; font-family:verdana; padding-right:20px; font-weight:bold; font-size:15px"
-              >
-                KINGDOM MOVEMENT
-                <p
-                  style="color:#436609; font-family:verdana;  font-weight:bold; font-size:15px; padding-left:20px"
-                >INTERNATIONAL</p>
-              </span>
-            </v-flex>
-          </v-layout>
-        </v-sheet>
-      </v-flex>
-    </v-layout>
+    <!-- </v-app> -->
   </div>
 
   <!-- body of the wepbage define here -->
@@ -279,6 +273,7 @@ export default {
   },
   data() {
     return {
+      misc: "",
       userStatus: false, //  user not login display login button
       userStatusBtn: "LOGIN", // BTN displays login if the the userStatus is false and LOGOUT if not
       admin: localStorage.getItem("userName"),
@@ -321,6 +316,10 @@ export default {
         { icon: "mdi-transit-transfer", comers: "Members" },
         { icon: "mdi-account-check", comers: "Regular Members" },
         { icon: "mdi-transit-transfer", comers: "Irregular Members" }
+      ],
+      miscellaneous: [
+        { icon: "mdi-transit-transfer", data: "Mandate" },
+        { icon: "mdi-account-check", data: "Calender" }
       ]
     };
   },

@@ -8,7 +8,7 @@
             <template #btn="slotProps">add {{slotProps.btnName=leader}}</template>
           </AddDeleteCustomButton>
         </v-flex>
-        <v-flex xs5 offset-lg8 offset-xs1 offset-md9>
+        <v-flex xs5 offset-lg8 offset-xs2 offset-md9>
           <AddDeleteCustomButton :clickFnc="deleteLeader">
             <template #btn="slotProps">Delete {{slotProps.btnName=leader}}</template>
           </AddDeleteCustomButton>

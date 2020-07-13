@@ -27,9 +27,6 @@ import "vue-loading-overlay/dist/vue-loading.css"
 Vue.use(Loader)
 
 
-
-
-
 new Vue({
 
   router,

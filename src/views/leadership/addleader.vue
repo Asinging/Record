@@ -4,6 +4,7 @@
       <v-card ref="form" class="ma-3">
         <v-container>
           <v-text-field
+            dense
             color="green"
             clearable
             ref="fullName"
@@ -14,6 +15,7 @@
             required
           ></v-text-field>
           <v-text-field
+            dense
             color="green"
             ref="department"
             :disabled="validated"
@@ -36,6 +38,7 @@
             class="mb-5"
           ></v-text-field>
           <v-text-field
+            dense
             color="green"
             ref="dateOfBirth"
             v-model="dateOfBirth"
@@ -45,16 +48,9 @@
             required
             class="mb-5"
           ></v-text-field>
-          <!-- <v-text-field
-            v-if="caders"
-            color="green"
-            ref="timelyComing"
-            v-model="timelyComing"
-            label="are you a firstTimer, secondTimer, indicate pls"
-            class="mb-5"
-     
-          <!-- </v-text-field>-->
+
           <v-text-field
+            dense
             color="green"
             ref="address"
             v-model="address"
@@ -62,6 +58,7 @@
             class="mb-5"
           ></v-text-field>
           <v-text-field
+            dense
             v-if="caders"
             color="green"
             ref="dateOfService"
@@ -72,8 +69,8 @@
           <span v-if="caders">
             <v-p color="gray">pls ignore if you are member</v-p>
             <v-radio-group v-model="timelyComing" row>
-              <v-radio label="First Timer" color="orange" value="first"></v-radio>
-              <v-radio label="Second Timer" color="orange" value="second"></v-radio>
+              <v-radio label="First Timer" color="secondary" value="first"></v-radio>
+              <v-radio label="Second Timer" color="secondary" value="second"></v-radio>
             </v-radio-group>
           </span>
           <v-divider height="100"></v-divider>
@@ -81,12 +78,12 @@
             <v-layout>
               <v-flex xs10>
                 <span>
-                  <v-btn class="mt-2" color="orange" text @click="cancel">cancel</v-btn>
+                  <v-btn class="mt-2" color="secondary" text @click="cancel">cancel</v-btn>
                 </span>
               </v-flex>
               <v-flex xs1>
                 <span>
-                  <v-btn class="mt-2" color="orange" text @click=" submit">Submit</v-btn>.
+                  <v-btn class="mt-2" color="secondary" text @click=" submit">Submit</v-btn>.
                 </span>
               </v-flex>
             </v-layout>

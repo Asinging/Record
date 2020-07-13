@@ -5,21 +5,22 @@
         <form @submit.prevent="login" class="vld-parent" ref="formContainer">
           <v-card class="ml-8 mr-8 elevation-0" ref="form">
             <v-text-field
+              prepend-icon="mdi-email"
               dense
-              color="green"
+              color="primary"
               ref="email"
               v-model="email"
               :rules="[
             () => !!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || 'E-mail must be valid'
             ]"
               label="Email"
-              placeholder="You@gmail.com"
               type="email"
               required
             ></v-text-field>
             <v-text-field
+              prepend-icon="mdi-key"
               dense
-              color="green"
+              color="primary"
               ref="password"
               v-model="password"
               :rules="[
@@ -29,6 +30,11 @@
               required
               class="mb-5"
             ></v-text-field>
+            <v-flex offset-lg10 offset-xs10 offset-md10>
+              <Buttons :clickFnc="login">
+                <template #btn>Login</template>
+              </Buttons>
+            </v-flex>
             <v-divider></v-divider>
             <v-layout>
               <v-flex xs12>
@@ -36,9 +42,9 @@
                   <template #btn>signUP</template>
                 </Buttons>
               </v-flex>
-              <v-flex xs5 offset-lg8 offset-xs1>
-                <Buttons :clickFnc="login">
-                  <template #btn>Login</template>
+              <v-flex xs5 offset-lg8 offset-xs1 offset-md10>
+                <Buttons :clickFnc="forgotPassword">
+                  <template #btn>Forgot Password</template>
                 </Buttons>
                 <!-- /</submitButtons> -->
               </v-flex>

@@ -48,7 +48,6 @@
           >
             <v-p class="ma-5 white--text justify-center">
               please wait
-              
               <v-progress-circular
                 :size="40"
                 class="white--text ma-5 justify-center"
@@ -114,10 +113,7 @@
       Math.floor(Math.random() *color.length)]}"
             class="white--text pd-3"
           >
-            <v-card-title class="headline">
-              This Month {{color[
-              Math.floor(Math.random() *color.length)]}}
-            </v-card-title>
+            <v-card-title class="headline">This Month</v-card-title>
 
             <v-card-subtitle class="white--text ma-5">The Month Entries Can Be Requsted</v-card-subtitle>
 
@@ -135,8 +131,15 @@
         <!-- this year start -->
 
         <v-col cols="12">
-          <v-card color="orange" v-if="!flag">
-            <v-card-title class="white--text pd-3">This Year</v-card-title>
+          <v-card
+            v-if="!flag"
+            v-bind:style="{backgroundColor:color[
+      Math.floor(Math.random() *color.length)]}"
+          >
+            <v-card-title class="white--text pd-3">
+              This Year{{color[
+              Math.floor(Math.random() *color.length)]}}
+            </v-card-title>
 
             <v-card-subtitle class="white--text ma-5">The Entire Year Entries Can also Be Search</v-card-subtitle>
 
@@ -171,14 +174,14 @@ export default {
       backgroundColor: "",
 
       color: [
-        "#FF4500",
-        "#FF8C00",
-        "#FF6347",
+        "#8BC34A",
+        "#C8E6C9",
+        "#8BC34A",
 
-        "#F29215",
-        "#B56F15",
-        "#FFAE09",
-        "#DAA520"
+        "#A5D6A7",
+        "#81C784",
+        "#AED581",
+        "#66BB6A"
       ]
     };
   },
@@ -308,7 +311,6 @@ export default {
                 name: "networkError"
               });
             } else if (response.length) {
-              
               if (this.formattedHtmlNodeText) {
                 console.log("this is it");
                 this.$router.push({

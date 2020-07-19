@@ -4,7 +4,7 @@
       <NavDrawer />
       <v-main>
         <v-content transition="slide-x-transition">
-          <v-card flat color="white" class="main_view">
+          <v-card flat color="white" class="main_view" height="650">
             <!-- // <Toolbar /> -->
             <Header />
             <router-view></router-view>

@@ -2,7 +2,7 @@
   <v-layout>
     <v-flex>
       <v-row>
-        <v-flex xs12 sm12 md lg12>
+        <v-flex xs12 sm12 md6 lg6>
           <v-card
             v-for="card in cards"
             :key="card.title"
@@ -13,7 +13,7 @@
             <v-card-title v-text="card.title" class="ccard_title"></v-card-title>
             <v-card-text v-text="card.text"></v-card-text>
 
-            <v-flex offset-xs9 offset-sm11>
+            <v-flex offset-xs9 offset-sm11 offset-lg9>
               <v-card-action>
                 <v-btn
                   depressed

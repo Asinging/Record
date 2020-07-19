@@ -1,57 +1,69 @@
 <template>
   <v-container>
     <v-layout>
-      <v-flex>
-        <form @submit.prevent="login" class="vld-parent" ref="formContainer">
-          <v-card class="ml-8 mr-8 elevation-0" ref="form">
-            <v-text-field
-              prepend-icon="mdi-email"
-              dense
-              color="primary"
-              ref="email"
-              v-model="email"
-              :rules="[
-            () => !!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) || 'E-mail must be valid'
-            ]"
-              label="Email"
-              type="email"
-              required
-            ></v-text-field>
-            <v-text-field
-              prepend-icon="mdi-key"
-              dense
-              color="primary"
-              ref="password"
-              v-model="password"
-              :rules="[
-            () => !!password || 'password field must nto be empty']"
-              label="password"
-              type="password"
-              required
-              class="mb-5"
-            ></v-text-field>
-            <v-flex offset-lg10 offset-xs10 offset-md10>
-              <Buttons :clickFnc="login">
-                <template #btn>Login</template>
-              </Buttons>
-            </v-flex>
-            <v-divider></v-divider>
-            <v-layout>
-              <v-flex xs12>
-                <Buttons :clickFnc="signUp">
-                  <template #btn>signUP</template>
-                </Buttons>
-              </v-flex>
-              <v-flex xs5 offset-lg8 offset-xs1 offset-md10>
-                <Buttons :clickFnc="forgotPassword">
-                  <template #btn>Forgot Password</template>
-                </Buttons>
-                <!-- /</submitButtons> -->
-              </v-flex>
-            </v-layout>
+      <v-row>
+        <v-col cols="8" xs="12" sm="8" md="12" lg="6">
+          <i>
+            <v-img src="img/devImages/door.png" height="500" width="400" />
+          </i>
+        </v-col>
+        <v-col cols="12" xs="12" sm="4" md="6" lg="6" xl="1">
+          <v-card class="mt-6 elavation-0" flat>
+            <form @submit.prevent="login" class="vld-parent" ref="formContainer">
+              <v-card class="ml-8 mr-8 elevation-0" ref="form">
+                <v-text-field
+                  prepend-inner-icon="mdi-email"
+                  color="primary"
+                  ref="email"
+                  v-model="email"
+                  :rules="[
+                        () =>
+                          !!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
+                            email
+                          ) || 'E-mail must be valid',
+                      ]"
+                  label="Email"
+                  type="email"
+                  required
+                ></v-text-field>
+                <v-text-field
+                  prepend-inner-icon="mdi-key"
+                  color="primary"
+                  ref="password"
+                  v-model="password"
+                  :rules="[
+                        () => !!password || 'password field must nto be empty',
+                      ]"
+                  label="password"
+                  type="password"
+                  required
+                  class="mb-0"
+                ></v-text-field>
+                <v-flex offset-lg10 offset-xs10 offset-md10>
+                  <Buttons :clickFnc="login">
+                    <template #btn>Login</template>
+                  </Buttons>
+                </v-flex>
+                <v-divider></v-divider>
+                <v-layout>
+                  <v-flex xs12>
+                    <Buttons :clickFnc="signUp">
+                      <template #btn>signUP</template>
+                    </Buttons>
+                  </v-flex>
+                  <v-flex xs5 offset-lg1 offset-xs1 offset-md10>
+                    <Buttons :clickFnc="forgotPassword">
+                      <template #btn>Forgot Password</template>
+                    </Buttons>
+                    <!-- /</submitButtons> -->
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </form>
           </v-card>
-        </form>
-      </v-flex>
+          <!-- </v-col> -->
+        </v-col>
+      </v-row>
     </v-layout>
   </v-container>
 </template>
@@ -226,4 +238,3 @@ export default {
   padding-left: 20px;
 }
 </style>
- 

@@ -213,6 +213,14 @@ const routes = [{
       requiresAuth: true
     }
   },
+  {
+    path: '/setuppage',
+    name: 'setuppage',
+    component: () => import('./views/setupPage/recordSetup.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
 
 ];
 const router = new Router({

@@ -67,7 +67,7 @@
 
         <!-- the leadership column starts here -->
 
-        <v-list-group prepend-icon="person" value="true" v-model="leadership" color="secondary">
+        <v-list-group prepend-icon="person" value="true" v-model="leadership" color="primary">
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(leadership)">Leadership</v-list-item-title>
           </template>
@@ -91,12 +91,7 @@
 
         <!-- the records column starts here -->
 
-        <v-list-group
-          prepend-icon=" mdi-animation"
-          value="true"
-          v-model="records"
-          color="secondary"
-        >
+        <v-list-group prepend-icon=" mdi-animation" value="true" v-model="records" color="primary">
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(records)">Records</v-list-item-title>
           </template>
@@ -129,7 +124,7 @@
             value="tet"
             v-model="attendance"
             prepend-icon="mdi-account-switch"
-            color="secondary"
+            color="primary"
           >
             <template v-slot:activator>
               <v-list-item-content>
@@ -184,7 +179,7 @@
         <!-- the events column stops here -->
         <v-list-group
           prepend-icon="mdi-calendar-multiple"
-          color="secondary"
+          color="primary"
           value="true"
           v-model="events"
         >
@@ -319,7 +314,8 @@ export default {
   },
   methods: {
     userStatusSend() {
-      if (!this.userStatus) { // no user logged in
+      if (!this.userStatus) {
+        // no user logged in
         this.$router.push({
           name: "login"
         });

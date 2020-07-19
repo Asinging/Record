@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex align-center>
-      <v-card ref="form" class="ma-3">
+      <v-card ref="form" class="ma-3 elevation-0" width="200">
         <v-container>
           <v-text-field
             dense
@@ -73,7 +73,7 @@
               <v-radio label="Second Timer" color="secondary" value="second"></v-radio>
             </v-radio-group>
           </span>
-          <v-divider height="100"></v-divider>
+          <v-divider height="50"></v-divider>
           <div>
             <v-layout>
               <v-flex xs10>
@@ -105,7 +105,7 @@ export default {
       phone: "",
       dateOfBirth: "",
       address: "",
-      prevRoute: "this the previous route",
+       prevRoute: "this the previous route",
       formHasError: false,
       url: "",
       caders: false,

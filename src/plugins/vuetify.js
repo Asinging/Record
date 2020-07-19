@@ -2,20 +2,20 @@
  import Vuetify from 'vuetify'
  import 'vuetify/dist/vuetify.min.css'
 
- //import 'material-design-icons-iconfont/dist/material-design-icons.css'
+ import 'material-design-icons-iconfont/dist/material-design-icons.css'
  import '@mdi/font/css/materialdesignicons.css'
  import colors from 'vuetify/lib/util/colors'
 
  // // import { preset } from 'vue-cli-plugin-vuetify-preset-crane/preset'
 
 
- Vue.use(Vuetify)
+ Vue.use(Vuetify, {
+   iconfont: 'mdi ',
+ })
 
  export default new Vuetify({
 
-   icons: {
-     iconfont: 'mdi ',
-   },
+
    theme: {
      themes: {
        light: {

@@ -11,9 +11,9 @@ import $ from "jquery/dist/jquery.js"
 
 //import store from './views/store/index.js'
 import './registerServiceWorker'
-import 'roboto-fontface/css/roboto/roboto-fontface.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import '@fortawesome/fontawesome-free/css/all.css'
+// import 'roboto-fontface/css/roboto/roboto-fontface.css'
+// import 'material-design-icons-iconfont/dist/material-design-icons.css'
+// import '@fortawesome/fontawesome-free/css/all.css'
 import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.config.productionTip = false

@@ -42,7 +42,7 @@ export default {
           title: "LEADERSHIP",
           action: "MORE",
           text:
-            " This judiciously and elaboratively express the leadership of the church and its records, starting from" +
+            " This judiciously and elaboratively expresses the leadership of the church and its records, starting from" +
             " the head pastors down to the ministers and down to the heads of units/department"
         },
         {
@@ -72,7 +72,15 @@ export default {
       ]
     };
   },
-  methods: {}
+  methods: {},
+  beforeMount() {
+    this.$store.getters.authDetails.userName
+      ? false
+      : this.$router.push({ name: "login" });
+    // localStorage.getItem("orgName" === undefined)
+    //   ? this.$router.push({ name: "setuppage" })
+    //   : false;
+  }
 };
 </script>
 <style scoped>

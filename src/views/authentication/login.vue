@@ -2,66 +2,82 @@
   <v-container>
     <v-layout>
       <v-row>
-        <v-col cols="8" xs="12" sm="8" md="12" lg="6">
-          <i>
-            <v-img src="img/devImages/door.png" height="500" width="400" />
-          </i>
-        </v-col>
-        <v-col cols="12" xs="12" sm="4" md="6" lg="6" xl="1">
-          <v-card class="mt-6 elavation-0" flat>
-            <form @submit.prevent="login" class="vld-parent" ref="formContainer">
-              <v-card class="ml-8 mr-8 elevation-0" ref="form">
-                <v-text-field
-                  prepend-inner-icon="mdi-email"
-                  color="primary"
-                  ref="email"
-                  v-model="email"
-                  :rules="[
+        <v-col cols="12" xs="12" sm="12" lg="12" xl="12">
+          <v-card class="elevaton-1">
+            <v-row>
+              <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6">
+                <v-card class flat>
+                  <i>
+                    <v-img src="img/devImages/door.png" height="500" width="400" />
+                  </i>
+                </v-card>
+              </v-col>
+              <v-col cols="12" xs="12" sm="4" md="6" lg="6" xl="1" justify-end>
+                <v-card class="justify-end ma-5" flat>
+                  <form @submit.prevent="login" class="vld-parent" ref="formContainer">
+                    <v-card class="ml-8 elevation-0" ref="form">
+                      <v-text-field
+                        prepend-inner-icon="mdi-email"
+                        color="primary"
+                        ref="email"
+                        v-model="email"
+                        :rules="[
                         () =>
                           !!/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
                             email
                           ) || 'E-mail must be valid',
                       ]"
-                  label="Email"
-                  type="email"
-                  required
-                ></v-text-field>
-                <v-text-field
-                  prepend-inner-icon="mdi-key"
-                  color="primary"
-                  ref="password"
-                  v-model="password"
-                  :rules="[
+                        label="Email"
+                        type="email"
+                        required
+                      ></v-text-field>
+                      <v-text-field
+                        prepend-inner-icon="mdi-key"
+                        color="primary"
+                        ref="password"
+                        v-model="password"
+                        :rules="[
                         () => !!password || 'password field must nto be empty',
                       ]"
-                  label="password"
-                  type="password"
-                  required
-                  class="mb-0"
-                ></v-text-field>
-                <v-flex offset-lg10 offset-xs10 offset-md10>
-                  <Buttons :clickFnc="login">
-                    <template #btn>Login</template>
-                  </Buttons>
-                </v-flex>
-                <v-divider></v-divider>
-                <v-layout>
-                  <v-flex xs12>
-                    <Buttons :clickFnc="signUp">
-                      <template #btn>signUP</template>
-                    </Buttons>
-                  </v-flex>
-                  <v-flex xs5 offset-lg1 offset-xs1 offset-md10>
-                    <Buttons :clickFnc="forgotPassword">
-                      <template #btn>Forgot Password</template>
-                    </Buttons>
-                    <!-- /</submitButtons> -->
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </form>
+                        label="password"
+                        type="password"
+                        required
+                        class="mb-0"
+                      ></v-text-field>
+                      <v-card class="ma-1" flat>
+                        <v-layout>
+                          <v-flex>
+                            <!-- / login button -->
+                            <v-flex offset-lg10 offset-xs10 offset-md10>
+                              <Buttons :clickFnc="login" class>
+                                <template #btn>Login</template>
+                              </Buttons>
+                            </v-flex>
+                            <v-divider></v-divider>
+                            <!-- signUp and forgotten passoword -->
+                            <v-layout>
+                              <v-flex xs12>
+                                <Buttons :clickFnc="signUp">
+                                  <template #btn>signUP</template>
+                                </Buttons>
+                              </v-flex>
+                              <v-flex xs5 offset-lg1 offset-xs1 offset-md1>
+                                <Buttons :clickFnc="forgotPassword">
+                                  <template #btn>Forgot Password</template>
+                                </Buttons>
+                                <!-- /</submitButtons> -->
+                              </v-flex>
+                            </v-layout>
+                          </v-flex>
+                        </v-layout>
+                      </v-card>
+                    </v-card>
+                  </form>
+                </v-card>
+                <!-- </v-col> -->
+              </v-col>
+            </v-row>
           </v-card>
-          <!-- </v-col> -->
         </v-col>
       </v-row>
     </v-layout>
@@ -171,15 +187,12 @@ export default {
             "http://localhost:1337/login",
             {
               params: userLogin
+            },
+            {
+              header: {
+                "content-type": "application/json"
+              }
             }
-            // {
-            //   header: {
-            //     "Access-Control-Allow-Orign": "*",
-            //     "content-type": "application/json",
-            //     Authorization: "XSRF-TOKEN",
-            //     withCredentials: true
-            //   }
-            // }
           )
           .catch(err => {
             if (err) {
@@ -193,6 +206,10 @@ export default {
 
             let userName = response.data.data.full_name;
             let userId = response.data.data.id;
+            this.$store.dispatch("authDetails", {
+              userName: userName,
+              userId: userId
+            });
             localStorage.setItem("userName", userName);
             localStorage.setItem("userId", userId);
             //eventBus.$emit("userName", userName);
@@ -219,7 +236,7 @@ export default {
             //resolve(response);
 
             this.$router.push({
-              name: "home"
+              name: "setuppage"
             });
 
             loader.hide();

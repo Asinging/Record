@@ -17,7 +17,7 @@
                     <v-stepper-content step="1"></v-stepper-content>
                     <v-stepper-step step="2" :complete="stepper">Initial</v-stepper-step>
                     <v-stepper-content step="2"></v-stepper-content>
-                    <v-stepper-step step="3" complete>Logo</v-stepper-step>
+                    <v-stepper-step step="3" complete>orgLogo</v-stepper-step>
                     <v-stepper-content step="3"></v-stepper-content>
                   </v-stepper>
                 </v-card>
@@ -40,42 +40,41 @@
                         autofocus
                         active
                         shaped
-                        id="organizationName"
+                        id="orgName"
                         placeholder="The name of the organisation exactly how you wnat it to  appear"
                         outlined
                         auto-grow
                         background-color="#E8F5E9"
-                        ref="organizationName"
+                        ref="orgName"
                         color="primary"
                         class="h1"
-                        v-model="organizationName"
+                        v-model="orgName"
                         label="Name "
                       ></v-textarea>
 
-                     
                       <v-textarea
                         shaped
                         style="font-size:1.em !important"
                         id="initial"
-                        placeholder="An abbreviation that best summary the name Example Eje sunday Onah as Ejuno or EJS"
+                        placeholder="An orgInitial that best summary the name Example Eje sunday Onah as Ejuno or EJS"
                         outlined
                         auto-grow
                         background-color="#E8F5E9"
                         color="primary"
-                        ref="abbreviation"
-                        v-model="abbreviation"
+                        ref="orgInitial"
+                        v-model="orgInitial"
                         label="Initial"
                       ></v-textarea>
-                       <v-text-field
+                      <v-text-field
                         outlined
                         auto-grows
                         shaped
-                        id="logo"
+                        id="orgLogo"
                         background-color="#E8F5E9"
                         color="primary"
-                        ref="logo"
-                        v-model="logo"
-                        label="logo"
+                        ref="orgLogo"
+                        v-model="orgLogo"
+                        label="Logo"
                         type="file"
                       ></v-text-field>
                     </v-card-text>
@@ -120,15 +119,12 @@ export default {
       responseReceived: false,
       serverResponse: "",
       formHasErrors: false,
-      errorMessages: "",
-      organizationName: "",
-      loader: "",
-      logo: "",
-      abbreviation: "",
-      reabbreviation: "",
-      loadingEffect: false,
-      prevRoute: "this is the pre",
-      setupDetails: ["Church Name", "ChurchLogo", "Church Initial"]
+
+      orgName: "",
+
+      orgLogo: "",
+      orgInitial: "",
+      loader: ""
     };
   },
 
@@ -157,23 +153,21 @@ export default {
   computed: {
     form() {
       return {
-        fullNname: this.organizationName,
+        orgName: this.orgName,
 
-        logo: this.logo,
-        abbreviation: this.abbreviation,
-        reabbreviation: this.reabbreviation
+        orgLogo: this.orgLogo,
+        orgInitial: this.orgInitial
       };
     }
   },
 
   methods: {
     submit() {
-      alert("hidd");
       //debugger;
       var userDetails = {
-        organizationName: this.organizationName,
-        logo: this.logo,
-        abbreviation: this.abbreviation //
+        orgName: this.orgName,
+        orgLogo: this.orgLogo,
+        orgInitial: this.orgInitial //
       };
       //this.formHasErrors = false;
 
@@ -202,6 +196,7 @@ export default {
         let dis = this;
         this.responseReceived = false;
         let loader = this.loader;
+        //alert("this is the file upload process");
         axios
           .get(
             "http://localhost:1337/appSetupDetatails",
@@ -210,6 +205,7 @@ export default {
             },
             {
               header: {
+                // "with-Credentials": true,
                 "content-type": "application/json"
               }
             }
@@ -228,10 +224,12 @@ export default {
               // this.serverResponse = response.data.message;
               //debugger;
 
-              this.$router.push({ name: "login" });
+              this.$router.push({ name: "home" });
               loader.hide();
             }
           });
+      } else {
+        alert("this is not  the file upload process");
       }
     }
   }
@@ -246,7 +244,7 @@ export default {
   color: red;
   font-size: 50px;
 }
-#organizationName {
+#orgName {
   background-color: red !important;
   color: red !important;
 }

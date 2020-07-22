@@ -42,7 +42,7 @@
         <v-layout>
           <v-flex offset-xs1></v-flex>
           <div class="mt-3 mb-5">
-            <img src="img/devImages/newKmiP.jpg" height="90" width="80" />
+            <img src="img/devImages/avat1.jpg" height="90" width="80" />
           </div>
 
           <!-- <v-spacer></v-spacer> -->

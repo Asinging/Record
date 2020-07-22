@@ -221,7 +221,8 @@ export default {
               this.responseReceived = true;
               this.serverResponse = err;
             }
-            console.info(err);
+            console.error(err.response);
+            this.$swal(err.response.data)
           })
           .then(response => {
             if (response) {

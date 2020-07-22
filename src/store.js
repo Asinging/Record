@@ -9,7 +9,12 @@ export default new Vuex.Store({
     preRoute: "",
     draw: '',
     NODEText: '',
-    searchedServerResponse: ""
+    searchedServerResponse: "",
+    user: {
+      useName: '',
+      userId: ''
+    }
+
 
   },
   mutations: {
@@ -28,8 +33,12 @@ export default new Vuex.Store({
     },
     navigationDrawer(state, draw) {
       state.draw = draw
-    }
+    },
 
+    authDetails(state, user) {
+      state.user.userName = user.userName
+      state.user.userId = user.userId
+    }
 
   },
   actions: {
@@ -54,6 +63,11 @@ export default new Vuex.Store({
       commit
     }, draw) {
       commit("navigationDrawer", draw)
+    },
+    authDetails({
+      commit
+    }, user) {
+      commit("authDetails", user)
     }
   },
   getters: {
@@ -70,6 +84,9 @@ export default new Vuex.Store({
     },
     navigationDrawer(state) {
       return state.draw
+    },
+    authDetails(state) {
+      return state.user
     }
   }
 

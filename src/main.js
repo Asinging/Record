@@ -6,14 +6,11 @@ import router from './router'
 import store from './store'
 import $ from "jquery/dist/jquery.js"
 
-// var popup = require("./jquery-popup-overlay")
-//window.$ = $
+// import io from 'socket.io-client';
+// import VueSocketIO from 'vue-socket.io';
 
-//import store from './views/store/index.js'
 import './registerServiceWorker'
-// import 'roboto-fontface/css/roboto/roboto-fontface.css'
-// import 'material-design-icons-iconfont/dist/material-design-icons.css'
-// import '@fortawesome/fontawesome-free/css/all.css'
+
 import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.config.productionTip = false
@@ -22,17 +19,16 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 import VueHtmlToPaper from "vue-html-to-paper";
 import printJS from 'print-js';
 import Loader from 'vue-loading-overlay'
+import Qs from "qs"
 import "vue-loading-overlay/dist/vue-loading.css"
+//  export const SocketIo = io.connect('http://localhost:1337')
 
 Vue.use(Loader)
-
 
 new Vue({
 
   router,
   store,
   vuetify,
-
-
   render: h => h(App)
 }).$mount('#app')

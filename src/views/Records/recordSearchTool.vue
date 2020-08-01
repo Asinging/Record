@@ -1,19 +1,25 @@
 <template>
   <v-layout>
     <v-flex>
-      <span>{{formattedHtmlNodeText}}</span>
+      <span>{{ formattedHtmlNodeText }}</span>
       <v-row>
         <!-- calender Start here -->
 
         <v-col cols="12" v-if="calender">
-          <v-col cols="12" sm="6" lg="12" md="1">
-            <v-date-picker v-model="dates" multiple color="orange" class="flat" elevation-0>
+          <v-col ols="12" xs="12" sm="12" md="6" lg="4" xl="3">
+            <v-date-picker
+              v-model="dates"
+              multiple
+              color="orange"
+              class="flat"
+              elevation-0
+            >
               <v-btn text color="orange" @click="cancel">Cancel</v-btn>
               <div class="flex-grow-1"></div>
               <v-btn text color="orange" @click="sumbitDates">Sumbit</v-btn>
             </v-date-picker>
           </v-col>
-          <v-col cols="12" sm="6">
+          <v-col cols="12" xs="12" sm="12" md="6" lg="4" xl="3">
             <v-menu
               ref="menu"
               v-model="menu"
@@ -43,8 +49,9 @@
           <div class="flex-grow-1"></div>
           <v-card
             height="120"
-            v-bind:style="{backgroundColor:color[
-              Math.floor(Math.random() *color.length)]}"
+            v-bind:style="{
+              backgroundColor: color[Math.floor(Math.random() * color.length)],
+            }"
           >
             <v-p class="ma-5 white--text justify-center">
               please wait
@@ -64,13 +71,20 @@
 
         <v-col cols="12" v-else>
           <v-card
-            v-bind:style="{backgroundColor:color[
-             Math.floor(Math.random() *color.length)]}"
+            v-bind:style="{
+              backgroundColor: color[Math.floor(Math.random() * color.length)],
+            }"
           >
-            <v-card-title v-if="flag" class="white--text pd-4">See Birthday range</v-card-title>
-            <v-card-title v-else class="white--text pd-4">Custom Search</v-card-title>
+            <v-card-title v-if="flag" class="white--text pd-4"
+              >See Birthday range</v-card-title
+            >
+            <v-card-title v-else class="white--text pd-4"
+              >Custom Search</v-card-title
+            >
 
-            <v-card-subtitle class="white--text ma-5">This Allows You search for a desire dates</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5"
+              >This Allows You search for a desire dates</v-card-subtitle
+            >
 
             <v-card-actions class="justify-end">
               <v-btn
@@ -78,7 +92,8 @@
                 class="white--text pd-3"
                 id="custom_search"
                 @click="requestData($event)"
-              >details</v-btn>
+                >details</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -87,12 +102,15 @@
 
         <v-col cols="12">
           <v-card
-            v-bind:style="{backgroundColor:color[
-      Math.floor(Math.random() *color.length)]}"
+            v-bind:style="{
+              backgroundColor: color[Math.floor(Math.random() * color.length)],
+            }"
           >
             <v-card-title class="headline white--text">This Week</v-card-title>
 
-            <v-card-subtitle class="white--text ma-5">You Can Pull Entry Just For This Week</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5"
+              >You Can Pull Entry Just For This Week</v-card-subtitle
+            >
 
             <v-card-actions class="justify-end">
               <v-btn
@@ -100,7 +118,8 @@
                 class="white--text pd-3"
                 id="this_week"
                 @click="requestData($event)"
-              >details</v-btn>
+                >details</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -109,13 +128,16 @@
 
         <v-col cols="12" md="12">
           <v-card
-            v-bind:style="{backgroundColor:color[
-      Math.floor(Math.random() *color.length)]}"
+            v-bind:style="{
+              backgroundColor: color[Math.floor(Math.random() * color.length)],
+            }"
             class="white--text pd-3"
           >
             <v-card-title class="headline">This Month</v-card-title>
 
-            <v-card-subtitle class="white--text ma-5">The Month Entries Can Be Requsted</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5"
+              >The Month Entries Can Be Requsted</v-card-subtitle
+            >
 
             <v-card-actions class="justify-end">
               <v-btn
@@ -123,7 +145,8 @@
                 class="white--text pd-3"
                 id="this_month"
                 @click="requestData($event)"
-              >details</v-btn>
+                >details</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -133,15 +156,17 @@
         <v-col cols="12">
           <v-card
             v-if="!flag"
-            v-bind:style="{backgroundColor:color[
-      Math.floor(Math.random() *color.length)]}"
+            v-bind:style="{
+              backgroundColor: color[Math.floor(Math.random() * color.length)],
+            }"
           >
             <v-card-title class="white--text pd-3">
-              This Year{{color[
-              Math.floor(Math.random() *color.length)]}}
+              This Year{{ color[Math.floor(Math.random() * color.length)] }}
             </v-card-title>
 
-            <v-card-subtitle class="white--text ma-5">The Entire Year Entries Can also Be Search</v-card-subtitle>
+            <v-card-subtitle class="white--text ma-5"
+              >The Entire Year Entries Can also Be Search</v-card-subtitle
+            >
 
             <v-card-actions class="justify-end">
               <v-btn
@@ -149,7 +174,8 @@
                 class="white--text pd-3"
                 id="this_year"
                 @click="requestData($event)"
-              >see more</v-btn>
+                >see more</v-btn
+              >
             </v-card-actions>
           </v-card>
         </v-col>
@@ -157,8 +183,8 @@
     </v-flex>
   </v-layout>
 </template>
-<style scoped>
-</style><script>
+<style scoped></style
+><script>
 export default {
   data() {
     return {
@@ -181,8 +207,8 @@ export default {
         "#A5D6A7",
         "#81C784",
         "#AED581",
-        "#66BB6A"
-      ]
+        "#66BB6A",
+      ],
     };
   },
   mounted() {
@@ -195,7 +221,7 @@ export default {
   watch: {
     dates() {
       this.dates.length > 2 ? this.dates.pop() : false;
-    }
+    },
   },
   methods: {
     cancel() {
@@ -230,10 +256,10 @@ export default {
             params: {
               record: innerHtmlClicked,
               date_1: date_1,
-              date_2: date_2
-            }
+              date_2: date_2,
+            },
           })
-          .then(resp => {
+          .then((resp) => {
             let response = resp.data;
             //console.log(response);
             if (response.length == []) {
@@ -246,18 +272,18 @@ export default {
                 this.$store.dispatch("searchedServerResponse", response);
 
                 this.$router.push({
-                  name: "displayMembers"
+                  name: "displayMembers",
                 });
               } else if (this.htmlElementFromPreviousClick) {
                 this.$store.dispatch("searchedServerResponse", response);
 
                 this.$router.push({
-                  name: "displayBirthdays"
+                  name: "displayBirthdays",
                 });
               } else {
                 for (let j of response) {
                   let total = 0;
-                  Object.values(j).forEach(val => {
+                  Object.values(j).forEach((val) => {
                     if (!isNaN(val)) {
                       // id is also getting appended
                       total += val;
@@ -271,12 +297,12 @@ export default {
                 this.$store.dispatch("searchedServerResponse", response);
                 this.loading = false;
                 this.$router.push({
-                  name: "displayFinancialSearch"
+                  name: "displayFinancialSearch",
                 });
               }
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
       }
@@ -300,21 +326,21 @@ export default {
         axios
           .get("http://localhost:1337/" + dis.htmlElementFromPreviousClick, {
             params: {
-              record: innerHtmlClicked
-            }
+              record: innerHtmlClicked,
+            },
           })
-          .then(resp => {
+          .then((resp) => {
             let response = resp.data;
 
             if (response.length == []) {
               this.$router.push({
-                name: "networkError"
+                name: "networkError",
               });
             } else if (response.length) {
               if (this.formattedHtmlNodeText) {
                 console.log("this is it");
                 this.$router.push({
-                  name: "displayBirthdays"
+                  name: "displayBirthdays",
                 });
                 this.$store.dispatch("searchedServerResponse", response);
               } else {
@@ -322,7 +348,7 @@ export default {
                 console.log("this is it");
                 for (let j of response) {
                   let total = 0;
-                  Object.values(j).forEach(val => {
+                  Object.values(j).forEach((val) => {
                     if (!isNaN(val)) {
                       // id is also getting appended
                       total += val;
@@ -336,16 +362,16 @@ export default {
                 this.$store.dispatch("searchedServerResponse", response);
 
                 this.$router.push({
-                  name: "displaySearch"
+                  name: "displaySearch",
                 });
               }
             }
           })
-          .catch(error => {
+          .catch((error) => {
             console.error(error);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>

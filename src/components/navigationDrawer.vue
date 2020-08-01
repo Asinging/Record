@@ -3,15 +3,18 @@
     <!-- <v-app> -->
     <v-card light>
       <v-toolbar text dense height="90" flat color="primary">
-        <v-app-bar-nav-icon @click="drawer=!drawer">
+        <v-app-bar-nav-icon @click="drawer = !drawer">
           <v-icon color="white">mdi-menu</v-icon>
         </v-app-bar-nav-icon>
 
         <template v-slot:prepend></template>
 
         <v-toolbar-title class="white-=text text-center">
-          <span class="white--text header" bold v-if="admin">{{admin.toUpperCase()}}</span>
-          <span class="white--text header" bold v-else>RECORDS MANAGEMENT</span>
+          <!-- <v-btn @click="firstmtd">cku</v-btn> -->
+          <span class="white--text header" bold>{{
+            userName ? userName.toUpperCase() : " MANAGEMENT"
+          }}</span>
+          <!-- <span class="white--text header" bold>RECORDS MANAGEMENT</span> -->
         </v-toolbar-title>
         <div class="flex-grow-1"></div>
 
@@ -26,10 +29,12 @@
               class="white--text ml-2"
               outlined
               color="primary"
-              id="login"
-              @click="userStatusSend($event)"
+              id="userStatus"
+              style="font-family:; font-size:20px"
+              @click="userStatus($event)"
               ripples
-            >{{userStatusBtn}}</v-card>
+              >{{ userName ? "log out" : "Login" }}</v-card
+            >
           </v-row>
           <!-- // </v-layout> -->
         </v-flex>
@@ -48,7 +53,9 @@
           <!-- <v-spacer></v-spacer> -->
           <v-list-item class="ma-5 mb-4 pr-3">
             <v-list-item-content>
-              <v-list-item-title class="side_bar_title">DASHBOARD</v-list-item-title>
+              <v-list-item-title class="side_bar_title"
+                >DASHBOARD</v-list-item-title
+              >
             </v-list-item-content>
           </v-list-item>
         </v-layout>
@@ -62,14 +69,23 @@
             <v-icon>mdi-home</v-icon>
           </v-list-item-icon>
 
-          <v-list-item-title class="subtitle-1" @click="routerLink($event)">Home</v-list-item-title>
+          <v-list-item-title class="subtitle-1" @click="routerLink($event)"
+            >Home</v-list-item-title
+          >
         </v-list-item>
 
         <!-- the leadership column starts here -->
 
-        <v-list-group prepend-icon="person" value="true" v-model="leadership" color="primary">
+        <v-list-group
+          prepend-icon="person"
+          value="true"
+          v-model="leadership"
+          color="primary"
+        >
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1" @click="runFnc(leadership)">Leadership</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(leadership)"
+              >Leadership</v-list-item-title
+            >
           </template>
           <v-list-item
             v-for="(item, pastor) in leadershipRecords"
@@ -77,10 +93,12 @@
             @click="routerLink($event)"
           >
             <v-list-item-content>
-              <v-list-item-title color="secondary" ref="item">{{item.leader}}</v-list-item-title>
+              <v-list-item-title color="secondary" ref="item">{{
+                item.leader
+              }}</v-list-item-title>
             </v-list-item-content>
             <v-list-item-icon>
-              <v-icon color="secondary">{{item.icon}}</v-icon>
+              <v-icon color="secondary">{{ item.icon }}</v-icon>
             </v-list-item-icon>
           </v-list-item>
         </v-list-group>
@@ -91,15 +109,29 @@
 
         <!-- the records column starts here -->
 
-        <v-list-group prepend-icon=" mdi-animation" value="true" v-model="records" color="primary">
+        <v-list-group
+          prepend-icon=" mdi-animation"
+          value="true"
+          v-model="records"
+          color="primary"
+        >
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1" @click="runFnc(records)">Records</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(records)"
+              >Records</v-list-item-title
+            >
           </template>
 
-          <v-list-group sub-group value="true" v-model="finances" prepend-icon="mdi-cash-100">
+          <v-list-group
+            sub-group
+            value="true"
+            v-model="finances"
+            prepend-icon="mdi-cash-100"
+          >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runfnc=(finances)">Financial record</v-list-item-title>
+                <v-list-item-title @click="runfnc = finances"
+                  >Financial record</v-list-item-title
+                >
               </v-list-item-content>
             </template>
             <v-list-item
@@ -108,7 +140,9 @@
               @click="routerLink($event)"
             >
               <v-list-item-content>
-                <v-list-item-title color="secondary">{{ item.giving }}</v-list-item-title>
+                <v-list-item-title color="secondary">{{
+                  item.giving
+                }}</v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
                 <v-icon color="secondary">{{ item.icon }}</v-icon>
@@ -128,7 +162,9 @@
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runFnc(attendance)">Attendance Record</v-list-item-title>
+                <v-list-item-title @click="runFnc(attendance)"
+                  >Attendance Record</v-list-item-title
+                >
               </v-list-item-content>
             </template>
             <v-list-item
@@ -137,11 +173,13 @@
               @click="routerLink($event)"
             >
               <v-list-item-content>
-                <v-list-item-title color="secondary">{{item.timers}}</v-list-item-title>
+                <v-list-item-title color="secondary">{{
+                  item.timers
+                }}</v-list-item-title>
               </v-list-item-content>
 
               <v-list-item-icon>
-                <v-icon color="secondary">{{item.icon}}</v-icon>
+                <v-icon color="secondary">{{ item.icon }}</v-icon>
               </v-list-item-icon>
             </v-list-item>
           </v-list-group>
@@ -158,12 +196,20 @@
           >
             <template v-slot:activator>
               <v-list-item-content>
-                <v-list-item-title @click="runFnc(members)">Members Records</v-list-item-title>
+                <v-list-item-title @click="runFnc(members)"
+                  >Members Records</v-list-item-title
+                >
               </v-list-item-content>
             </template>
-            <v-list-item v-for="(item, kk) in membership" :key="kk" @click="routerLink($event)">
+            <v-list-item
+              v-for="(item, kk) in membership"
+              :key="kk"
+              @click="routerLink($event)"
+            >
               <v-list-item-content>
-                <v-list-item-title color="secondary">{{item.comers}}</v-list-item-title>
+                <v-list-item-title color="secondary">{{
+                  item.comers
+                }}</v-list-item-title>
               </v-list-item-content>
               <v-list-item-icon>
                 <v-icon color="secondary">{{ item.icon }}</v-icon>
@@ -184,7 +230,9 @@
           v-model="events"
         >
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1" @click="runFnc(events)">Events</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(events)"
+              >Events</v-list-item-title
+            >
           </template>
           <v-list-item @click="routerLink($event)">
             <v-list-item-icon>
@@ -202,7 +250,9 @@
           color="primary"
         >
           <template v-slot:activator>
-            <v-list-item-title class="subtitle-1" @click="runFnc(misc)">Misc</v-list-item-title>
+            <v-list-item-title class="subtitle-1" @click="runFnc(misc)"
+              >Misc</v-list-item-title
+            >
           </template>
           <v-list-item
             v-for="(item, calender) in miscellaneous"
@@ -210,10 +260,12 @@
             @click="routerLink($event)"
           >
             <v-list-item-content>
-              <v-list-item-title color="secondary" ref="item">{{item.data}}</v-list-item-title>
+              <v-list-item-title color="secondary" ref="item">{{
+                item.data
+              }}</v-list-item-title>
             </v-list-item-content>
             <v-list-item-icon>
-              <v-icon color="secondary">{{item.icon}}</v-icon>
+              <v-icon color="secondary">{{ item.icon }}</v-icon>
             </v-list-item-icon>
           </v-list-item>
         </v-list-group>
@@ -230,8 +282,7 @@
 
   <!-- body of the wepbage define here -->
 </template>
-<style scoped>
-</style>
+<style scoped></style>
 
 <script>
 //import HomePage from "./homePage.vue";
@@ -247,9 +298,8 @@ export default {
     return {
       blue: "",
       misc: "",
-      userStatus: false, //  user not login display login button
-      userStatusBtn: "LOGIN", // BTN displays login if the the userStatus is false and LOGOUT if not
-      admin: localStorage.getItem("userName"),
+      user: "",
+      //  ? authenticated: false,
       rout: "",
       drawer: false,
       listGroup: 0,
@@ -267,20 +317,20 @@ export default {
       leadershipRecords: [
         { icon: "mdi mdi-account-tie", leader: "Pastors" },
         { icon: "mdi mdi-account-child", leader: "Ministers" },
-        { icon: "mdi mdi-account-group", leader: "Head Of Departments" }
+        { icon: "mdi mdi-account-group", leader: "Head Of Departments" },
       ],
 
       medRecords: [
         { icon: "mdi mdi-account-tie", record: "Financial Records" },
         { icon: "person-details-outline", record: "Attendance Record" },
-        { icon: "group", record: "membership Record" }
+        { icon: "group", record: "membership Record" },
       ],
       attendanceRecords: [
         { icon: "mdi-walk", timers: "First Timers" },
-        { icon: "mdi-human-handsup", timers: "Second Timers" }
+        { icon: "mdi-human-handsup", timers: "Second Timers" },
       ],
       financialRecords: [
-        { icon: "mdi-currency-ngn", giving: "Financial Records" }
+        { icon: "mdi-currency-ngn", giving: "Financial Records" },
         // { icon: "mdi-coffee", giving: "Tithe" },
         // { icon: "mdi-gift", giving: "thanks Giving" },
         // { icon: "mdi-wallet-giftcard", giving: "special honor" }
@@ -288,42 +338,57 @@ export default {
       membership: [
         { icon: "mdi-transit-transfer", comers: "Members" },
         { icon: "mdi-account-check", comers: "Regular Members" },
-        { icon: "mdi-transit-transfer", comers: "Irregular Members" }
+        { icon: "mdi-transit-transfer", comers: "Irregular Members" },
       ],
       miscellaneous: [
         { icon: "mdi-transit-transfer", data: "Mandate" },
-        { icon: "mdi-account-check", data: "Calender" }
-      ]
+        { icon: "mdi-account-check", data: "Calender" },
+      ],
     };
   },
-  // computed: {
-  //   draw() {
-  //     console.log(this.$store.state.draw);
-  //     return $store.state.draw;
-  //   }
-  // },
+
   watch: {
     admin() {
       //  if (userStatus)
       console.log(this.admin);
-    }
+    },
+  },
+  computed: {
+    userName: {
+      get() {
+        return this.$store.state.user.userName;
+      },
+    },
   },
   mounted() {
+    if (this.$store.state.user.userId) {
+      this.authenticated = true;
+    }
     this.drawer = this.$store.state.draw;
-    //console.log(this.drawer);
   },
   methods: {
-    userStatusSend() {
-      if (!this.userStatus) {
+    // firstmtd(){
+    //   alert(this.$store.state.user.userName);
+    // },
+    userStatus() {
+      let status = event.target.innerText;
+      console.log(status);
+      if (status == "Login") {
         // no user logged in
         this.$router.push({
-          name: "login"
+          // path: "/Auth/login",
+          name: "login",
         });
-      } else if (this.userStatus) {
-        this.userStatusBtn = "LOGOUT";
-        localStorage.setItem("userName", "") && localStorage.setItem("id", "");
+      } else {
+        localStorage.setItem("userName", "") &&
+          localStorage.setItem("userId", "");
+        this.$store.dispatch("authDetails", {
+          userName: "",
+          userId: "",
+        });
         this.$router.push({
-          path: "Auth/login"
+          path: "Auth/login",
+          // name: "setuppag",
         });
       }
     },
@@ -354,10 +419,10 @@ export default {
       }
 
       this.$router.push({
-        name: `${htmlElement}`
+        name: `${htmlElement}`,
       });
       // });
-    }
-  }
+    },
+  },
 };
 </script>

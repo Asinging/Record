@@ -2,20 +2,30 @@
   <v-layout>
     <v-row>
       <v-col cols="12" xs="12" sm="12" lg="12" xl="12">
-        <v-card class="elevation-1">
+        <v-card class="elevation-0">
           <v-row>
             <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6">
               <v-card class="ma-5 elevation-10" color="#81C784">
-                <v-card-title
-                  class="white--text"
-                >This information provided here will help us set up your church for you accurately</v-card-title>
+                <v-card-title class="white--text"
+                  >This information provided here will help us set up your
+                  church for you accurately</v-card-title
+                >
               </v-card>
               <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6">
                 <v-card class flat>
-                  <v-stepper v-model="stepper" vertical class="elevation-0" value="values">
-                    <v-stepper-step step="1" :complete="stepper">Organisation Name</v-stepper-step>
+                  <v-stepper
+                    v-model="stepper"
+                    vertical
+                    class="elevation-0"
+                    value="values"
+                  >
+                    <v-stepper-step step="1" :complete="stepper"
+                      >Organisation Name</v-stepper-step
+                    >
                     <v-stepper-content step="1"></v-stepper-content>
-                    <v-stepper-step step="2" :complete="stepper">Initial</v-stepper-step>
+                    <v-stepper-step step="2" :complete="stepper"
+                      >Initial</v-stepper-step
+                    >
                     <v-stepper-content step="2"></v-stepper-content>
                     <v-stepper-step step="3" complete>orgLogo</v-stepper-step>
                     <v-stepper-content step="3"></v-stepper-content>
@@ -26,7 +36,12 @@
 
             <v-col cols="12" xs="12" sm="5" md="5" lg="5" xl="5">
               <v-card class="elevation-0">
-                <form @submit.prevent="submit" class="vld-parent" ref="formContainer" id="submit">
+                <form
+                  @submit.prevent="submit"
+                  class="vld-parent"
+                  ref="formContainer"
+                  id="submit"
+                >
                   <v-card
                     ref="form"
                     class="ml-8 mr-8 elevation-0 white--text heading"
@@ -83,7 +98,9 @@
                       <div class="flex-grow-1"></div>
                       <v-flex xs5 offset-lg8 offset-xs1>
                         <AddDeleteCustomButton :clickFnc="submit">
-                          <template #btn>submit</template>
+                          <template #btn
+                            >submit</template
+                          >
                         </AddDeleteCustomButton>
                         <!-- /</submitButtons> -->
                       </v-flex>
@@ -99,6 +116,8 @@
   </v-layout>
 </template>
 <script>
+import qs from "qs";
+
 import AddDeleteCustomButton from "../../components/customSlots.vue";
 import Vue from "vue";
 import VueSweetalert2 from "vue-sweetalert2";
@@ -107,7 +126,7 @@ Vue.use(VueSweetalert2);
 export default {
   components: {
     //SubmitButtons
-    AddDeleteCustomButton
+    AddDeleteCustomButton,
   },
   data() {
     return {
@@ -124,7 +143,7 @@ export default {
 
       orgLogo: "",
       orgInitial: "",
-      loader: ""
+      loader: "",
     };
   },
 
@@ -144,11 +163,16 @@ export default {
 
           duration: 3,
           speed: 500,
-          easing: "easeOutBounce"
+          easing: "easeOutBounce",
         });
         this.loader.hide();
       }
-    }
+    },
+  },
+  mounted() {
+    // setTimeout(() => {
+    //   this.loader.hide();
+    // }, 1000);
   },
   computed: {
     form() {
@@ -156,27 +180,24 @@ export default {
         orgName: this.orgName,
 
         orgLogo: this.orgLogo,
-        orgInitial: this.orgInitial
+        orgInitial: this.orgInitial,
       };
-    }
+    },
   },
 
   methods: {
     submit() {
-      //debugger;
       var userDetails = {
         orgName: this.orgName,
         orgLogo: this.orgLogo,
-        orgInitial: this.orgInitial //
+        orgInitial: this.orgInitial, //
       };
       //this.formHasErrors = false;
 
-      Object.keys(this.form).forEach(f => {
+      Object.keys(this.form).forEach((f) => {
         if (!this.form[f]) {
           this.formHasErrors = true;
         }
-        //console.log(this.form[f]);
-        //this.$refs[f].validate(true);
       });
       //debugger;
       if (!this.formHasErrors) {
@@ -190,49 +211,60 @@ export default {
           width: 200,
           //duration;3
 
-          opacity: 0.5
+          opacity: 0.5,
         });
         // debugger;
         let dis = this;
         this.responseReceived = false;
         let loader = this.loader;
         //alert("this is the file upload process");
+        let params = userDetails;
         axios
-          .get(
-            "http://localhost:1337/appSetupDetatails",
-            {
-              params: userDetails
-            },
+          .post(
+            "/appSetupDetatails",
+            qs.stringify(params),
+
             {
               header: {
-                // "with-Credentials": true,
-                "content-type": "application/json"
-              }
+                "Content-Type": "multipart/form-data",
+              },
             }
           )
-          .catch(err => {
+          .catch((err) => {
             if (err) {
               this.responseReceived = true;
               this.serverResponse = err;
             }
             console.info(err);
           })
-          .then(response => {
+          .then((response) => {
             if (response) {
               console.log(response);
+              let appName = response.data.data.orgName;
+              let appInitial = response.data.orgInitial;
+              let appLogo = response.data.orgLogo;
+              // localStorage.setItem("orgName", appName);
+              // localStorage.setItem("orgInitial", appInitial);
+              console.log(appName);
+              this.$store.dispatch("appParams", {
+                appName: appName,
+                appInitial: appInitial,
+              });
               // this.responseReceived = true;
               // this.serverResponse = response.data.message;
               //debugger;
+              if (response.status === 200) {
+                this.$router.push({ name: "home" });
+              }
 
-              this.$router.push({ name: "home" });
               loader.hide();
             }
           });
       } else {
         alert("this is not  the file upload process");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

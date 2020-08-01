@@ -217,9 +217,9 @@ const routes = [{
     path: '/setuppage',
     name: 'setuppage',
     component: () => import('./views/setupPage/recordSetup.vue'),
-    meta: {
-      requiresAuth: true
-    }
+    // meta: {
+    //   requiresAuth: true
+    // }
   },
 
 ];
@@ -232,12 +232,15 @@ router.beforeEach((to, from, next) => {
   //console.log(to.path)
   if (to.matched.some(route => route.meta.requiresAuth)) {
     if (localStorage.getItem("userId") && localStorage.getItem("userName")) {
+      // console.log(this)
+      // if (this.$store.state.user.userName) {
 
       next()
     } else {
       next({
         //replace: true,
         path: '/Auth/login',
+        // path: "/uu/setuppage"
 
       });
     }
@@ -250,21 +253,6 @@ router.beforeEach((to, from, next) => {
 
 
 
-// branchCode = eval(this.store.getters.getCode)
-//console.log(to.path);
-// const storage = ;
-// const getStore = ;
-//console.log(storage, getStore);
-//if (to.path !== '/auth') {
-// if (localStorage.getItem('branchCode') == null || Store.getters.getCode == '') {
-//   next('/auth');
-// }
-// else {
-//   next();
-// }
-// } else {
-//   next();
-// }
-// });
+
 
 export default router;

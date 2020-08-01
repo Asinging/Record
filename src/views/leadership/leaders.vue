@@ -73,25 +73,25 @@ export default {
   },
 
   mounted() {
-    console.log(this);
+
     // this.leader = this.$store.getters.getHtmlElementClicked;
     // if (localStorage.getItem("h"))
     this.htmlNodeText = localStorage.getItem("htmlNodeText");
     this.leader = localStorage.getItem("extractedText");
-    console.log(this.leader);
+    console.log(this.htmlNodeText);
     axios
       .get(
-        "http://localhost:1337/" + this.htmlNodeText,
+        "/" + this.htmlNodeText,
         {},
         {
-          //   header: {
-          //     "Access-Control-Allow-Orign": "*",
-          //     "content-type": "application/json",
-          //     Authorization: "XSRF-TOKEN",
-          withCredentials: true
-          //   }
-          // }
-        }
+            header: {
+              "Access-Control-Allow-Orign": "*",
+              "content-type": "application/json",
+          withCredentials: true,
+   
+            }
+          }
+        
       )
       .then(resp => {
         console.log(resp);

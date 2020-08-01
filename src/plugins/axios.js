@@ -1,23 +1,37 @@
 "use strict";
 
-import Vue from 'vue';
+import Vue from "vue";
 import axios from "axios";
+import qs from "qs";
 
 // Full config:  https://github.com/axios/axios#request-config
-axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
+// axios.defaults.baseURL = process.env.baseURL || process.env.apiUrl || '';
 // axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+axios.defaults.headers.post["Content-Type"] =
+  "application/x-www-form-urlencoded";
+// axios.defaults.baseURL = "http://localhost:1337";
 
 let config = {
-  // baseURL: process.env.baseURL || process.env.apiUrl || ""
-  // timeout: 60 * 1000, // Timeout
-  // withCredentials: true, // Check cross-site Access-Control
+  baseURL: "http://localhost:1337",
+  transformRequest: [
+    // function (data, header) {
+    //   console.log(data)
+    //   data = qs.stringify(data)
+    //   console.log(data)
+    //   return data
+    // }
+  ],
+
+  // baseURL: process.env.baseURL || process.env.apiUrl || "httplocalhost:1337",
+  // timeout: 60 * 1000, // Timeout 
+  withCredentials: true, // Check cross-site Access-Control
 };
 
 const _axios = axios.create(config);
 
 _axios.interceptors.request.use(
   function (config) {
+
     // Do something before request is sent
     return config;
   },
@@ -46,21 +60,21 @@ Plugin.install = function (Vue, options) {
     axios: {
       get() {
         return _axios;
-      }
+      },
     },
     $axios: {
       get() {
         return _axios;
-      }
+      },
     },
     axios: {
       post() {
         return _axios;
-      }
+      },
     },
   });
 };
 
-Vue.use(Plugin)
+Vue.use(Plugin);
 
 export default Plugin;

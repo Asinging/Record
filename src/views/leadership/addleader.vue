@@ -1,99 +1,121 @@
 <template>
-  <v-layout>
-    <v-flex align-center>
-      <v-card ref="form" class="ma-3 elevation-0" width="200">
-        <v-container>
-          <v-text-field
-            dense
-            color="green"
-            clearable
-            ref="fullName"
-            v-model="fullName"
-            :rules="[
-            () => !!fullName|| 'name is empty']"
-            label="Full Name"
-            required
-          ></v-text-field>
-          <v-text-field
-            dense
-            color="green"
-            ref="department"
-            :disabled="validated"
-            v-model="department"
-            :rules="[
-            () => !!department || 'department field must not be empty']"
-            label="department"
-            required
-            class="mb-5"
-          ></v-text-field>
-          <v-text-field
-            color="green"
-            ref="phone"
-            v-model="phone"
-            :rules="[
-            () => !!phone || 'phone field must not be empty']"
-            label="phone"
-            type="number"
-            required
-            class="mb-5"
-          ></v-text-field>
-          <v-text-field
-            dense
-            color="green"
-            ref="dateOfBirth"
-            v-model="dateOfBirth"
-            :rules="[
-            () => !!dateOfBirth || 'Date of Birth field must not be empty']"
-            label="Date of Birth"
-            required
-            class="mb-5"
-          ></v-text-field>
+  <!-- <v-container fluid> -->
+  <v-layout justify-end>
+    <v-flex lg5 md5 sm8 xs12>
+      <v-card class="elevation-1 ma-3 mt-0">
+        <form ref="form" @submit.prevent="submit">
+          <v-card class=" elevation-0  ma-5 pt-5">
+            <v-text-field
+              outlined
+              color="green"
+              clearable
+              ref="fullName"
+              v-model="fullName"
+              :rules="[() => !!fullName || 'name is empty']"
+              label="Full Name"
+              required
+            ></v-text-field>
+            <v-text-field
+              dense
+              outlined
+              color="green"
+              ref="department"
+              :disabled="validated"
+              v-model="department"
+              :rules="[
+                () => !!department || 'department field must not be empty',
+              ]"
+              label="department"
+              required
+              class="mb-5"
+            ></v-text-field>
+            <v-text-field
+              color="green"
+              outlined
+              ref="phone"
+              v-model="phone"
+              :rules="[() => !!phone || 'phone field must not be empty']"
+              label="phone"
+              type="number"
+              required
+              class="mb-5"
+            ></v-text-field>
+            <v-text-field
+              dense
+              outlined
+              color="green"
+              ref="dateOfBirth"
+              v-model="dateOfBirth"
+              :rules="[
+                () => !!dateOfBirth || 'Date of Birth field must not be empty',
+              ]"
+              label="Date of Birth"
+              required
+              class="mb-5"
+            ></v-text-field>
 
-          <v-text-field
-            dense
-            color="green"
-            ref="address"
-            v-model="address"
-            label="Where do you reside"
-            class="mb-5"
-          ></v-text-field>
-          <v-text-field
-            dense
-            v-if="caders"
-            color="green"
-            ref="dateOfService"
-            v-model="dateOfService"
-            label="Date of Service"
-            class="mb-5"
-          ></v-text-field>
-          <span v-if="caders">
-            <v-p color="gray">pls ignore if you are member</v-p>
-            <v-radio-group v-model="timelyComing" row>
-              <v-radio label="First Timer" color="secondary" value="first"></v-radio>
-              <v-radio label="Second Timer" color="secondary" value="second"></v-radio>
-            </v-radio-group>
-          </span>
-          <v-divider height="50"></v-divider>
-          <div>
-            <v-layout>
-              <v-flex xs10>
-                <span>
-                  <v-btn class="mt-2" color="secondary" text @click="cancel">cancel</v-btn>
-                </span>
-              </v-flex>
-              <v-flex xs1>
-                <span>
-                  <v-btn class="mt-2" color="secondary" text @click=" submit">Submit</v-btn>.
-                </span>
-              </v-flex>
-            </v-layout>
-          </div>
-        </v-container>
-      </v-card>
+            <v-text-field
+              dense
+              outlined
+              color="green"
+              ref="address"
+              v-model="address"
+              label="Where do you reside"
+              class="mb-5"
+            ></v-text-field>
+            <v-text-field
+              dense
+              outlined
+              v-if="caders"
+              color="green"
+              ref="dateOfService"
+              v-model="dateOfService"
+              label="Date of Service"
+              class="mb-5"
+            ></v-text-field>
+            <span v-if="caders">
+              <v-p color="gray">pls ignore if you are member</v-p>
+              <v-radio-group v-model="timelyComing" row>
+                <v-radio
+                  label="First Timer"
+                  color="secondary"
+                  value="first"
+                ></v-radio>
+                <v-radio
+                  label="Second Timer"
+                  color="secondary"
+                  value="second"
+                ></v-radio>
+              </v-radio-group>
+            </span>
+            <v-divider height="50"></v-divider>
+            <div>
+              <v-layout>
+                <v-flex xs10>
+                  <span>
+                    <v-btn class="mt-2" color="secondary" text @click="cancel"
+                      >cancel</v-btn
+                    >
+                  </span>
+                </v-flex>
+                <v-flex xs1>
+                  <span>
+                    <v-btn class="mt-2" color="secondary" text @click="submit"
+                      >Submit</v-btn
+                    >.
+                  </span>
+                </v-flex>
+              </v-layout>
+            </div>
+          </v-card>
+        </form></v-card
+      >
     </v-flex>
   </v-layout>
+  <!-- </v-container> -->
 </template>
 <script>
+import qs from "qs";
 export default {
   data() {
     return {
@@ -105,20 +127,20 @@ export default {
       phone: "",
       dateOfBirth: "",
       address: "",
-       prevRoute: "this the previous route",
+      prevRoute: "this the previous route",
       formHasError: false,
       url: "",
       caders: false,
       serverResponse: [],
-      serverRequest: {}
+      serverRequest: {},
     };
   },
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       from;
       vm.prevRoute = from;
 
-      vm.$store.dispatch("route", { route: vm.prevRoute.name });
+      //vm.$store.dispatch("route", { route: vm.prevRoute.name });
     });
   },
   watch: {
@@ -127,7 +149,7 @@ export default {
         this.department = "Ministry";
         this.validated = true;
       }
-    }
+    },
   },
 
   computed: {
@@ -139,14 +161,21 @@ export default {
         dateOfBirth: this.dateOfBirth,
         timelyComing: this.timelyComing,
         dateOfService: this.dateOfService,
-        address: this.address
+        address: this.address,
       };
-    }
+    },
   },
   mounted() {
-    this.prevRoute = this.$store.getters.getFromRoute;
-    console.log(this.prevRoute);
-    //this.cader = localStorage.getItem("extractedText");
+    //making a permanet storage for the prevRoute so that when i refresh i can still have access to it
+    localStorage.setItem("prevRoute", this.prevRoute.name);
+    // this.prevRoute = this.$store.getters.getFromRoute;
+
+    if (this.prevRoute == undefined) {
+      let preRoute = localStorage.getItem("prevRoute");
+      this.$router.push({
+        name: preRoute,
+      });
+    }
     if (this.prevRoute == "members") {
       this.leader = "members";
     } else {
@@ -162,7 +191,7 @@ export default {
       //just incase the value in the store does not holds
       // if (this.$store.getters.getFromRoute) {
       this.$router.push({
-        name: `${this.prevRoute.name}`
+        name: `${this.prevRoute.name}`,
       });
     },
     submit() {
@@ -176,28 +205,16 @@ export default {
 
         return rr;
       }
-      // let fullName = this.fullName;
-      // let department = this.department;
-      // let phone = this.phone;
-      // let dateOfBirth = this.dateOfBirth;
-      // if (this.caders) {
-      //   var timelyComing = this.timelyComing;
-      //   var dateOfService = this.dateOfService;
-      //   var address = this.address;
-      // }
-
-      Object.keys(this.form).forEach(f => {
+      Object.keys(this.form).forEach((f) => {
         if (f == "dateOfService" || f == "dateOfBirth") {
           this.serverRequest[f] = removingTrailingZeros(this.form[f]); // remove any trailing zeros
         } else {
           this.serverRequest[f] = this.form[f];
         }
-
-        //console.log(this.form[f], f);
         if (this.caders) {
           if (!this.form[f] && this.form[f] == "dateOfService") {
             this.$swal({
-              text: `${f} field must not be exmpty`
+              text: `${f} field must not be exmpty`,
             });
             this.formHasError = true;
           }
@@ -207,39 +224,33 @@ export default {
       if (!this.formHasError) {
         // let element = this.prevRoute.name.toLowerCase().slice(0, -1);
         let element = this.leader.toLowerCase();
-        let combinUrl = `add${element}`;
-        console.log(this.serverRequest);
+        let url = `add${element}`;
         let dis = this;
+        let params = this.serverRequest;
+
         axios
-          .get(
-            "http://localhost:1337/" + combinUrl,
-            {
-              params: dis.serverRequest
+          .post("/" + url, qs.stringify(params), {
+            header: {
+              "Content-Type": "application/json",
+              // "Access-Control-Allow-Orign": "*",
             },
-            {
-              headers: {
-                "content-type": "application/json",
-                "Access-Control-Allow-Orign": "*"
-              }
-            }
-          )
-          .then(response => {
+          })
+          .then((response) => {
             if (response.data.lenght !== 0) {
-              //this.$router.push("/addpastor.vue");
               //console.log(response.data);
-              this.$store.dispatch("searchedServerResponse", response.data);
+              // this.$store.dispatch("serverResponse", response.data);
 
               this.$router.push({
-                name: `${this.prevRoute.name}`
+                name: `${this.prevRoute.name}`,
               });
             }
           })
-          .catch(err => {
+          .catch((err) => {
             console.error(err);
           });
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -1,16 +1,15 @@
 <template>
   <div>
-    <v-app dark>
+    <v-app>
       <NavDrawer />
-      <v-main>
-        <v-content transition="slide-x-transition">
-          <v-card flat color="white" class="main_view" height="650">
-            <!-- // <Toolbar /> -->
-            <Header />
-            <router-view></router-view>
-          </v-card>
-        </v-content>
-      </v-main>
+      <!-- <v-main> -->
+      <v-content justify-center>
+        <v-card class=" align-center elavation-0" height="800" flat>
+          <Header />
+          <transition name="fadde"><router-view></router-view></transition>
+        </v-card>
+      </v-content>
+      <!-- </v-main> -->
     </v-app>
   </div>
   <!-- </v-app> -->
@@ -24,17 +23,14 @@ export default {
   name: "App",
   components: {
     NavDrawer,
-    Toolbar,
-    Header
+
+    Header,
   },
   data() {
     return {
       // dark: false
     };
   },
-  mounted() {}
 };
 </script>
-<style>
-</style>
-
+<style></style>

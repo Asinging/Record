@@ -125,8 +125,8 @@
 <script>
 import AddDeleteCustomButton from "../../components/customSlots.vue";
 import Vue from "vue";
-import VueSweetalert2 from "vue-sweetalert2";
-Vue.use(VueSweetalert2);
+import Loader from "vue-loading-overlay";
+Vue.use(Loader);
 //import SubmitButtons from "../../components/submissionButtons.vue";
 export default {
   components: {

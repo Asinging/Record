@@ -4,22 +4,24 @@
       <SearchContentParams />
     </v-layout>
     <v-layout>
-      <div class="flex-grow-1"></div>
-      <v-flex md1 sm1 xs1 lg1>
+      <!-- <div class="flex-grow-1"></div> -->
+      <v-flex offset-md10 offset-sm9 offset-xs6 offset-lg10>
         <v-Button :clickFnc="addRecord">
-          <template #btn>add to record</template>
+          <template #btn
+            >add to record</template
+          >
         </v-Button>
       </v-flex>
     </v-layout>
   </v-container>
-</template> 
- <script>
+</template>
+<script>
 import SearchContentParams from "../recordSearchTool.vue";
 import Button from "../../../components/customSlots.vue";
 export default {
   components: {
     SearchContentParams,
-    "v-Button": Button
+    "v-Button": Button,
   },
   data() {
     return {};
@@ -31,10 +33,10 @@ export default {
   methods: {
     addRecord() {
       this.$router.push({
-        name: "addFinancialRecord"
+        name: "addFinancialRecord",
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

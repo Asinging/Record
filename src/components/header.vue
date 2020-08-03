@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-2 ma-3">
+  <v-container class="pa-2 ma-3 mb-0">
     <v-layout>
       <v-flex xs12 md12 lg12 xl12>
         <v-sheet>
@@ -21,7 +21,7 @@
             </v-flex>
           </v-layout>
         </v-sheet>
-        <v-divider style="width:100%" class="mb-10 mt-1"></v-divider>
+        <v-divider style="width:100%" class="mb-1 mt-1"></v-divider>
       </v-flex>
     </v-layout>
   </v-container>

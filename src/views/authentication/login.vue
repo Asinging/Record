@@ -122,12 +122,13 @@
 <script>
 import { eventBus } from "../../events.js";
 import Buttons from "../../components/customSlots.vue";
-import Vue from "vue";
+
 // import Loading from "vue-loading-overlay";
 // import Vue from "vue";
 //Vue.use(Loading);
-import VueSweetalert2 from "vue-sweetalert2";
-Vue.use(VueSweetalert2);
+import Vue from "vue";
+import Loader from "vue-loading-overlay";
+Vue.use(Loader);
 
 export default {
   components: {

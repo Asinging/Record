@@ -1,25 +1,18 @@
 <template>
   <v-container>
-    <v-card>
-      <v-layout>
+    <v-layout>
+      <v-card class="elevation-0">
         <SearchContentParams />
-      </v-layout>
-      <v-layout>
-        <!-- <v-flex offset-xs7>
-          <v-Button :clickFnc="addRecord">
-            <template #btn="slotProps">add to record</template>
-          </v-Button>
-        </v-flex>-->
-      </v-layout>
-    </v-card>
+      </v-card>
+    </v-layout>
   </v-container>
-</template> 
- <script>
+</template>
+<script>
 import SearchContentParams from "../recordSearchTool.vue";
 //import Button from "../../../components/customSlots.vue";
 export default {
   components: {
-    SearchContentParams
+    SearchContentParams,
     // "v-Button": Button
   },
   data() {
@@ -35,7 +28,7 @@ export default {
     //     name: "addFinancialRecord"
     //   });
     // }
-  }
+  },
 };
 </script>
 <style scoped>

@@ -1,72 +1,7 @@
 <template>
   <v-container align-center>
     <v-layout>
-      <v-flex>
-        <v-row>
-          <v-col cols="12" xs="6" sm="6" md="6">
-            <v-avatar
-              v-ripple="{ center: true, class: `white--text` }"
-              size="200"
-              class="justify-center avater"
-              v-bind:style="{backgroundColor:color[
-              Math.floor(Math.random() *color.length)]}"
-              @click="requestData($event)"
-            >
-              <span class="white--text headline">Members</span>
-            </v-avatar>
-          </v-col>
-          <v-col cols="12" xs="6" sm="6" md="6">
-            <v-avatar
-              v-ripple="{ center: true, class: `white--text` }"
-              class="justify-right avater"
-              size="210"
-              v-bind:style="{backgroundColor:color[
-              Math.floor(Math.random() *color.length)]}"
-              @click="updateData"
-            >
-              <span class="white--text headline">
-                Update members
-                <p>Records</p>
-              </span>
-            </v-avatar>
-          </v-col>
-          <v-col cols="12" xs="12" sm="6" md="6">
-            <v-avatar
-              v-ripple="{ center: true, class: `white--text` }"
-              class="justify-right avater"
-              size="210"
-              v-bind:style="{backgroundColor:color[
-              Math.floor(Math.random() *color.length)]}"
-              @click="requestData($event)"
-            >
-              <span class="white--text headline">Irregular Members</span>
-            </v-avatar>
-          </v-col>
-          <v-col cols="12" xs="12" sm="6" md="6">
-            <v-avatar
-              class="avater"
-              v-ripple="{ center: true, class: `white--text` }"
-              size="210"
-              v-bind:style="{backgroundColor:color[
-              Math.floor(Math.random() *color.length)]}"
-              @click="requestData($event)"
-            >
-              <span class="white--text headline">Regular members</span>
-            </v-avatar>
-          </v-col>
-          <v-col cols="12" sm="6" md="6">
-            <v-data-table
-              id="printSection"
-              v-model="selected"
-              :headers="headers"
-              :items=" DOMDisplayContent"
-              item-key="full_name"
-              :loading-text="loadingMessage"
-              class="elevation-1"
-            ></v-data-table>
-          </v-col>
-        </v-row>
-      </v-flex>
+      <v-flex sx12 sm12 md12 lg12 xg12><v-card></v-card></v-flex>
     </v-layout>
   </v-container>
 </template>

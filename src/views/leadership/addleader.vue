@@ -4,7 +4,7 @@
     <v-flex lg5 md5 sm8 xs12>
       <v-card class="elevation-1 ma-3 mt-0">
         <form ref="form" @submit.prevent="submit">
-          <v-card class=" elevation-0  ma-5 pt-5">
+          <v-card class="elevation-0 ma-5 pt-5">
             <v-text-field
               outlined
               color="green"
@@ -74,18 +74,10 @@
               class="mb-5"
             ></v-text-field>
             <span v-if="caders">
-              <v-p color="gray">pls ignore if you are member</v-p>
+              <v-p color="gray">pls ignore if you are a member</v-p>
               <v-radio-group v-model="timelyComing" row>
-                <v-radio
-                  label="First Timer"
-                  color="secondary"
-                  value="first"
-                ></v-radio>
-                <v-radio
-                  label="Second Timer"
-                  color="secondary"
-                  value="second"
-                ></v-radio>
+                <v-radio label="First Timer" color="secondary" value="first"></v-radio>
+                <v-radio label="Second Timer" color="secondary" value="second"></v-radio>
               </v-radio-group>
             </span>
             <v-divider height="50"></v-divider>
@@ -93,23 +85,19 @@
               <v-layout>
                 <v-flex xs10>
                   <span>
-                    <v-btn class="mt-2" color="secondary" text @click="cancel"
-                      >cancel</v-btn
-                    >
+                    <v-btn class="mt-2" color="secondary" text @click="cancel">cancel</v-btn>
                   </span>
                 </v-flex>
                 <v-flex xs1>
                   <span>
-                    <v-btn class="mt-2" color="secondary" text @click="submit"
-                      >Submit</v-btn
-                    >.
+                    <v-btn class="mt-2" color="secondary" text @click="submit">Submit</v-btn>.
                   </span>
                 </v-flex>
               </v-layout>
             </div>
           </v-card>
-        </form></v-card
-      >
+        </form>
+      </v-card>
     </v-flex>
   </v-layout>
   <!-- </v-container> -->

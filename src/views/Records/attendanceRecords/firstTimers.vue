@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <v-layout justify-center>
-      <v-card class="elevation-0"><SearchContentParams /></v-card>
+      <SearchContentParams />
     </v-layout>
     <!-- <p>the lord is good</p> -->
   </v-container>
@@ -18,7 +18,6 @@ export default {
     return {};
   },
   mounted() {},
-
   methods: {},
 };
 </script>

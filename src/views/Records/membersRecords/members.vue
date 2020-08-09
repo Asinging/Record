@@ -94,50 +94,37 @@ export default {
         "#F29215",
         "#B56F15",
         "#FFAE09",
-        "#DAA520"
+        "#DAA520",
       ],
       headers: [
         { text: "S/N", value: "id", sortable: true },
         {
           text: "Full name",
-          value: "full_name"
+          value: "full_name",
         },
         { text: "Department", value: "department" },
         { text: "phone", value: "phone" },
         { text: "Date Of Birth", value: "date_of_birth" },
         { text: "Rank", value: "role" },
-        { text: "Address", value: "address" }
-      ]
+        { text: "Address", value: "address" },
+      ],
     };
   },
   mounted() {
     this.serverResponse = this.$store.getters.serverResponse;
 
-    // for (let x of this.serverResponse) {
-    //   for (let y of x) {
-    //     this.DOMDisplayContent.push(y);
-    //   }
-    // }
-    // console.log(this.serverResponse);
-    // console.log(this.DOMDisplayContent);
+    // alert("this is members components");
   },
   watch: {
     dates() {
       this.dates.length > 2 ? this.dates.pop() : false;
-    }
-  },
-  computed: {
-    // serverResponse() {
-    //   return {
-    //     serverResponse: this.serverResponse
-    //   };
-    // }
+    },
   },
 
   methods: {
     updateData() {
       this.$router.push({
-        name: "addLeader"
+        name: "addLeader",
       });
     },
     requestData() {
@@ -156,15 +143,11 @@ export default {
         localStorage.setItem("extractedText", extractedText);
         // this.$store.dispatch("htmlNodeText", htmlElement);
       }
+      console.log(htmlNodeText);
 
       axios
-        .get("http://localhost:1337/" + htmlNodeText, {
-          // headers: {
-          //   "content-type": "application/json",
-          //   "Access-Control-Allow-Orign": "*"
-          // }
-        })
-        .then(resp => {
+        .get("/" + htmlNodeText)
+        .then((resp) => {
           let response = resp.data;
 
           if (response.length == []) {
@@ -179,10 +162,10 @@ export default {
             // this.spinnerLoading = false;
           }
         })
-        .catch(error => {
+        .catch((error) => {
           console.error(error);
         });
-    }
-  }
+    },
+  },
 };
 </script>

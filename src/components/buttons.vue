@@ -29,9 +29,9 @@
 export default {
   props: {
     onclick: {
-      type: "function"
-    }
-  }
+      type: "function",
+    },
+  },
 };
 </script>
 <style scoped></style>

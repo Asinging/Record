@@ -1,11 +1,7 @@
 <template>
-  <v-container>
-    <v-layout>
-      <v-card class="elevation-0">
-        <SearchContentParams />
-      </v-card>
-    </v-layout>
-  </v-container>
+  <v-layout>
+    <SearchContentParams />
+  </v-layout>
 </template>
 <script>
 import SearchContentParams from "../recordSearchTool.vue";

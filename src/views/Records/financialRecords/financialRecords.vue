@@ -5,11 +5,9 @@
     </v-layout>
     <v-layout>
       <!-- <div class="flex-grow-1"></div> -->
-      <v-flex offset-md10 offset-sm9 offset-xs6 offset-lg10>
+      <v-flex 3 md10 sm9 xs6 lg6>
         <v-Button :clickFnc="addRecord">
-          <template #btn
-            >add to record</template
-          >
+          <template #btn>Update Record</template>
         </v-Button>
       </v-flex>
     </v-layout>

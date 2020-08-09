@@ -2,31 +2,43 @@
 <template >
   <v-layout>
     <v-flex xs12>
-       <v-sheet>{{htmlElement}}</v-sheet> 
-      <v-data-table
-        id="printSection"
-        v-model="selected"
-        :headers="headers"
-        :items=" DOMDisplayContent"
-        :loading="loading"
-        item-key="id"
-        :loading-text="loadingMessage"
-        class="elevation-1"
-      ></v-data-table>
+      <v-card>
+        <v-layout>
+          <v-flex xs12 sm12 md12 lg12 xl12>
+            <v-card class="elevation-2 text-center">{{htmlElement}}</v-card>
+          </v-flex>
+        </v-layout>
+        <v-layout>
+          <v-flex>
+            <v-card>
+              <v-data-table
+                id="printSection"
+                v-model="selected"
+                :headers="headers"
+                :items=" DOMDisplayContent"
+                :loading="loading"
+                item-key="id"
+                :loading-text="loadingMessage"
+                class="elevation-1"
+              ></v-data-table>
 
-      <!-- buttons -->
-      <v-layout>
-        <v-flex xs12>
-          <v-Button :clickFnc="cancel">
-            <template #btn>cancel</template>
-          </v-Button>
-        </v-flex>
-        <v-flex xs5 offset-lg8 offset-xs1>
-          <v-Button :clickFnc="print">
-            <template #btn>Print</template>
-          </v-Button>
-        </v-flex>
-      </v-layout>
+              <!-- buttons -->
+              <v-layout>
+                <v-flex xs12>
+                  <v-Button :clickFnc="cancel">
+                    <template #btn>cancel</template>
+                  </v-Button>
+                </v-flex>
+                <v-flex xs5 offset-lg8 offset-xs1>
+                  <v-Button :clickFnc="print">
+                    <template #btn>Print</template>
+                  </v-Button>
+                </v-flex>
+              </v-layout>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-card>
     </v-flex>
   </v-layout>
 </template>
@@ -34,7 +46,7 @@
 import Buttons from "../../../components/customSlots.vue";
 export default {
   components: {
-    "v-Button": Buttons
+    "v-Button": Buttons,
   },
   data() {
     return {
@@ -52,13 +64,13 @@ export default {
         { text: "S/N", value: "id", sortable: true },
         {
           text: "Full name",
-          value: "full_name"
+          value: "full_name",
         },
         { text: "Department", value: "department" },
         { text: "phone", value: "phone" },
         { text: "Date Of Birth", value: "date_of_birth" },
-        { text: "Address", value: "address" }
-      ]
+        { text: "Address", value: "address" },
+      ],
     };
   },
   mounted() {
@@ -77,7 +89,7 @@ export default {
   },
   //get the destination route to
   beforeRouteEnter(to, from, next) {
-    next(vm => {
+    next((vm) => {
       from;
       vm.prevRoute = from;
       vm.$store.dispatch("route", { route: vm.prevRoute.name });
@@ -94,10 +106,10 @@ export default {
       console.log(this.prevRoute);
       this.$router.push({
         // name: this.prevRoute.name
-        name: localStorage.getItem("htmlNodeText")
+        name: localStorage.getItem("htmlNodeText"),
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

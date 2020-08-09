@@ -4,9 +4,11 @@
       <NavDrawer />
       <!-- <v-main> -->
       <v-content justify-center>
-        <v-card class=" align-center elavation-0" height="800" flat>
+        <v-card class="align-center elavation-0" height="950" flat>
           <Header />
-          <transition name="fadde"><router-view></router-view></transition>
+          <transition name="fade">
+            <router-view></router-view>
+          </transition>
         </v-card>
       </v-content>
       <!-- </v-main> -->
@@ -27,9 +29,25 @@ export default {
     Header,
   },
   data() {
-    return {
-      // dark: false
+    return {};
+  },
+  mounted() {
+    let vueLoaderConfiguration = {
+      canCancel: true,
+      onCancel: this.onCancel,
+      color: "green",
+      loader: "spinner",
+      height: 20,
+      width: 20,
+      duration: 3,
+
+      opacity: 0.5,
     };
+    localStorage.setItem(
+      "vueLoaderConfig",
+      JSON.stringify(vueLoaderConfiguration)
+    );
+    // this.$store.dispactch("vueLoaderConfiguration", vueLoaderConfiguration)
   },
 };
 </script>

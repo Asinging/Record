@@ -5,12 +5,9 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
-    // preRoute: "",
-    // draw: '',
     NODEText: '',
 
-    serverResponse: "", // used
+    serverResponse: [], // used
     user: {
       userName: '', //used
       userId: ''
@@ -19,12 +16,22 @@ export default new Vuex.Store({
       appName: '',
       appInitial: '',
 
-    }
-
+    },
+    customDatesQuery: [],
+    vueLoader: '',
+    vueLoaderConfig: {}
 
   },
   mutations: {
-
+    vueLoaderConfig(state, payload) {
+      state.vueLoaderConfig = payload
+    },
+    vueLoader(state, obj) {
+      state.vueLoader = obj
+    },
+    customDatesQuery(state, dates) {
+      state.customDatesQuery = dates
+    },
     htmlNodeText(state, innerHTML) {
       state.NODEText = innerHTML
     },
@@ -52,6 +59,21 @@ export default new Vuex.Store({
 
   },
   actions: {
+    vueLoaderConfig({
+      commit
+    }, payload) {
+      commit("vueLoaderConfig", payload)
+    },
+    vueLoader({
+      commit
+    }, objPayload) {
+      commit("vueLoader", objPayload)
+    },
+    customDatesQuery({
+      commit
+    }, payload) {
+      commit("customDatesQuery", payload)
+    },
     serverResponse({
       commit
     }, response) {
@@ -64,16 +86,8 @@ export default new Vuex.Store({
       commit("htmlNodeText", innerHTML)
     },
 
-    // route({
-    //   commit
-    // }, routeName) {
-    //   commit("fromRoute", routeName)
-    // },
-    // navigationDrawer({
-    //   commit
-    // }, draw) {
-    //   commit("navigationDrawer", draw)
-    // },
+
+
     authDetails({
       commit
     }, user) {
@@ -86,6 +100,15 @@ export default new Vuex.Store({
     }
   },
   getters: {
+    LoaderConfig(state) {
+      return state.vueLoaderConfig
+    },
+    loader(state) {
+      return state.vueLoader
+    },
+    customDates(state) {
+      return state.customDatesQuery
+    },
     getHtmlElementClicked(state) {
       return state.NODEText
     },

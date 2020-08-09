@@ -12,7 +12,7 @@ export const stringManipulation = {
             );
         },
 
-        //checks for  innerHTML with space
+        //checks for  innerHTML  text with space
 
         stringWithSpace: function (str, extractedText) {
 
@@ -20,6 +20,7 @@ export const stringManipulation = {
             for (let i = 1; i <= str.length; i++) {
                 counter++;
                 if (str.charAt(i) == " ") {
+                    //if extractext has innitialization and assign if 
                     if (extractedText == "") {
                         extractedText = str.substr(0, counter);
                         localStorage.setItem("extractedText", extractedText);

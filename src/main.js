@@ -7,6 +7,7 @@ import store from './store'
 import $ from "jquery/dist/jquery.js"
 import qs from "qs"
 
+
 // import io from 'socket.io-client';
 // import VueSocketIO from 'vue-socket.io';
 
@@ -24,7 +25,8 @@ import Loader from 'vue-loading-overlay'
 import "vue-loading-overlay/dist/vue-loading.css"
 //  export const SocketIo = io.connect('http://localhost:1337')
 
-Vue.use(VueSweetalert2, Loader)
+
+Vue.use(VueSweetalert2)
 
 new Vue({
 

@@ -83,16 +83,12 @@
       <v-layout>
         <v-flex xs12>
           <v-Button :clickFnc="cancel">
-            <template #btn
-              >cancel</template
-            >
+            <template #btn>cancel</template>
           </v-Button>
         </v-flex>
         <v-flex xs5 offset-lg8 offset-xs1>
           <v-Button :clickFnc="submit">
-            <template #btn
-              >sumbit</template
-            >
+            <template #btn>sumbit</template>
           </v-Button>
         </v-flex>
       </v-layout>
@@ -165,6 +161,11 @@ export default {
     thanksGiving() {
       let num = this.thanksGiving.split(",");
       this.thanksGiving = this.commaValue(num.join(""));
+    },
+    date() {
+      this.date.length == 2 ? (this.date = `${this.date}/0`) : false;
+      this.date.length == 5 ? (this.date = `${this.date}/0`) : false;
+      
     },
   },
   methods: {

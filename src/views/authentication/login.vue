@@ -6,41 +6,17 @@
       <v-col cols="12" xs="12" sm="12" lg="12" xl="12">
         <v-card class justify-center flat>
           <v-row>
-            <v-col
-              cols="12"
-              xs="12"
-              sm="7"
-              md="5"
-              lg="6"
-              xl="6"
-              class="hidden-sm-and-down"
-            >
+            <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6" class="hidden-sm-and-down">
               <v-card flat>
                 <i>
-                  <v-img
-                    src="img/devImages/door.png"
-                    height="400"
-                    width="300"
-                  />
+                  <v-img src="img/devImages/door.png" height="400" width="300" />
                 </i>
               </v-card>
             </v-col>
 
-            <v-col
-              cols="12"
-              xs="12"
-              sm="12"
-              md="6"
-              lg="6"
-              xl="6"
-              class="justify-content-center"
-            >
+            <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6" class="justify-content-center">
               <v-card class="mt-5" flat>
-                <form
-                  @submit.prevent="login"
-                  class="vld-parent"
-                  ref="formContainer"
-                >
+                <form @submit.prevent="login" class="vld-parent" ref="formContainer">
                   <v-card class="ml-8 elevation-0" ref="form">
                     <v-text-field
                       prepend-inner-icon="mdi-email"
@@ -79,9 +55,7 @@
 
                           <v-flex offset-lg10 offset-xs10 offset-md10>
                             <Buttons :clickFnc="login" class>
-                              <template #btn
-                                >Login
-                              </template>
+                              <template #btn>Login</template>
                             </Buttons>
                           </v-flex>
                           <v-divider></v-divider>
@@ -89,16 +63,12 @@
                           <v-layout>
                             <v-flex xs12>
                               <Buttons :clickFnc="signUp">
-                                <template #btn>
-                                  signUP
-                                </template>
+                                <template #btn>signUP</template>
                               </Buttons>
                             </v-flex>
                             <v-flex xs5 offset-lg1 offset-xs1 offset-md1>
                               <Buttons :clickFnc="forgotPassword">
-                                <template #btn>
-                                  Forgot Password
-                                </template>
+                                <template #btn>Forgot Password</template>
                               </Buttons>
                               <!-- /</submitButtons> -->
                             </v-flex>
@@ -137,6 +107,7 @@ export default {
 
   data() {
     return {
+      vueLoaderConfig: {},
       overlay: false,
       responseReceived: false,
       loginResponseMessage: true,
@@ -179,6 +150,7 @@ export default {
   },
 
   mounted() {
+    this.vueLoaderConfig = JSON.parse(localStorage.getItem("vueLoaderConfig"));
     //this.loader.hide()
   },
   methods: {
@@ -213,19 +185,11 @@ export default {
       });
 
       if (!this.formHasErrors) {
-        this.loader = this.$loading.show({
-          canCancel: true,
-          onCancel: this.onCancel,
-          color: "green",
-          loader: "spinner",
-          height: 20,
-          width: 200,
-          duration: 3,
+        this.loader = this.$loading.show(this.vueLoaderConfig);
 
-          opacity: 0.5,
-        });
+        // this.$store.dispatch("vueLoader", this.loader);
+        // console.log(this.loader.show());
 
-        let loader = this.loader;
         let dis = this;
         axios
           .get(

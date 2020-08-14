@@ -4,18 +4,18 @@
     <v-flex xs12>
       <v-layout>
         <v-flex xs12>
-          <AddDeleteCustomButton :clickFnc="add">
-            <template #btn="slotProps">add {{slotProps.btnName=leader}}</template>
+          <AddDeleteCustomButton :clickFnc="add" ml-2>
+            <template #button="slotProps">update {{slotProps.btnName=leader}}</template>
           </AddDeleteCustomButton>
         </v-flex>
         <v-flex xs5 offset-lg8 offset-xs2 offset-md9>
           <AddDeleteCustomButton :clickFnc="deleteLeader">
-            <template #btn="slotProps">Delete {{slotProps.btnName=leader}}</template>
+            <template #button="slotProps">Delete {{slotProps.btnName=leader}}</template>
           </AddDeleteCustomButton>
         </v-flex>
       </v-layout>
       <span color="green">
-        <marquee>RECORDS FOR {{leader.toUpperCase()}}</marquee>
+        <marquee>{{leader.toUpperCase()}}</marquee>
       </span>
       <v-data-table
         fixed-header
@@ -43,7 +43,7 @@ import { principalMixin } from "../../add_delete_leaders.js";
 export default {
   name: "",
   components: {
-    AddDeleteCustomButton
+    AddDeleteCustomButton,
   },
   mixins: [principalMixin],
   data() {
@@ -55,45 +55,46 @@ export default {
       deleted: [],
       serverData: [],
       selected: [],
-      htmlNodeText: "", // this is use instead  my leader for space string e.g "head of departments"
+      drawerInnerHtmlElement: "", // this is use instead  my leader for space string e.g "head of departments"
       loadingMessage: `Record is empty add to`,
 
       headers: [
         { text: "S/N", value: "id", sortable: true },
         {
           text: "Full name",
-          value: "full_name"
+          value: "full_name",
         },
         { text: "Department", value: "department" },
         { text: "phone", value: "phone" },
-        { text: "Date Of Birth", value: "date_of_birth" }
+        { text: "Date Of Birth", value: "date_of_birth" },
       ],
-      dataSets: []
+      dataSets: [],
     };
   },
 
   mounted() {
-
     // this.leader = this.$store.getters.getHtmlElementClicked;
     // if (localStorage.getItem("h"))
-    this.htmlNodeText = localStorage.getItem("htmlNodeText");
-    this.leader = localStorage.getItem("extractedText");
-    console.log(this.htmlNodeText);
+    this.drawerInnerHtmlElement = localStorage.getItem(
+      "drawerInnerHtmlElement"
+    );
+
+    let leader = localStorage.getItem("extractedText");
+    this.leader = leader == "head" ? "head of units" : leader;
+    console.log(this.drawerInnerHtmlElement);
     axios
       .get(
-        "/" + this.htmlNodeText,
+        "/" + this.drawerInnerHtmlElement,
         {},
         {
-            header: {
-              "Access-Control-Allow-Orign": "*",
-              "content-type": "application/json",
-          withCredentials: true,
-   
-            }
-          }
-        
+          header: {
+            "Access-Control-Allow-Orign": "*",
+            "content-type": "application/json",
+            withCredentials: true,
+          },
+        }
       )
-      .then(resp => {
+      .then((resp) => {
         console.log(resp);
         let response = resp.data;
         var dis = this;
@@ -106,11 +107,11 @@ export default {
         }
 
         console.log(response);
-        response.forEach(element => {
+        response.forEach((element) => {
           dis.dataSets.push(element);
         });
       })
-      .catch(err => {
+      .catch((err) => {
         console.error(err);
 
         this.loading = true;
@@ -140,7 +141,7 @@ export default {
     //   this.dataSets.push(empObj);
     //   //console.log(this.dataSets);
     //}
-  }
+  },
 };
 </script>
 <style scoped>

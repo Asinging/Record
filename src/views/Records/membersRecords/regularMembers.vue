@@ -1,8 +1,8 @@
 
 <template >
-  <v-container>
+  <v-container fluid>
     <v-layout>
-      <Display-Members></Display-Members>
+      <v-Display-Members></v-Display-Members>
     </v-layout>
   </v-container>
 </template>
@@ -11,14 +11,14 @@ import DisplayMembers from "../../../components/members/displayMembers.vue";
 export default {
   name: "Regular-Members",
   components: {
-    "Display-Members": DisplayMembers
+    "v-Display-Members": DisplayMembers,
   },
   data() {
     return {};
   },
   mounted() {},
 
-  methods: {}
+  methods: {},
 };
 </script>
 <style scoped>

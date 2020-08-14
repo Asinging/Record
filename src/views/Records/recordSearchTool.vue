@@ -10,7 +10,7 @@
                 <v-card
                   class="elevation-0 ma-0 orange--text text-center text-lg-h1"
                   style="font-size:20px; font-family:aurial"
-                >{{ formattedHtmlNodeText }}</v-card>
+                >{{ spacedDrawerInnerHtmlElement }}</v-card>
               </v-col>
             </v-row>
 
@@ -165,8 +165,9 @@ export default {
       loading: "",
       spinnerLoader: false,
       formattedHtmlNodeText: "",
-      innerHtmlElementFromPreviousClick: "",
+      drawerInnerHtmlElement: "",
       serverResponse: [],
+      spacedDrawerInnerHtmlElement: "tyess",
 
       innerHtmlCurrentlyClicked: '"',
     };
@@ -175,14 +176,17 @@ export default {
     this.vueLoaderConfig = this.vueLoaderConfig = JSON.parse(
       localStorage.getItem("vueLoaderConfig")
     );
-    this.innerHtmlElementFromPreviousClick = localStorage.getItem(
-      "htmlNodeText"
+    this.spacedDrawerInnerHtmlElement = localStorage.getItem(
+      "spacedDrawerInnerHtmlElement"
+    );
+    this.drawerInnerHtmlElement = localStorage.getItem(
+      "drawerInnerHtmlElement"
     );
 
-    console.log(this.innerHtmlElementFromPreviousClick);
+    // console.log(this.drawerInnerHtmlElement);
 
-    this.formattedHtmlNodeText = localStorage.getItem("formattedHtmlNodeText"); // differentiates it from the htmlNOdeText string with no space
-    if (this.formattedHtmlNodeText == "Birthdays") {
+    // this.formattedHtmlNodeText = localStorage.getItem("formattedHtmlNodeText"); // differentiates it from the htmlNOdeText string with no space
+    if (this.drawerInnerHtmlElement == "birthdays") {
       this.flag = true;
     }
   },
@@ -260,7 +264,7 @@ export default {
         }
         axios
           .get(
-            "/" + dis.innerHtmlElementFromPreviousClick + "/select",
+            "/" + dis.drawerInnerHtmlElement + "/select",
             {
               params: {
                 record: firstparam,
@@ -288,15 +292,13 @@ export default {
               this.loading.hide();
               this.$store.dispatch("serverResponse", response);
               if (
-                this.innerHtmlElementFromPreviousClick == "firstTimers" ||
-                this.innerHtmlElementFromPreviousClick == "secondTimers"
+                this.drawerInnerHtmlElement == "firstTimers" ||
+                this.drawerInnerHtmlElement == "secondTimers"
               ) {
                 this.$router.push({
                   name: "displayMembers",
                 });
-              } else if (
-                this.innerHtmlElementFromPreviousClick == "birthdays"
-              ) {
+              } else if (this.drawerInnerHtmlElement == "birthdays") {
                 this.$router.push({
                   name: "displayBirthdays",
                 });

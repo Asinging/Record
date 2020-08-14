@@ -4,7 +4,7 @@ import About from './views/About.vue';
 import Home from './views/Home.vue';
 import Store from './store.js';
 Vue.use(Router);
-let htmlNodeText = localStorage.getItem("htmlNodeText")
+let htmlNodeText = localStorage.getItem("drawerInnerHtmlElement")
 //base: process.env.BASE_URL,
 const routes = [{
     path: '/about',
@@ -176,6 +176,11 @@ const routes = [{
     path: '/Auth/login',
     name: 'login',
     component: () => import('./views/authentication/login.vue'),
+
+  }, {
+    path: '/Auth/forgottenpassword',
+    name: 'forgottenPassword',
+    component: () => import('./views/authentication/forgottenPassword.vue'),
 
   },
 

@@ -96,14 +96,14 @@
                     <v-layout>
                       <v-flex xs12>
                         <AddDeleteCustomButton :clickFnc="cancel">
-                          <template #btn
+                          <template #button
                             >cancel
                           </template>
                         </AddDeleteCustomButton>
                       </v-flex>
                       <v-flex xs5 offset-lg5 offset-xs1>
                         <AddDeleteCustomButton :clickFnc="submit">
-                          <template #btn>
+                          <template #button>
                             submit
                           </template>
                         </AddDeleteCustomButton>

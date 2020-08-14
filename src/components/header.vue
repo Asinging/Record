@@ -9,15 +9,12 @@
                 <img src="img\devImages\avat1.jpg" height="55" width="50" />
               </i>
             </v-flex>
-
             <v-flex xs12 md12 lg12>
-              <span
-                class="pa-0 mb-1 header"
-                style="color:#436609; font-weight:bold "
-                >{{
-                  appParams ? appParams.toUpperCase() : headerName.toUpperCase()
-                }}</span
-              >
+              <span class="pa-0 mb-1 header" style="color:#436609; font-weight:bold ">
+                {{
+                appParams ? appParams.toUpperCase() : headerName.toUpperCase()
+                }}
+              </span>
             </v-flex>
           </v-layout>
         </v-sheet>

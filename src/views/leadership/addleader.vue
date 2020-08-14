@@ -66,14 +66,14 @@
             <v-text-field
               dense
               outlined
-              v-if="caders"
+              v-if="routeFromMembersComponent"
               color="green"
               ref="dateOfService"
               v-model="dateOfService"
               label="Date of Service"
               class="mb-5"
             ></v-text-field>
-            <span v-if="caders">
+            <span v-if="routeFromMembersComponent">
               <v-p color="gray">pls ignore if you are a member</v-p>
               <v-radio-group v-model="timelyComing" row>
                 <v-radio label="First Timer" color="secondary" value="first"></v-radio>
@@ -115,10 +115,10 @@ export default {
       phone: "",
       dateOfBirth: "",
       address: "",
-      prevRoute: "this the previous route",
+      prevRoute: {},
       formHasError: false,
       url: "",
-      caders: false,
+      routeFromMembersComponent: false,
       serverResponse: [],
       serverRequest: {},
     };
@@ -127,6 +127,7 @@ export default {
     next((vm) => {
       from;
       vm.prevRoute = from;
+      console.log(vm.prevRoute);
 
       //vm.$store.dispatch("route", { route: vm.prevRoute.name });
     });
@@ -154,6 +155,7 @@ export default {
     },
   },
   mounted() {
+    console.log(this.prevRoute);
     //making a permanet storage for the prevRoute so that when i refresh i can still have access to it
     localStorage.setItem("prevRoute", this.prevRoute.name);
     // this.prevRoute = this.$store.getters.getFromRoute;
@@ -164,14 +166,15 @@ export default {
         name: preRoute,
       });
     }
+    //check where the route is coming from
     if (this.prevRoute == "members") {
       this.leader = "members";
     } else {
-      this.leader = localStorage.getItem("htmlNodeText");
+      this.leader = localStorage.getItem("drawerInnerHtmlElement");
     }
 
     if (this.leader.trim() == "members") {
-      this.caders = true;
+      this.routeFromMembersComponent = true;
     }
   },
   methods: {
@@ -199,7 +202,7 @@ export default {
         } else {
           this.serverRequest[f] = this.form[f];
         }
-        if (this.caders) {
+        if (this.routeFromMembersComponent) {
           if (!this.form[f] && this.form[f] == "dateOfService") {
             this.$swal({
               text: `${f} field must not be exmpty`,
@@ -212,6 +215,7 @@ export default {
       if (!this.formHasError) {
         // let element = this.prevRoute.name.toLowerCase().slice(0, -1);
         let element = this.leader.toLowerCase();
+        // localStorage.setItem("drawerInnerHtmlElement", element);
         let url = `add${element}`;
         let dis = this;
         let params = this.serverRequest;

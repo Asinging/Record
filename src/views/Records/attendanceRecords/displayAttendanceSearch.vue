@@ -5,7 +5,7 @@
       <v-card>
         <v-layout>
           <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-card class="elevation-2 text-center">{{htmlElement}}</v-card>
+            <v-card class="elevation-2 text-center">{{drawerInnerHtmlElements}}</v-card>
           </v-flex>
         </v-layout>
         <v-layout>
@@ -22,8 +22,8 @@
                 class="elevation-1"
               ></v-data-table>
 
-              <!-- buttons -->
-              <v-layout>
+          
+              <!-- <v-layout>
                 <v-flex xs12>
                   <v-Button :clickFnc="cancel">
                     <template #btn>cancel</template>
@@ -34,7 +34,7 @@
                     <template #btn>Print</template>
                   </v-Button>
                 </v-flex>
-              </v-layout>
+              </v-layout> -->
             </v-card>
           </v-flex>
         </v-layout>
@@ -44,73 +44,73 @@
 </template>
 <script>
 import Buttons from "../../../components/customSlots.vue";
-export default {
-  components: {
-    "v-Button": Buttons,
-  },
-  data() {
-    return {
-      htmlElement: "",
-      prevRoute: "",
-      DOMDisplayContent: [],
-      loading: true,
+// export default {
+//   components: {
+//     "v-Button": Buttons,
+//   },
+//   data() {
+//     return {
+//       drawerInnerHtmlElement: "",
+//       prevRoute: "",
+//       DOMDisplayContent: [],
+//       loading: true,
 
-      serverResponse: [],
+//       serverResponse: [],
 
-      selected: [],
-      loadingMessage: `Record is empty add to`,
+//       selected: [],
+//       loadingMessage: `Record is empty add to`,
 
-      headers: [
-        { text: "S/N", value: "id", sortable: true },
-        {
-          text: "Full name",
-          value: "full_name",
-        },
-        { text: "Department", value: "department" },
-        { text: "phone", value: "phone" },
-        { text: "Date Of Birth", value: "date_of_birth" },
-        { text: "Address", value: "address" },
-      ],
-    };
-  },
-  mounted() {
-    this.prevRoute = this.$store.getters.getFromRoute;
-    this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
+//       headers: [
+//         { text: "S/N", value: "id", sortable: true },
+//         {
+//           text: "Full name",
+//           value: "full_name",
+//         },
+//         { text: "Department", value: "department" },
+//         { text: "phone", value: "phone" },
+//         { text: "Date Of Birth", value: "date_of_birth" },
+//         { text: "Address", value: "address" },
+//       ],
+//     };
+//   },
+//   mounted() {
+//     this.prevRoute = this.$store.getters.getFromRoute;
+//     this.drawerInnerHtmlElement = localStorage.getItem(
+//       "drawerInnerHtmlElement"
+//     );
 
-    this.serverResponse = this.$store.getters.searchedResult;
-    console.log(this.serverResponse);
-    if (this.serverResponse != "") {
-    } else {
-      this.loading = "";
-    }
-    if (this.DOMDisplayContent) {
-      this.loading = false;
-    }
-  },
-  //get the destination route to
-  beforeRouteEnter(to, from, next) {
-    next((vm) => {
-      from;
-      vm.prevRoute = from;
-      vm.$store.dispatch("route", { route: vm.prevRoute.name });
-    });
-  },
-
-  methods: {
-    print() {
-      alert("you are  about to print");
-      printJS("printSection", "html");
-    },
-
-    cancel() {
-      console.log(this.prevRoute);
-      this.$router.push({
-        // name: this.prevRoute.name
-        name: localStorage.getItem("htmlNodeText"),
-      });
-    },
-  },
-};
+//     this.serverResponse = this.$store.getters.searchedResult;
+//     console.log(this.serverResponse);
+//     if (this.serverResponse != "") {
+//     } else {
+//       this.loading = "";
+//     }
+//     if (this.DOMDisplayContent) {
+//       this.loading = false;
+//     }
+//   },
+//   //get the destination route to
+//   beforeRouteEnter(to, from, next) {
+//     next((vm) => {
+//       from;
+//       vm.prevRoute = from;
+//       vm.$store.dispatch("route", { route: vm.prevRoute.name });
+//     });
+//   },
+//   methods: {
+//     print() {
+//       alert("you are  about to print");
+//       printJS("printSection", "html");
+//     },
+//     cancel() {
+//       console.log(this.prevRoute);
+//       this.$router.push({
+//         // name: this.prevRoute.name
+//         name: localStorage.getItem("drawerInnerHtmlElement"),
+//       });
+//     },
+//   },
+// };
 </script>
 <style scoped>
 .addpastordelete {

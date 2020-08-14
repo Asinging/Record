@@ -17,10 +17,25 @@
             <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6" class="justify-content-center">
               <v-card class="mt-5" flat>
                 <form @submit.prevent="login" class="vld-parent" ref="formContainer">
-                  <v-card class="ml-8 elevation-0" ref="form">
+                  <v-card class="ml-8 elevation-1 pa-5" ref="form">
                     <v-text-field
+                      @click="datePicked"
+                      color="primary"
+                      outlined
+                      shaped
+                      ref="fullName"
+                      v-model="fullName"
+                      label="Full Name"
+                      type="String"
+                      required
+                    ></v-text-field>
+
+                    <v-text-field
+                      @click="datePicked"
                       prepend-inner-icon="mdi-email"
                       color="primary"
+                      outlined
+                      shaped
                       ref="email"
                       v-model="email"
                       :rules="[
@@ -33,48 +48,108 @@
                       type="email"
                       required
                     ></v-text-field>
+                    <!-- <v-text-field
+                      color="primary"
+                      outlined
+                      shaped
+                      ref="dateOfbirth"
+                      v-model="dateOfbirth"
+                      :rules="[
+                        () => !!securityQuestion|| 'this field must nto be empty',
+                      ]"
+                      label="answer this security Questions"
+                      class="mb-0"
+                    ></v-text-field>-->
+
+                    <v-card class="text-center elevation-0 mb-10" v-if="datePicking">
+                      <v-date-picker
+                        @onclick="datePicked"
+                        v-model="dates"
+                        color="primary"
+                        class="elevation-20"
+                        justify-center
+                      ></v-date-picker>
+                    </v-card>
+
+                    <v-menu
+                      ref="menu"
+                      v-model="menu"
+                      color="primary"
+                      :close-on-content-click="false"
+                      :return-value.sync="dates"
+                      transition="scale-transition"
+                      offset-y
+                      min-width="500px"
+                    >
+                      <template v-slot:activator="{ on, attrs }">
+                        <v-combobox
+                          @focus="comboo"
+                          shaped
+                          outlined
+                          color="green"
+                          class="orange-text"
+                          v-model="dates"
+                          label="Date Of Birth"
+                          v-bind="attrs"
+                          v-on="on"
+                        ></v-combobox>
+                      </template>
+                    </v-menu>
 
                     <v-text-field
-                      prepend-inner-icon="mdi-key"
+                      @click="datePicked"
                       color="primary"
-                      ref="password"
-                      v-model="password"
+                      outlined
+                      shaped
+                      ref="securityQuestion"
+                      v-model="securityQuestion"
                       :rules="[
-                        () => !!password || 'password field must nto be empty',
+                        () => !!securityQuestion|| 'this field must nto be empty',
                       ]"
-                      label="password"
-                      type="password"
-                      required
+                      label="answer this security Questions"
                       class="mb-0"
                     ></v-text-field>
 
                     <v-card class="ma-1" flat>
-                      <v-layout>
+                      <!-- <v-layout>
                         <v-flex>
-                          <!-- / login button -->
-
+                         
                           <v-flex offset-lg10 offset-xs10 offset-md10>
                             <Buttons :clickFnc="login" class>
-                              <template #button>Login</template>
+                              <template #button>submit</template>
                             </Buttons>
-                          </v-flex>
-                          <v-divider></v-divider>
-                          <!-- signUp and forgotten passoword -->
-                          <v-layout>
+                      </v-flex>-->
+
+                      <v-layout>
+                        <v-flex xs12>
+                          <Buttons :clickFnc="cancel">
+                            <template #button>cancel</template>
+                          </Buttons>
+                        </v-flex>
+                        <v-flex xs5 offset-lg5 offset-xs1>
+                          <Buttons :clickFnc="submit">
+                            <template #button>submit</template>
+                          </Buttons>
+                          <!-- /</submitButtons> -->
+                        </v-flex>
+                      </v-layout>
+
+                      <!-- signUp and forgotten passoword -->
+                      <!-- <v-layout>
                             <v-flex xs12>
                               <Buttons :clickFnc="signUp">
-                                <template #button>signUP</template>
+                                <template #btn>signUP</template>
                               </Buttons>
                             </v-flex>
                             <v-flex xs5 offset-lg1 offset-xs1 offset-md1>
-                              <Buttons :clickFnc="forgottenPassword">
-                                <template #button>Forgot Password</template>
+                              <Buttons :clickFnc="forgotPassword">
+                                <template #btn>Forgot Password</template>
                               </Buttons>
-                              <!-- /</submitButtons> -->
+                          
                             </v-flex>
-                          </v-layout>
-                        </v-flex>
-                      </v-layout>
+                      </v-layout>-->
+                      <!-- </v-flex>
+                      </v-layout>-->
                     </v-card>
                   </v-card>
                 </form>
@@ -92,13 +167,11 @@
 <script>
 import { eventBus } from "../../events.js";
 import Buttons from "../../components/customSlots.vue";
-
-// import Loading from "vue-loading-overlay";
-// import Vue from "vue";
-//Vue.use(Loading);
+import qs from "qs";
 import Vue from "vue";
 import Loader from "vue-loading-overlay";
 Vue.use(Loader);
+// import Buttons from "../../components/customSlots.vue";
 
 export default {
   components: {
@@ -107,6 +180,8 @@ export default {
 
   data() {
     return {
+      datePicking: false,
+      dates: "",
       vueLoaderConfig: {},
       overlay: false,
       responseReceived: false,
@@ -154,10 +229,17 @@ export default {
     //this.loader.hide()
   },
   methods: {
-    forgottenPassword() {
+    cancel() {
       this.$router.push({
-        name: "forgottenPassword",
+        name: "login",
       });
+    },
+    comboo() {
+      // this.dates = "";
+      this.datePicking = true;
+    },
+    datePicked() {
+      this.datePicking = false;
     },
     signUp() {
       this.$router.push({
@@ -167,11 +249,11 @@ export default {
     login() {
       this.responseReceived = false;
       this.formHasErrors = false;
-      let email = this.email;
-      let password = this.password;
+      let email = this.email.trim();
+      let password = this.password.trim();
       let userLogin = {
-        email: this.email,
-        password: this.password,
+        email: this.email.trim(),
+        password: this.password.trim(),
       };
 
       let emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
@@ -196,19 +278,14 @@ export default {
         // console.log(this.loader.show());
 
         let dis = this;
+        let params = userLogin;
         axios
-          .get(
-            "http://localhost:1337/login",
-            {
-              params: userLogin,
+          .post("/login", qs.stringify(params), {
+            header: {
+              "Access-Control-Allow-Orign": "*",
+              "content-type": "application/json",
             },
-            {
-              header: {
-                "Access-Control-Allow-Orign": "*",
-                "content-type": "application/json",
-              },
-            }
-          )
+          })
           .catch((err) => {
             if (err) {
               setTimeout(() => {
@@ -248,7 +325,9 @@ export default {
         this.$swal("the email or password supplied is invalid");
       }
     },
-    forgotPassword() {},
+    forgotPassword() {
+      alert("are you sure you forgetten your password");
+    },
   },
 };
 </script>

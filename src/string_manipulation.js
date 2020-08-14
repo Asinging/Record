@@ -15,17 +15,21 @@ export const stringManipulation = {
         //checks for  innerHTML  text with space
 
         stringWithSpace: function (str, extractedText) {
+            if (!str) {
+                return "the string to be manipulated is empty"
+            }
 
             let counter = 0;
             for (let i = 1; i <= str.length; i++) {
                 counter++;
                 if (str.charAt(i) == " ") {
-                    //if extractext has innitialization and assign if 
+                    //if extracted text has innitialization and assign 
                     if (extractedText == "") {
                         extractedText = str.substr(0, counter);
                         localStorage.setItem("extractedText", extractedText);
                     }
                     i++;
+                    // get the next string after the space  and make to upper Case
                     let replaceText = str.charAt(i).toUpperCase();
 
                     // replacing a charater at a location of the string

@@ -7,7 +7,9 @@
 
         <v-layout>
           <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-card class="elevation-0 text-center" flat>{{htmlElement.toUpperCase()}} RECORDS</v-card>
+            <v-card class="elevation-0 font-weight-bold orange--text">
+              <marquee>{{spacedDrawerInnerHtmlElement.toUpperCase()}} RECORDS</marquee>
+            </v-card>
           </v-flex>
         </v-layout>
         <!-- the body layout of the mounted pages -->
@@ -28,14 +30,17 @@
               <!-- buttons -->
               <v-layout>
                 <v-flex xs12>
-                  <v-Button :clickFnc="cancel">
-                    <template #btn>cancel</template>
-                  </v-Button>
+                  <vButton :clickFnc="cancel">
+                    <template #button>cancel</template>
+                  </vButton>
                 </v-flex>
                 <v-flex offset-lg9 offset-xs2 offset-md8 offset-sm8>
-                  <v-Button :clickFnc="print">
-                    <template #btn>Print</template>
-                  </v-Button>
+                  <vButton :clickFnc="print">
+                    <template #button>
+                      <v-icon>mdi-fax</v-icon>
+                      <span class="ma-2">Print</span>
+                    </template>
+                  </vButton>
                 </v-flex>
               </v-layout>
             </v-card>
@@ -51,12 +56,13 @@ import TableData from "../dataTableComponent.vue";
 export default {
   name: "Display-members",
   components: {
-    "v-Button": Buttons,
-    "v- dataTables": TableData,
+    vButton: Buttons,
+    vDataTables: TableData,
   },
   data() {
     return {
-      htmlElement: "record",
+      drawerInnerHtmlElement: "record",
+      // spacedDrawerInnerHtmlElement: "",
       prevRoute: "",
       DOMDisplayContent: [],
 
@@ -64,8 +70,7 @@ export default {
       regularMembers: [],
       irregularMembers: [],
       serverResponse: [],
-      htmlElementFromPreviousClick: "",
-
+      spacedDrawerInnerHtmlElement: "yrs",
       loadingMessage: `Record is empty add to`,
 
       headers: [
@@ -82,54 +87,75 @@ export default {
     };
   },
   mounted() {
+    this.serverResponse = this.$store.getters.serverResponse;
+    // destructuring such to have array of objects
+    var r = [];
+    // the serverResponse fetch is array of arrays.
+    let destructureResponse = this.serverResponse.flat();
+    // let destructureResponse = this.serverResponse.flatMap((resp) => {
+    //   console.log(resp);
+    // });
+
+    console.log(destructureResponse);
+    this.spacedDrawerInnerHtmlElement = localStorage.getItem(
+      "spacedDrawerInnerHtmlElement"
+    );
     this.DOMDisplayContent = [];
     function getAve(object) {
       return Object.keys(object).filter((key) => {
-        let maximum = Math.max.apply(null, Object.values(object));
+        let maximum = Math.max.apply(null, Object.values(object)); //get the maximum value of the object
         let minimum = Math.min.apply(null, Object.values(object));
         let ave = Math.floor((maximum + minimum) / 2);
 
-        return object[key] >= ave;
+        return object[key] >= ave; // if object.key is greater or equall to ave
       });
     }
     this.prevRoute = this.$store.getters.getFromRoute;
-    this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
-    this.htmlElementFromPreviousClick = localStorage.getItem("htmlNodeText");
-    console.log(this.htmlElementFromPreviousClick);
-    this.serverResponse = this.$store.getters.serverResponse;
-    //console.log(this.serverResponse);
-    //console.log("this must work");
+    // this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
+    this.drawerInnerHtmlElement = localStorage.getItem(
+      "drawerInnerHtmlElement"
+    );
 
+    // console.log(this.serverResponse);
     if (
-      this.htmlElementFromPreviousClick != "firstTimers" ||
-      this.htmlElementFromPreviousClick != "secondTimers"
+      this.drawerInnerHtmlElement != "firstTimers" ||
+      this.drawerInnerHtmlElement != "secondTimers"
     ) {
+      // console.log(this.serverResponse);
+      // ``;
       // console.log("this must work");
       if (this.serverResponse != "") {
         var irregularMembers = [];
         var regularMembers = [];
-
         let count = {};
         let regular = [];
         let irregular = [];
-        let nameContainer = this.serverResponse.map((input) => {
+
+        let fullNameContainer = destructureResponse.map((input) => {
           return input.full_name;
         });
+        // });
 
-        nameContainer.forEach(function (a) {
+        console.log(fullNameContainer);
+
+        fullNameContainer.forEach(function (a) {
           //  counting the numbers of times a persons appears in church
-          count[a] = (count[a] || 0) + 1;
+          // console.log(a);
+
+          count[a] = (count[a] || 0) + 1; // if count[a ] returns undefined assign and add 1 otherwise add  to
         });
 
-        console.log(getAve(count));
         //getAve returns the full_name object key >= the average of the highest number a person was in the church for that
-        //particular requst
+        //particular request
 
-        nameContainer.forEach((element) => {
+        fullNameContainer.forEach((element) => {
+          console.log(getAve(count));
           if (getAve(count).includes(element)) {
-            //
+            //check if any element of the fullName is containded in
+            //the data return by the getAve fnc
+
             regularMembers.includes(element)
-              ? false
+              ? false // check if the value is already  present in the regularMembers else push to it
               : regularMembers.push(element);
           } else {
             irregularMembers.includes(element)
@@ -138,7 +164,7 @@ export default {
           }
         });
 
-        this.serverResponse.map((members) => {
+        destructureResponse.map((members) => {
           if (
             regularMembers.includes(members.full_name) &&
             !regular.includes(members.full_name) // filtering the object push into the regular
@@ -163,13 +189,13 @@ export default {
         console.log(this.regularMembers);
         console.log(this.irregularMembers);
         //debugger;
-        if (this.htmlElementFromPreviousClick == "irregularMembers") {
+        // console.log(this.drawerInnerHtmlElement);
+        if (this.drawerInnerHtmlElement == "irregularMembers") {
           this.DOMDisplayContent = this.irregularMembers;
-          console.log("yes i enter the here take it");
-        } else if (this.htmlElementFromPreviousClick == "regularMember") {
+        } else if (this.drawerInnerHtmlElement == "regularMembers") {
           this.DOMDisplayContent = this.regularMembers;
         } else {
-          this.DOMDisplayContent = this.serverResponse;
+          this.DOMDisplayContent = destructureResponse;
         }
       } else {
         this.loading = "";
@@ -197,13 +223,13 @@ export default {
     },
 
     cancel() {
-      // console.log(this.htmlElementFromPreviousClick);
+      // console.log(this.drawerInnerHtmlElement);
       if (
-        this.htmlElementFromPreviousClick == "firstTimers" ||
-        this.htmlElementFromPreviousClick == "secondTimers"
+        this.drawerInnerHtmlElement == "firstTimers" ||
+        this.drawerInnerHtmlElement == "secondTimers"
       ) {
         this.$router.push({
-          name: this.htmlElementFromPreviousClick,
+          name: this.drawerInnerHtmlElement,
         });
       } else {
         this.$router.push({

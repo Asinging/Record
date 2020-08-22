@@ -1,6 +1,131 @@
+
+
 <template>
-  <!-- <v-container fluid> -->
-  <v-layout justify-end>
+  <!-- <v-layout height="700"> -->
+
+  <!-- <v-card class="elevation-0" height="500"> -->
+
+  <v-container ma-0>
+    <v-row>
+      <v-col cols="12" xs="12" sm="12" lg="12" xl="12">
+        <v-card class justify-center flat>
+          <v-row>
+            <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6" class="hidden-xs-only">
+              <i>
+                <v-img src="img/devImages/heap.jpg" height="400" width="400" />
+              </i>
+            </v-col>
+
+            <v-col cols="12" xs="12" sm="6  " md="6" lg="5" xl="5">
+              <v-card class="elevation-0">
+                <form ref="form" @submit.prevent="submit">
+                  <v-card class="elevation-0 ma-5 pt-5">
+                    <v-text-field
+                      outlined
+                      color="green"
+                      clearable
+                      ref="fullName"
+                      v-model="fullName"
+                      :rules="[() => !!fullName || 'name is empty']"
+                      label="Full Name"
+                      required
+                    ></v-text-field>
+                    <v-text-field
+                      dense
+                      outlined
+                      color="green"
+                      ref="department"
+                      :disabled="validated"
+                      v-model="department"
+                      :rules="[
+                () => !!department || 'department field must not be empty',
+              ]"
+                      label="department"
+                      required
+                      class="mb-5"
+                    ></v-text-field>
+                    <v-text-field
+                      color="green"
+                      outlined
+                      ref="phone"
+                      v-model="phone"
+                      :rules="[() => !!phone || 'phone field must not be empty']"
+                      label="phone"
+                      type="number"
+                      required
+                      class="mb-5"
+                    ></v-text-field>
+                    <v-text-field
+                      dense
+                      outlined
+                      color="green"
+                      ref="dateOfBirth"
+                      v-model="dateOfBirth"
+                      :rules="[
+                () => !!dateOfBirth || 'Date of Birth field must not be empty',
+              ]"
+                      label="Date of Birth"
+                      required
+                      class="mb-5"
+                    ></v-text-field>
+
+                    <v-text-field
+                      dense
+                      outlined
+                      color="green"
+                      ref="address"
+                      v-model="address"
+                      label="Where do you reside"
+                      class="mb-5"
+                    ></v-text-field>
+                    <v-text-field
+                      dense
+                      outlined
+                      v-if="routeFromUpdateMembers"
+                      color="green"
+                      ref="dateOfService"
+                      v-model="dateOfService"
+                      label="Date of Service"
+                      class="mb-5"
+                    ></v-text-field>
+                    <span v-if="routeFromUpdateMembers">
+                      <v-p color="gray">pls ignore if you are a member</v-p>
+                      <v-radio-group v-model="timelyComing" row>
+                        <v-radio label="First Timer" color="secondary" value="first"></v-radio>
+                        <v-radio label="Second Timer" color="secondary" value="second"></v-radio>
+                      </v-radio-group>
+                    </span>
+                    <v-divider height="50"></v-divider>
+                    <div>
+                      <v-layout>
+                        <v-flex xs10>
+                          <span>
+                            <v-btn class="mt-2" color="secondary" text @click="cancel">cancel</v-btn>
+                          </span>
+                        </v-flex>
+                        <v-flex xs1>
+                          <span>
+                            <v-btn class="mt-2" color="secondary" text @click="submit">Submit</v-btn>.
+                          </span>
+                        </v-flex>
+                      </v-layout>
+                    </div>
+                  </v-card>
+                </form>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+    <!-- </v-card> -->
+    <!-- </v-layout> -->
+  </v-container>
+</template>
+
+
+
+  <!-- <v-layout justify-end>
     <v-flex lg5 md5 sm8 xs12>
       <v-card class="elevation-1 ma-3 mt-0">
         <form ref="form" @submit.prevent="submit">
@@ -99,14 +224,14 @@
         </form>
       </v-card>
     </v-flex>
-  </v-layout>
-  <!-- </v-container> -->
-</template>
+  </v-layout> -->
+
 <script>
 import qs from "qs";
 export default {
   data() {
     return {
+      leader: "",
       validated: false,
       timelyComing: "",
       dateOfService: "",
@@ -118,7 +243,7 @@ export default {
       prevRoute: {},
       formHasError: false,
       url: "",
-      routeFromMembersComponent: false,
+      routeFromUpdateMembers: false,
       serverResponse: [],
       serverRequest: {},
     };
@@ -127,7 +252,6 @@ export default {
     next((vm) => {
       from;
       vm.prevRoute = from;
-      console.log(vm.prevRoute);
 
       //vm.$store.dispatch("route", { route: vm.prevRoute.name });
     });
@@ -161,20 +285,24 @@ export default {
     // this.prevRoute = this.$store.getters.getFromRoute;
 
     if (this.prevRoute == undefined) {
-      let preRoute = localStorage.getItem("prevRoute");
+      let prevRoute = localStorage.getItem("prevRoute");
       this.$router.push({
-        name: preRoute,
+        name: prevRoute,
       });
     }
     //check where the route is coming from
-    if (this.prevRoute == "members") {
+    if (
+      this.prevRoute != "pastors" ||
+      this.prevRoute != "ministers" ||
+      this.prevRoute != "head of department"
+    ) {
       this.leader = "members";
     } else {
       this.leader = localStorage.getItem("drawerInnerHtmlElement");
     }
 
     if (this.leader.trim() == "members") {
-      this.routeFromMembersComponent = true;
+      this.routeFromUpdateMembers = true;
     }
   },
   methods: {
@@ -186,15 +314,16 @@ export default {
       });
     },
     submit() {
+      //an interceptor function for removing trailling from integers
       function removingTrailingZeros(params) {
         let param = params.split("/");
-        let rr = [];
+        let arr = [];
         for (let x of param) {
-          rr.push(parseInt(x));
+          arr.push(parseInt(x));
         }
-        rr = rr.join("/");
+        arr = arr.join("/");
 
-        return rr;
+        return arr;
       }
       Object.keys(this.form).forEach((f) => {
         if (f == "dateOfService" || f == "dateOfBirth") {
@@ -202,7 +331,7 @@ export default {
         } else {
           this.serverRequest[f] = this.form[f];
         }
-        if (this.routeFromMembersComponent) {
+        if (this.routeFromUpdateMembers) {
           if (!this.form[f] && this.form[f] == "dateOfService") {
             this.$swal({
               text: `${f} field must not be exmpty`,
@@ -228,12 +357,12 @@ export default {
             },
           })
           .then((response) => {
-            if (response.data.lenght !== 0) {
+            if (response.data.length != 0) {
               //console.log(response.data);
               // this.$store.dispatch("serverResponse", response.data);
 
               this.$router.push({
-                name: `${this.prevRoute.name}`,
+                name: `${this.leader}`,
               });
             }
           })

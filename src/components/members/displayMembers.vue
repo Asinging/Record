@@ -8,7 +8,7 @@
         <v-layout>
           <v-flex xs12 sm12 md12 lg12 xl12>
             <v-card class="elevation-0 font-weight-bold orange--text">
-              <marquee>{{spacedDrawerInnerHtmlElement.toUpperCase()}} RECORDS</marquee>
+              <marquee>{{spacedDrawerInnerHtmlElement.includes("Update")?"Members".toUpperCase():spacedDrawerInnerHtmlElement.updateMembers}}</marquee>
             </v-card>
           </v-flex>
         </v-layout>
@@ -53,6 +53,7 @@
 <script>
 import Buttons from "../customSlots.vue";
 import TableData from "../dataTableComponent.vue";
+
 export default {
   name: "Display-members",
   components: {
@@ -88,15 +89,9 @@ export default {
   },
   mounted() {
     this.serverResponse = this.$store.getters.serverResponse;
-    // destructuring such to have array of objects
-    var r = [];
-    // the serverResponse fetch is array of arrays.
-    let destructureResponse = this.serverResponse.flat();
-    // let destructureResponse = this.serverResponse.flatMap((resp) => {
-    //   console.log(resp);
-    // });
 
-    console.log(destructureResponse);
+    let destructureServerResponse = this.serverResponse.flat();
+
     this.spacedDrawerInnerHtmlElement = localStorage.getItem(
       "spacedDrawerInnerHtmlElement"
     );
@@ -105,13 +100,11 @@ export default {
       return Object.keys(object).filter((key) => {
         let maximum = Math.max.apply(null, Object.values(object)); //get the maximum value of the object
         let minimum = Math.min.apply(null, Object.values(object));
-        let ave = Math.floor((maximum + minimum) / 2);
 
-        return object[key] >= ave; // if object.key is greater or equall to ave
+        return object[key] >= Math.floor((maximum + minimum) / 2); // if object.key is greater or equall to ave
       });
     }
     this.prevRoute = this.$store.getters.getFromRoute;
-    // this.htmlElement = localStorage.getItem("formattedHtmlNodeText");
     this.drawerInnerHtmlElement = localStorage.getItem(
       "drawerInnerHtmlElement"
     );
@@ -121,35 +114,25 @@ export default {
       this.drawerInnerHtmlElement != "firstTimers" ||
       this.drawerInnerHtmlElement != "secondTimers"
     ) {
-      // console.log(this.serverResponse);
-      // ``;
-      // console.log("this must work");
       if (this.serverResponse != "") {
-        var irregularMembers = [];
-        var regularMembers = [];
-        let count = {};
-        let regular = [];
-        let irregular = [];
+        var irregularMembers = []; // for iteration
+        var regularMembers = []; // for iteration
+        let count = {}; // holds the numbers of times someone ful_name appears in the destructured arr
+        let regularMembersDuplicate = [];
+        let irregularMembersDuplicate = [];
 
-        let fullNameContainer = destructureResponse.map((input) => {
+        let fullNameContainer = destructureServerResponse.map((input) => {
           return input.full_name;
         });
         // });
 
-        console.log(fullNameContainer);
-
-        fullNameContainer.forEach(function (a) {
-          //  counting the numbers of times a persons appears in church
-          // console.log(a);
-
-          count[a] = (count[a] || 0) + 1; // if count[a ] returns undefined assign and add 1 otherwise add  to
+        fullNameContainer.forEach((a) => {
+          count[a] = (count[a] || 0) + 1; // if count[a ] returns undefined assign and add 1 otherwise add  oneto
         });
-
-        //getAve returns the full_name object key >= the average of the highest number a person was in the church for that
-        //particular request
-
         fullNameContainer.forEach((element) => {
-          console.log(getAve(count));
+          // this separate the regular and irregular members using the
+          // the data source from you
+
           if (getAve(count).includes(element)) {
             //check if any element of the fullName is containded in
             //the data return by the getAve fnc
@@ -164,30 +147,25 @@ export default {
           }
         });
 
-        destructureResponse.map((members) => {
+        destructureServerResponse.map((members) => {
           if (
             regularMembers.includes(members.full_name) &&
-            !regular.includes(members.full_name) // filtering the object push into the regular
+            !regularMembersDuplicate.includes(members.full_name) // filtering the object push into the regular
             // so we dont have duplicate
           ) {
-            regular.push(members.full_name);
+            regularMembersDuplicate.push(members.full_name);
 
-            if (this.regularMembers.length != 0) {
-              this.regularMembers.push(members);
-            } else {
-              this.regularMembers.push(members);
-            }
+            this.regularMembers.push(members);
           } else if (
             // push into irreguler array
-            !irregular.includes(members.full_name) &&
+            !irregularMembersDuplicate.includes(members.full_name) &&
             !regularMembers.includes(members.full_name)
           ) {
-            irregular.push(members.full_name);
+            irregularMembersDuplicate.push(members.full_name);
             this.irregularMembers.push(members);
           }
         });
-        console.log(this.regularMembers);
-        console.log(this.irregularMembers);
+
         //debugger;
         // console.log(this.drawerInnerHtmlElement);
         if (this.drawerInnerHtmlElement == "irregularMembers") {
@@ -195,13 +173,12 @@ export default {
         } else if (this.drawerInnerHtmlElement == "regularMembers") {
           this.DOMDisplayContent = this.regularMembers;
         } else {
-          this.DOMDisplayContent = destructureResponse;
+          this.DOMDisplayContent = destructureServerResponse;
         }
       } else {
         this.loading = "";
       }
     } else {
-      //this.DOMDisplayContent = this.serverResponse;
     }
     if (this.DOMDisplayContent) {
       this.loading = false;
@@ -218,8 +195,14 @@ export default {
 
   methods: {
     print() {
-      alert("you are  about to print");
-      printJS("printSection", "html");
+      let dis = this.drawerInnerHtmlElement;
+      console.log(dis);
+
+      printJS({
+        printable: "printSection",
+        type: "html",
+        header: dis.toUpperCase(),
+      });
     },
 
     cancel() {

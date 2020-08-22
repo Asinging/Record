@@ -6,28 +6,24 @@
           <v-row>
             <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6">
               <v-card class="ma-5 elevation-10" color="#81C784">
-                <v-card-title class="white--text"
-                  >This information provided here will help us set up your
-                  church for you accurately</v-card-title
-                >
+                <v-card-title class="white--text">
+                  This information provided here will help us set up your
+                  church for you accurately
+                </v-card-title>
               </v-card>
-              <v-col cols="12" xs="12" sm="7" md="5" lg="6" xl="6">
-                <v-card class flat>
-                  <v-stepper
-                    v-model="stepper"
-                    vertical
-                    class="elevation-0"
-                    value="values"
-                  >
-                    <v-stepper-step step="1" :complete="stepper"
-                      >Organisation Name</v-stepper-step
-                    >
+              <v-col cols="12" xs="12" sm="7" md="5" lg="5" xl="6">
+                <v-card flat>
+                  <v-stepper v-model="e6" vertical class="elevation-0">
+                    <v-stepper-step :complete="e6 > 1" step="1">Organisation Name</v-stepper-step>
+
                     <v-stepper-content step="1"></v-stepper-content>
-                    <v-stepper-step step="2" :complete="stepper"
-                      >Initial</v-stepper-step
-                    >
+
+                    <v-stepper-step :complete="e6 > 2" step="2">Initial</v-stepper-step>
+
                     <v-stepper-content step="2"></v-stepper-content>
-                    <v-stepper-step step="3" complete>orgLogo</v-stepper-step>
+
+                    <v-stepper-step :complete="e6 > 3" step="3">orgLogo</v-stepper-step>
+
                     <v-stepper-content step="3"></v-stepper-content>
                   </v-stepper>
                 </v-card>
@@ -36,12 +32,7 @@
 
             <v-col cols="12" xs="12" sm="5" md="5" lg="5" xl="5">
               <v-card class="elevation-0">
-                <form
-                  @submit.prevent="submit"
-                  class="vld-parent"
-                  ref="formContainer"
-                  id="submit"
-                >
+                <form @submit.prevent="submit" class="vld-parent" ref="formContainer" id="submit">
                   <v-card
                     ref="form"
                     class="ml-8 mr-8 elevation-0 white--text heading"
@@ -51,12 +42,14 @@
                   >
                     <v-card-text class="white--text">
                       <v-textarea
+                        @blur="stepperOut($event)"
+                        @focus="e6 =1"
                         style="font-size:1.3em !important"
                         autofocus
                         active
                         shaped
                         id="orgName"
-                        placeholder="The name of the organisation exactly how you wnat it to  appear"
+                        placeholder="The name of the organisation exactly how you want it to  appear"
                         outlined
                         auto-grow
                         background-color="#E8F5E9"
@@ -65,9 +58,12 @@
                         class="h1"
                         v-model="orgName"
                         label="Name "
+                        title="1"
                       ></v-textarea>
 
                       <v-textarea
+                        @blur="stepperOut($event)"
+                        @focus="e6=2"
                         shaped
                         style="font-size:1.em !important"
                         id="initial"
@@ -79,8 +75,10 @@
                         ref="orgInitial"
                         v-model="orgInitial"
                         label="Initial"
+                        title="2"
                       ></v-textarea>
                       <v-text-field
+                        @focus="e6=3"
                         outlined
                         auto-grows
                         shaped
@@ -91,6 +89,7 @@
                         v-model="orgLogo"
                         label="Logo"
                         type="file"
+                        title="3"
                       ></v-text-field>
                     </v-card-text>
                     <!-- <v-divider class="mt-12"></v-divider> -->
@@ -98,9 +97,7 @@
                       <div class="flex-grow-1"></div>
                       <v-flex xs5 offset-lg8 offset-xs1>
                         <AddDeleteCustomButton :clickFnc="submit">
-                          <template #btn
-                            >submit</template
-                          >
+                          <template #btn>submit</template>
                         </AddDeleteCustomButton>
                         <!-- /</submitButtons> -->
                       </v-flex>
@@ -130,9 +127,7 @@ export default {
   },
   data() {
     return {
-      // values: 2,
-      // fieldCompleted: false,
-      stepper: true,
+      e6: 1,
       overlay: false,
       overlayMessage: " the lord is good",
       responseReceived: false,
@@ -186,13 +181,21 @@ export default {
   },
 
   methods: {
+    stepperOut() {},
+    runStepper() {
+      let focus = event.value;
+      console.log(event.target.title);
+
+      if ((event.target.value = "")) {
+      }
+    },
     submit() {
       var userDetails = {
         orgName: this.orgName,
         orgLogo: this.orgLogo,
         orgInitial: this.orgInitial, //
       };
-      //this.formHasErrors = false;
+      this.formHasErrors = false;
 
       Object.keys(this.form).forEach((f) => {
         if (!this.form[f]) {

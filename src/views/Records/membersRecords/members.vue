@@ -6,13 +6,6 @@
           <v-Display-members></v-Display-members>
         </v-flex>
       </v-layout>
-      <v-flex sx12 sm12 md12 lg12 xg12>
-        <v-card class="elevation-10 ma-10 pa-10 outlined" max-width="200" outlined>
-          <Button :clickFnc="updateRecord">
-            <template #button>update data</template>
-          </Button>
-        </v-card>
-      </v-flex>
     </v-flex>
   </v-layout>
 </template>
@@ -36,19 +29,6 @@ export default {
       drawerInnerHtmlElement: "",
       serverResponse: [],
       DOMDisplayContent: [],
-
-      // headers: [
-      //   { text: "S/N", value: "id", sortable: true },
-      //   {
-      //     text: "Full name",
-      //     value: "full_name",
-      //   },
-      //   { text: "Department", value: "department" },
-      //   { text: "phone", value: "phone" },
-      //   { text: "Date Of Birth", value: "date_of_birth" },
-      //   { text: "Rank", value: "role" },
-      //   { text: "Address", value: "address" },
-      // ],
     };
   },
   mounted() {
@@ -56,21 +36,18 @@ export default {
     this.drawerInnerHtmlElement = localStorage.getItem(
       "drawerInnerHtmlElement"
     );
-
+    if (this.drawerInnerHtmlElement == "updateMembers") {
+      this.drawerInnerHtmlElement = "members";
+    }
     axios
       .get("/" + this.drawerInnerHtmlElement)
       .then((resp) => {
         let response = resp.data;
-
         if (response.length == []) {
         } else if (response.length) {
           if (this.drawerInnerHtmlElement != "members") {
             this.$router.push({ name: `displayMembers` });
           }
-          // let resp = response.forEach((resp) => {
-          //   console.log(resp);
-          // });
-
           this.$store.dispatch("serverResponse", response);
         }
       })

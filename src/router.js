@@ -17,6 +17,17 @@ const routes = [{
       requiresAuth: true,
     }
   },
+
+  //controllers routers
+  {
+    path: '/controllers/updateMembers',
+    name: 'updateMembers',
+    component: () => import('./views/leadership/addleader.vue'),
+    meta: {
+      requiresAuth: false
+    }
+  },
+
   {
     path: '/',
     name: 'home',
@@ -213,7 +224,7 @@ const routes = [{
   {
     path: '/Misc/calendar',
     name: 'calendar',
-    component: () => import('./views/misc/mandate.vue'),
+    component: () => import('./views/misc/calender.vue'),
     meta: {
       requiresAuth: true
     }

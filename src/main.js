@@ -6,6 +6,13 @@ import router from './router'
 import store from './store'
 import $ from "jquery/dist/jquery.js"
 import qs from "qs"
+//Check that service workers are supported
+if ('serviceWorker' in navigator) {
+  // Use the window load event to keep the page load performant
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js');
+  });
+}
 
 
 // import io from 'socket.io-client';
@@ -20,10 +27,12 @@ import vuetify from "@/plugins/vuetify"
 import 'sweetalert2/dist/sweetalert2.min.css';
 import VueHtmlToPaper from "vue-html-to-paper";
 import printJS from 'print-js';
+import "print-js/dist/print.css"
 import Loader from 'vue-loading-overlay'
 
 import "vue-loading-overlay/dist/vue-loading.css"
-//  export const SocketIo = io.connect('http://localhost:1337')
+
+
 
 
 Vue.use(VueSweetalert2)

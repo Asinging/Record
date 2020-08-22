@@ -70,6 +70,32 @@
 
           <v-list-item-title class="subtitle-1" @click="routerLink($event)">Home</v-list-item-title>
         </v-list-item>
+        <!-- /controls -->
+        <v-list-group prepend-icon="person" value="true" v-model="ctrl" color="primary">
+          <template v-slot:activator>
+            <v-list-item-title class="subtitle-1" @click="runFnc(ctrl)">Controllers</v-list-item-title>
+          </template>
+          <v-list-item
+            v-for="(item, updateMembers) in controls"
+            :key="updateMembers"
+            @click="routerLink($event)"
+          >
+            <v-list-item-content>
+              <v-list-item-title color="secondary" ref="item">
+                {{
+                item.control
+                }}
+              </v-list-item-title>
+            </v-list-item-content>
+            <v-list-item-icon>
+              <v-icon color="secondary">{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+          </v-list-item>
+        </v-list-group>
+        <template v-if="ctrl">
+          <v-divider></v-divider>
+        </template>
+        <!-- Contrlols Ends -->
 
         <!-- the leadership column starts here -->
 
@@ -285,8 +311,15 @@ export default {
       members: false,
       finances: false,
       home: false,
+      ctrl: false,
 
       drawerInnerHtmlElement: "",
+
+      controls: [
+        { icon: "mdi mdi-account-tie", control: "Update Members" },
+        { icon: "mdi mdi-account-child", control: "Update Calender" },
+        { icon: "mdi mdi-account-group", control: "Update Misc" },
+      ],
 
       leadershipRecords: [
         { icon: "mdi mdi-account-tie", leader: "Pastors" },
@@ -399,6 +432,7 @@ export default {
         extractedText = drawerInnerHtmlElement; // if the string does not have space the entire string will be use as though  extracted
         localStorage.setItem("drawerInnerHtmlElement", drawerInnerHtmlElement);
         localStorage.setItem("extractedText", extractedText);
+        console.log(drawerInnerHtmlElement);
       }
 
       this.$router.push({

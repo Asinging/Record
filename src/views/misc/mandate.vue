@@ -1,68 +1,97 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-row>
-        <v-flex xs12 sm12 md6 lg6>
-          <v-card
-            v-for="card in cards"
-            :key="card.title"
-            :cols="card.flex"
-            class="mt-3 ml-2 mr-2"
-            @click="print"
-          >
-            <v-card-title v-text="card.title" class="ccard_title"></v-card-title>
-            <v-card-text v-text="card.text"></v-card-text>
+  <v-container>
+    <v-row no-gutters>
+      <v-col cols="12">
+        <v-card class="elevation-0 ma-0">
+          <v-row>
+            <v-col cols="12" xs="12" sm="4" md="12" lg="4" v-for="(card, car) in cards" :key="car">
+              <v-card class="elevation-1 ma-2 rounded">
+                <v-card-title v-text="card.title" class="ccard_title"></v-card-title>
+                <v-card-text>{{ more ? card.largeText.slice(0, 120) : "yes" }}</v-card-text>
+                <!-- <div class="flex-grow-1"></div>
+                <v-flex offset-xs9 offset-sm11>-->
 
-            <v-flex offset-xs9 offset-sm11 offset-lg9>
-              <v-card-action>
-                <v-btn
-                  depressed
-                  large
-                  tile
-                  text
-                  v-text="card.action"
-                  color="orange"
-                  class="ma-2 white--text ccard_action"
-                ></v-btn>
-              </v-card-action>
-            </v-flex>
-          </v-card>
-        </v-flex>
-      </v-row>
-    </v-flex>
-  </v-layout>
+                <v-card-action>
+                  <v-col class="text-right">
+                    <v-btn
+                      depressed
+                      large
+                      tile
+                      text
+                      @click="largeText(event)"
+                      v-text="card.action"
+                      color="orange"
+                      class="white--text ccard_action align-right pa-3"
+                      align-center
+                    ></v-btn>
+                  </v-col>
+                </v-card-action>
+
+                <!-- </v-flex> -->
+              </v-card>
+              <!-- <v-divider></v-divider> -->
+            </v-col>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
-  <script >
+<script>
 export default {
   name: "home",
   data() {
     return {
+      more: true,
       cards: [
         {
-          flex: 12,
-          title: "MISSION",
-          action: "SEE MORE",
-          text:
-            " ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat"
+          title: "VISION STATEMENT",
+          action: "MORE",
+          // text:
+          //   " This judiciously and elaboratively expresses the efficiency and effective leadership  structure of the church and its records, starting from",
+          largeText:
+            "This judiciously and elaboratively expresses the leadership of the church and its records, starting from " +
+            " the head pastors down to the ministers and down to the heads of units/department",
         },
         {
-          flex: 12,
-          title: "VISION",
-          action: "SEE MORE",
-          text:
-            "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. Eos suavitate referrentur ad, te duo agam libris qualisque, utroque quaestio accommodare no qui. Et percipit laboramus usu, no invidunt verterem nominati mel. Dolorem ancillae an mei, ut putant invenire splendide mel, ea nec propriae adipisci. Ignota salutandi accusamus in sed, et per malis fuisset, qui id ludus appareat"
+          flex: 4,
+          title: "MISSION STATEMENT",
+          action: "MORE",
+          // text:
+          //   "The membership record of the church keeps track of the the members currently in the church and actively in the worship of the Lord of almighty.",
+          largeText:
+            "  The membership record of the church keeps track of the the members currently in the church and actively in the worship of the Lord of almighty this , keeps track of how often a particular member has been comming to " +
+            "church",
         },
         {
-          flex: 12,
-          title: "VALUES  ",
-          action: "SEE MORE",
-          text:
-            "Lorem ipsum dolor sit amet, brute iriure accusata ne mea. id ludus appareat"
-        }
-      ]
+          flex: 4,
+          title: "VALUES",
+          action: "MORE",
+          // text:
+          //   "The attendance record of the church keeps accurately the total nunber of the persons that has ever worship in  the church an the and the total",
+          largeText:
+            "  The attendance record of the church keeps accurately the total nunber of the persons that has ever worship in" +
+            "the church an the and the total number of the persons per services",
+        },
+      ],
     };
   },
-  methods: {}
+  beforeMount() {
+    this.$store.getters.authDetails.userName
+      ? false
+      : this.$router.push({ name: "login" });
+    // localStorage.getItem("orgName" === undefined)
+    //   ? this.$router.push({ name: "setuppage" })
+    //   : false;
+  },
+  methods: {
+    largeText() {
+      let innerHtml = event.target.innerText.trim();
+      if (innerHtml === "MORE") {
+        console.log(event);
+      }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -61,8 +61,8 @@
 
                         <!-- this year start -->
 
-                        <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12">
-                          <v-card
+                        <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" v-if="!flag">
+                          <v-card 
                             class="white--text cards_action text-center pt-3 elevation-0"
                             height="50px"
                             @click="requestData($event)"
@@ -187,6 +187,7 @@ export default {
 
     // this.formattedHtmlNodeText = localStorage.getItem("formattedHtmlNodeText"); // differentiates it from the htmlNOdeText string with no space
     if (this.drawerInnerHtmlElement == "birthdays") {
+      alert("am here");
       this.flag = true;
     }
   },

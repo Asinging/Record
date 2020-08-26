@@ -7,8 +7,8 @@
 
         <v-layout>
           <v-flex xs12 sm12 md12 lg12 xl12>
-            <v-card class="elevation-0 font-weight-bold orange--text">
-              <marquee>{{spacedDrawerInnerHtmlElement.includes("Update")?"Members".toUpperCase():spacedDrawerInnerHtmlElement.updateMembers}}</marquee>
+            <v-card class="elevation-0 font-weight-bold orange--text ma-5">
+              <marquee>{{spacedDrawerInnerHtmlElement.includes("Update")?"Members".toUpperCase():spacedDrawerInnerHtmlElement.toUpperCase()}}</marquee>
             </v-card>
           </v-flex>
         </v-layout>
@@ -66,7 +66,7 @@ export default {
       // spacedDrawerInnerHtmlElement: "",
       prevRoute: "",
       DOMDisplayContent: [],
-
+      loading: true,
       selected: [],
       regularMembers: [],
       irregularMembers: [],
@@ -87,14 +87,16 @@ export default {
       ],
     };
   },
+
   mounted() {
     this.serverResponse = this.$store.getters.serverResponse;
-
-    let destructureServerResponse = this.serverResponse.flat();
-
     this.spacedDrawerInnerHtmlElement = localStorage.getItem(
       "spacedDrawerInnerHtmlElement"
     );
+    // this.serverResponse.lenght ? (this.loading = false) : (this.loading = true);
+
+    let destructureServerResponse = this.serverResponse.flat();
+
     this.DOMDisplayContent = [];
     function getAve(object) {
       return Object.keys(object).filter((key) => {
@@ -166,14 +168,22 @@ export default {
           }
         });
 
-        //debugger;
-        // console.log(this.drawerInnerHtmlElement);
+        function assignId(source) {
+          let counter = 1;
+          let arr = [];
+          for (let i of source) {
+            i.id = counter++;
+            arr.push(i);
+          }
+          return arr;
+        }
+        this.DOMDisplayContent = [];
         if (this.drawerInnerHtmlElement == "irregularMembers") {
-          this.DOMDisplayContent = this.irregularMembers;
+          this.DOMDisplayContent = assignId(this.irregularMembers);
         } else if (this.drawerInnerHtmlElement == "regularMembers") {
-          this.DOMDisplayContent = this.regularMembers;
+          this.DOMDisplayContent = assignId(this.regularMembers);
         } else {
-          this.DOMDisplayContent = destructureServerResponse;
+          this.DOMDisplayContent = assignId(destructureServerResponse);
         }
       } else {
         this.loading = "";
@@ -196,7 +206,6 @@ export default {
   methods: {
     print() {
       let dis = this.drawerInnerHtmlElement;
-      console.log(dis);
 
       printJS({
         printable: "printSection",

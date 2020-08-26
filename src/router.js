@@ -189,6 +189,11 @@ const routes = [{
     component: () => import('./views/authentication/login.vue'),
 
   }, {
+    path: '/resetPassword',
+    name: 'resetPassword',
+    component: () => import('./views/authentication/resetPassword.vue'),
+
+  }, {
     path: '/Auth/forgottenpassword',
     name: 'forgottenPassword',
     component: () => import('./views/authentication/forgottenPassword.vue'),
@@ -240,7 +245,8 @@ const routes = [{
 
 ];
 const router = new Router({
-  routes,
+  routes: routes,
+  // mode: "harsh"
 
 });
 

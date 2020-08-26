@@ -109,7 +109,7 @@ export default {
     return {
       vueLoaderConfig: {},
       overlay: false,
-      responseReceived: false,
+      serverResponseRecieved: false,
       loginResponseMessage: true,
       email: "",
       password: "",
@@ -120,8 +120,8 @@ export default {
     };
   },
   watch: {
-    responseReceived() {
-      if (this.responseReceived == true) {
+    serverResponseRecieved() {
+      if (this.serverResponseRecieved == true) {
         let res = this.serverResponse;
         $("body").overhang({
           type: "error",
@@ -165,7 +165,7 @@ export default {
       });
     },
     login() {
-      this.responseReceived = false;
+      this.serverResponseRecieved = false;
       this.formHasErrors = false;
       let email = this.email;
       let password = this.password;
@@ -214,13 +214,13 @@ export default {
               setTimeout(() => {
                 this.serverResponse = err;
                 this.$swal(err.response.data);
-                // this.responseReceived = true;
+                // this.serverResponseRecieved = true;
               }, 700);
             }
             return;
           })
           .then((response) => {
-            this.responseReceived = true;
+            this.serverResponseRecieved = true;
             this.serverResponse = response.data.msg;
             console.log(response);
             let userName = response.data.data.full_name;
@@ -242,7 +242,7 @@ export default {
 
         //console.log(this.serverResponse);
       } else {
-        this.responseReceived = true;
+        this.serverResponseRecieved = true;
         this.$refs.password.focus();
         this.serverResponse = "the email or password is invalid";
         this.$swal("the email or password supplied is invalid");

@@ -14,9 +14,13 @@
           </AddDeleteCustomButton>
         </v-flex>
       </v-layout>
-      <span color="green">
-        <marquee>{{leader.toUpperCase()}}</marquee>
-      </span>
+      <v-layout>
+        <v-flex xs12 sm12 md12 lg12 xl12>
+          <v-card class="elevation-0 font-weight-bold orange--text mt-5">
+            <marquee>{{leader.toUpperCase()}}</marquee>
+          </v-card>
+        </v-flex>
+      </v-layout>
       <v-data-table
         fixed-header
         v-model="selected"
@@ -79,8 +83,8 @@ export default {
       "drawerInnerHtmlElement"
     );
 
-    let leader = localStorage.getItem("extractedText");
-    this.leader = leader == "head" ? "head of units" : leader;
+    let leader = localStorage.getItem("drawerInnerHtmlElement");
+    this.leader = leader == "headOfDepartments" ? "head of units" : leader;
     console.log(this.drawerInnerHtmlElement);
     axios
       .get(
@@ -107,8 +111,12 @@ export default {
         }
 
         console.log(response);
+        // fullName containers for the response so we don't have duplicate full Name
+        let fullName = [];
         response.forEach((element) => {
-          dis.dataSets.push(element);
+          fullName.includes(element.full_name)
+            ? false
+            : (fullName.push(element.phone), dis.dataSets.push(element));
         });
       })
       .catch((err) => {

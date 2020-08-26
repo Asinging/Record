@@ -11,7 +11,7 @@
                   class="ccard_title"
                   style="font-family:sans-serif"
                 ></v-card-title>
-                <v-card-text>{{ more ? card.largeText.slice(0, 120) : card.largeText}}</v-card-text>
+                <v-card-text>{{ more ? card.text.slice(0, 120) : card.text}}</v-card-text>
                 <!-- <div class="flex-grow-1"></div>
                 <v-flex offset-xs9 offset-sm11>-->
 
@@ -22,7 +22,7 @@
                       large
                       tile
                       text
-                      @click="largeText($event)"
+                      @click="text($event)"
                       v-text="card.action"
                       color="orange"
                       class="white--text ccard_action align-right pa-3"
@@ -46,6 +46,7 @@ export default {
   name: "home",
   data() {
     return {
+      LongText: "",
       more: true,
       actionBtn: "see more",
       cards: [
@@ -54,7 +55,7 @@ export default {
           action: "see more",
           // text:
           //   " This judiciously and elaboratively expresses the efficiency and effective leadership  structure of the church and its records, starting from",
-          largeText:
+          text:
             "This judiciously and elaboratively expresses the leadership of the church and its records, starting from " +
             " the head pastors down to the ministers and down to the heads of units/department",
         },
@@ -64,7 +65,7 @@ export default {
           action: "see more",
           // text:
           //   "The membership record of the church keeps track of the the members currently in the church and actively in the worship of the Lord of almighty.",
-          largeText:
+          text:
             "  The membership record of the church keeps track of the the members currently in the church and actively in the worship of the Lord of almighty this , keeps track of how often a particular member has been comming to " +
             "church",
         },
@@ -74,7 +75,7 @@ export default {
           action: "see more",
           // text:
           //   "The attendance record of the church keeps accurately the total nunber of the persons that has ever worship in  the church an the and the total",
-          largeText:
+          text:
             "  The attendance record of the church keeps accurately the total nunber of the persons that has ever worship in" +
             "the church an the and the total number of the persons per services",
         },
@@ -84,7 +85,7 @@ export default {
           action: "see more",
           // text:
           //   "the financial record of the church has to be kept accurate and without abiquity. this features takes care of that",
-          largeText:
+          text:
             " the financial record of the church has to be kept accurate and without abiquity. this features takes care of that",
         },
       ],
@@ -99,7 +100,7 @@ export default {
     //   : false;
   },
   methods: {
-    largeText() {
+    text() {
       let innerHtml = event.target.innerText.trim();
 
       this.more = !this.more;
@@ -107,7 +108,7 @@ export default {
         ? (event.target.innerText = "see more")
         : (event.target.innerText = "see less");
 
-      //}
+      event.path[3].innerHtml = event.path[3].innerText;
     },
   },
 };

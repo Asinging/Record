@@ -71,7 +71,7 @@
           <v-list-item-title class="subtitle-1" @click="routerLink($event)">Home</v-list-item-title>
         </v-list-item>
         <!-- /controls -->
-        <v-list-group prepend-icon="person" value="true" v-model="ctrl" color="primary">
+        <v-list-group prepend-icon="mdi-brightness-7" value="true" v-model="ctrl" color="primary">
           <template v-slot:activator>
             <v-list-item-title class="subtitle-1" @click="runFnc(ctrl)">Controllers</v-list-item-title>
           </template>
@@ -88,7 +88,7 @@
               </v-list-item-title>
             </v-list-item-content>
             <v-list-item-icon>
-              <v-icon color="secondary">{{ item.icon }}</v-icon>
+              <v-icon color="secondary">{{item.icon}}</v-icon>
             </v-list-item-icon>
           </v-list-item>
         </v-list-group>
@@ -296,6 +296,7 @@ export default {
   },
   data() {
     return {
+      serverResponse: "",
       blue: "",
       misc: "",
       user: "",
@@ -316,9 +317,9 @@ export default {
       drawerInnerHtmlElement: "",
 
       controls: [
-        { icon: "mdi mdi-account-tie", control: "Update Members" },
-        { icon: "mdi mdi-account-child", control: "Update Calender" },
-        { icon: "mdi mdi-account-group", control: "Update Misc" },
+        { icon: "mdi group_add", control: "Update Members" },
+        { icon: "mdi-calendar-plus", control: "Update Calender" },
+        { icon: "mdi-cake-variant", control: "Update Misc" },
       ],
 
       leadershipRecords: [
@@ -355,9 +356,24 @@ export default {
   },
 
   watch: {
-    admin() {
-      //  if (userStatus)
-      console.log(this.admin);
+    responseReceived() {
+      if (this.responseReceived == true) {
+        let res = this.serverResponse;
+        $("body").overhang({
+          type: "error",
+          custom: true,
+          customconfirm: "overhang-overides",
+          message: res,
+          accent: "green",
+          primary: "orange",
+          customClass: "",
+
+          duration: 1,
+          speed: 3000,
+          easing: "easeOutBounce",
+        });
+        // this.loader.hide();
+      }
     },
   },
   computed: {
@@ -374,9 +390,6 @@ export default {
     this.drawer = this.$store.state.draw;
   },
   methods: {
-    // firstmtd(){
-    //   alert(this.$store.state.user.userName);
-    // },
     userStatus() {
       let status = event.target.innerText; // login || logout
 
@@ -392,6 +405,10 @@ export default {
         this.$store.dispatch("authDetails", {
           userName: "",
           userId: "",
+        });
+        axios.get("/logout").then((response) => {
+          this.responseReceived = true;
+          this.serverResponse = response.data.message;
         });
         this.$router.push({
           // path: "Auth/login",

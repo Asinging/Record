@@ -16,7 +16,21 @@ export default {
   data() {
     return {};
   },
-  mounted() {},
+  mounted() {
+    axios
+      .get("/members")
+      .then((resp) => {
+        let response = resp.data;
+        if (response.length == []) {
+        } else if (response.length) {
+          this.$store.dispatch("serverResponse", response);
+          this.$router.push({ name: `displayMembers` });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  },
 
   methods: {},
 };

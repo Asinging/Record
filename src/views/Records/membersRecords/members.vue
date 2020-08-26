@@ -36,19 +36,18 @@ export default {
     this.drawerInnerHtmlElement = localStorage.getItem(
       "drawerInnerHtmlElement"
     );
-    if (this.drawerInnerHtmlElement == "updateMembers") {
-      this.drawerInnerHtmlElement = "members";
-    }
+    this.drawerInnerHtmlElement == "updateMembers"
+      ? (this.drawerInnerHtmlElement = "members")
+      : false;
+
     axios
       .get("/" + this.drawerInnerHtmlElement)
       .then((resp) => {
         let response = resp.data;
         if (response.length == []) {
         } else if (response.length) {
-          if (this.drawerInnerHtmlElement != "members") {
-            this.$router.push({ name: `displayMembers` });
-          }
           this.$store.dispatch("serverResponse", response);
+          this.$router.push({ name: `displayMembers` });
         }
       })
       .catch((error) => {

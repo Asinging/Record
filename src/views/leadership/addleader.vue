@@ -9,6 +9,13 @@
     <v-row>
       <v-col cols="12" xs="12" sm="12" lg="12" xl="12">
         <v-card class justify-center flat>
+          <!-- <v-row> -->
+          <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12">
+            <v-card class="elevation-0 font-weight-bold orange--text" style="font-size:18 px">
+              <marquee>{{spacedDrawerInnerHtmlElement.toUpperCase()}}</marquee>
+            </v-card>
+          </v-col>
+          <!-- </v-row> -->
           <v-row>
             <v-col cols="12" xs="12" sm="6" md="6" lg="6" xl="6" class="hidden-xs-only">
               <i>
@@ -81,14 +88,14 @@
                     <v-text-field
                       dense
                       outlined
-                      v-if="routeFromUpdateMembers"
+                      v-if="isMember"
                       color="green"
                       ref="dateOfService"
                       v-model="dateOfService"
                       label="Date of Service"
                       class="mb-5"
                     ></v-text-field>
-                    <span v-if="routeFromUpdateMembers">
+                    <span v-if="isMember">
                       <v-p color="gray">pls ignore if you are a member</v-p>
                       <v-radio-group v-model="timelyComing" row>
                         <v-radio label="First Timer" color="secondary" value="first"></v-radio>
@@ -227,7 +234,9 @@
   </v-layout> -->
 
 <script>
+import Vue from "vue";
 import qs from "qs";
+console.log("checking for pdate .....");
 export default {
   data() {
     return {
@@ -243,18 +252,23 @@ export default {
       prevRoute: {},
       formHasError: false,
       url: "",
-      routeFromUpdateMembers: false,
+      isMember: false,
       serverResponse: [],
       serverRequest: {},
+      spacedDrawerInnerHtmlElement: "",
     };
   },
   beforeRouteEnter(to, from, next) {
     next((vm) => {
       from;
       vm.prevRoute = from;
+      console.log(vm.prevRoute);
 
       //vm.$store.dispatch("route", { route: vm.prevRoute.name });
     });
+  },
+  beforeRouteUpdate(to, from, next) {
+    console.log("eje you are trying");
   },
   watch: {
     department() {
@@ -264,7 +278,6 @@ export default {
       }
     },
   },
-
   computed: {
     form() {
       return {
@@ -279,30 +292,22 @@ export default {
     },
   },
   mounted() {
-    console.log(this.prevRoute);
-    //making a permanet storage for the prevRoute so that when i refresh i can still have access to it
-    localStorage.setItem("prevRoute", this.prevRoute.name);
-    // this.prevRoute = this.$store.getters.getFromRoute;
+    this.drawerInnerHtmlElement = localStorage.getItem(
+      "drawerInnerHtmlElement"
+    );
+    this.spacedDrawerInnerHtmlElement = localStorage.getItem(
+      "spacedDrawerInnerHtmlElement"
+    );
 
-    if (this.prevRoute == undefined) {
-      let prevRoute = localStorage.getItem("prevRoute");
-      this.$router.push({
-        name: prevRoute,
-      });
-    }
     //check where the route is coming from
-    if (
-      this.prevRoute != "pastors" ||
-      this.prevRoute != "ministers" ||
-      this.prevRoute != "head of department"
-    ) {
-      this.leader = "members";
-    } else {
-      this.leader = localStorage.getItem("drawerInnerHtmlElement");
-    }
-
+    console.log(this.drawerInnerHtmlElement);
+    this.drawerInnerHtmlElement == "updateMembers"
+      ? (this.leader = "members")
+      : (this.leader = localStorage.getItem("drawerInnerHtmlElement"));
+    console.log(this.leader);
+    //Rendering the addmembers template
     if (this.leader.trim() == "members") {
-      this.routeFromUpdateMembers = true;
+      this.isMember = true;
     }
   },
   methods: {
@@ -331,7 +336,7 @@ export default {
         } else {
           this.serverRequest[f] = this.form[f];
         }
-        if (this.routeFromUpdateMembers) {
+        if (this.isMember) {
           if (!this.form[f] && this.form[f] == "dateOfService") {
             this.$swal({
               text: `${f} field must not be exmpty`,

@@ -14,11 +14,11 @@
   cursor: pointer;
 }
 </style><script>
-import { stringManipulation } from "../../../string_manipulation.js";
+import { stringsFns } from "../../../stringsFns.js";
 import Displaymember from "../../../components/members/displayMembers.vue";
 import Button from "../../../components/customSlots.vue";
 export default {
-  mixins: [stringManipulation],
+  mixins: [stringsFns],
   components: {
     "v-Display-members": Displaymember,
     Button: Button,

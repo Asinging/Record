@@ -242,6 +242,7 @@ export default {
       });
 
       if (!this.formHasErrors) {
+        console.log(userLogin);
         // this.loader = this.$loading.show(this.vueLoaderConfig);
         let params = userLogin;
         axios

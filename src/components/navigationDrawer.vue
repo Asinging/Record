@@ -288,9 +288,9 @@
 //import HomePage from "./homePage.vue";
 import { concatInnerHtml } from "../helper.js";
 import { eventBus } from "../events.js";
-import { stringManipulation } from "../string_manipulation.js";
+import { stringsFns } from "../stringsFns.js";
 export default {
-  mixins: [stringManipulation],
+  mixins: [stringsFns],
   components: {
     //HomePage
   },

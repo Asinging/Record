@@ -184,24 +184,24 @@ const routes = [{
   },
 
   {
-    path: '/Auth/login',
+    path: '/auth/login',
     name: 'login',
     component: () => import('./views/authentication/login.vue'),
 
   }, {
-    path: '/resetPassword',
+    path: '/auth/resetPassword',
     name: 'resetPassword',
     component: () => import('./views/authentication/resetPassword.vue'),
 
   }, {
-    path: '/Auth/forgottenpassword',
+    path: '/auth/forgottenpassword',
     name: 'forgottenPassword',
     component: () => import('./views/authentication/forgottenPassword.vue'),
 
   },
 
   {
-    path: '/Auth/auth',
+    path: '/auth/auth',
     name: 'auth',
     component: () => import('./views/authentication/secure.vue'),
     meta: {
@@ -247,7 +247,6 @@ const routes = [{
 const router = new Router({
   routes: routes,
   // mode: "harsh"
-
 });
 
 router.beforeEach((to, from, next) => {
@@ -261,7 +260,7 @@ router.beforeEach((to, from, next) => {
     } else {
       next({
         //replace: true,
-        path: '/Auth/login',
+        // path: '/auth/login',
         // path: "/uu/setuppage"
 
       });

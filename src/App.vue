@@ -47,7 +47,7 @@ export default {
       "vueLoaderConfig",
       JSON.stringify(vueLoaderConfiguration)
     );
-    // this.$store.dispactch("vueLoaderConfiguration", vueLoaderConfiguration)
+  
   },
 };
 </script>

@@ -45,9 +45,12 @@
                     <v-card class="ma-1" flat>
                       <v-layout>
                         <v-flex>
-                          <!-- / login button -->
-
-                          <v-flex offset-lg10 offset-xs10 offset-md10>
+                          <v-flex lg3 xs2 sm4 md6>
+                            <Buttons :clickFnc="cancel" class>
+                              <template #button>cancel</template>
+                            </Buttons>
+                          </v-flex>
+                          <v-flex offset-lg10 offset-xs10 offset-md8>
                             <Buttons :clickFnc="reset" class>
                               <template #button>reset</template>
                             </Buttons>
@@ -69,7 +72,7 @@
 </template>
 
 <script>
-import { eventBus } from "../../events.js";
+import { stringsFns } from "../../stringsFns.js";
 import Buttons from "../../components/customSlots.vue";
 
 import Vue from "vue";
@@ -79,6 +82,7 @@ import Loader from "vue-loading-overlay";
 Vue.use(Loader);
 
 export default {
+  mixins: [stringsFns],
   components: {
     Buttons,
   },
@@ -123,48 +127,60 @@ export default {
     this.vueLoaderConfig = JSON.parse(localStorage.getItem("vueLoaderConfig"));
   },
   methods: {
+    cancel() {
+      this.$router.push({
+        name: "forgottenPassword",
+      });
+    },
     reset() {
+      let token = this.urlToken(window.location.href);
+      console.log(token);
       let newPassword = this.newPassword;
       let reNewPassword = this.reNewPassword;
-      if (newPassword != reNewPassword) {
-        alert("newPassword does not match");
-        return;
+      if (!newPassword || newPassword !== reNewPassword) {
+        return alert(
+          "Check for Password empty field or Password does not match"
+        );
       }
-
-      if (reNewPassword == newPassword) {
-        let params = {
-          newPassword: this.newPassword,
-        };
-        axios
-          .post("/resetPassword", qs.stringify(params), {
+      this.loader = this.$loading.show(this.vueLoaderConfig);
+      axios
+        .get(
+          "/resetPassword",
+          {
+            params: {
+              newPassword: this.newPassword,
+              token: token,
+            },
+          },
+          {
             header: {
               "Access-Control-Allow-Orign": "*",
               "content-type": "application/json",
             },
-          })
-          .catch((err) => {
-            if (err) {
-              setTimeout(() => {
-                this.serverResponse = err;
-                this.$swal(err.response.data);
-                // this.responseReceived = true;
-              }, 700);
-            }
-            return;
-          })
-          .then((response) => {
-            console.log(response);
-            this.serverResponse = response.data.message;
-            this.responseReceived = true;
+          }
+        )
+        .catch((err) => {
+          if (err) {
             setTimeout(() => {
-              this.$router.push({
-                name: "login",
-              });
-            }, 1000);
-          });
+              this.serverResponse = err;
+              this.$swal(err.response.data);
+              // this.responseReceived = true;
+            }, 700);
+          }
+          return;
+        })
+        .then((response) => {
+          console.log(response);
+          this.serverResponse = response.data.message;
+          this.responseReceived = true;
+          setTimeout(() => {
+            this.$router.push({
+              name: "login",
+            });
+          }, 1000);
+        });
 
-        //console.log(this.serverResponse);
-      }
+      //console.log(this.serverResponse);
     },
   },
 };

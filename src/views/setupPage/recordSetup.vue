@@ -257,7 +257,7 @@ export default {
               // this.serverResponse = response.data.message;
               //debugger;
               if (response.status === 200) {
-                this.$router.push({ name: "home" });
+                // this.$router.push({ name: "home" });
               }
 
               loader.hide();

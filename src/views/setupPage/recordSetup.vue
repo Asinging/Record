@@ -17,7 +17,7 @@
                     <v-stepper-step :complete="e6 > 1" step="1">Organisation Name</v-stepper-step>
 
                     <v-stepper-content step="1"></v-stepper-content>
-
+  
                     <v-stepper-step :complete="e6 > 2" step="2">Initial</v-stepper-step>
 
                     <v-stepper-content step="2"></v-stepper-content>

@@ -27,6 +27,22 @@ const routes = [{
       requiresAuth: false
     }
   },
+  {
+    path: '/controllers/updateCalender',
+    name: 'updateCalender',
+    component: () => import('./views/controllers/updateCalender.vue'),
+    meta: {
+      requiresAuth: false
+    }
+  },
+  {
+    path: '/controllers/updateMisc',
+    name: 'updateMisc',
+    component: () => import('./views/controllers/updateMisc.vue'),
+    meta: {
+      requiresAuth: false
+    }
+  },
 
   {
     path: '/',
